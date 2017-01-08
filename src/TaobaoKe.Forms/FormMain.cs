@@ -31,19 +31,21 @@ namespace TaobaoKe.Forms
 
         private void btnStartMonitor_Click(object sender, EventArgs e)
         {
-            if (ShareMemoryIpcClient.Default.Started)
+            if (NamedPipedIpcClient.Default_A.Started)
             {
-                ShareMemoryIpcClient.Default.Stop();
+                //NamedPipedIpcClient.Default_A.Stop();
+                NamedPipedIpcClient.Default_A.Send(new IpcArgs("adfasfa"));
             }
             else
             {
-                ShareMemoryIpcClient.Default.Start();
-                ShareMemoryIpcClient.Default.Recieve += Ipc_Recieve;
-            }            
+                NamedPipedIpcClient.Default_A.Start();
+                NamedPipedIpcClient.Default_A.Recieve += Ipc_Recieve;
+            }
         }
 
         string Ipc_Recieve(IpcArgs args)
         {
+            MessageBox.Show(args.Content);
             return "";
         }
     }

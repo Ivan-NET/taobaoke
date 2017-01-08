@@ -4,13 +4,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using tiesky.com;
 
 namespace TaobaoKe.Core.IPC
 {
-    public delegate string Recieve(IpcArgs args);
-
     public class ShareMemoryIpcClient : IpcClient
     {
         private SharmIpc _sharmIpc = null;

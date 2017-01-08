@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TaobaoKe.Core.IPC
 {
+    [Serializable]
     public class IpcResult
     {
+        private IpcResult()
+        {
+        }
+
         public IpcResult(bool success, string result)
         {
             this.Success = success;
             this.Result = result;
         }
         
-        public bool Success { get; private set; }
+        public bool Success { get; set; }
 
-        public string Result { get; private set; }
+        public string Result { get; set; }
     }
 }

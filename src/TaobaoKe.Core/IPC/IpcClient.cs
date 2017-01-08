@@ -5,16 +5,32 @@ using System.Text;
 
 namespace TaobaoKe.Core.IPC
 {
+    public delegate string Recieve(IpcArgs args);
+
     public abstract class IpcClient : IDisposable
     {
-        public abstract void Start();
+        protected abstract void OnStart();
+        protected abstract void OnStop();
 
-        public abstract void Stop();
+        public void Start()
+        {
+            OnStart();
+            this.Started = true;
+        }
 
-        public bool Started { get; protected set; }
+        public void Stop()
+        {
+            OnStop();
+            this.Started = false;
+        }
+
+        public bool Started { get; private set; }
 
         public abstract IpcResult Send(IpcArgs args, int timeout = 3000);
 
-        public abstract void Dispose();
+        public void Dispose()
+        {
+            this.Stop();
+        }
     }
 }

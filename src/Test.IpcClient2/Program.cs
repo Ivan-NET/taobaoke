@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Principal;
 using TaobaoKe.Core.IPC;
 
 namespace Test.IpcClient2
@@ -11,13 +12,15 @@ namespace Test.IpcClient2
     {
         static void Main(string[] args)
         {
-            ShareMemoryIpcClient ipcClient = new ShareMemoryIpcClient("TaobaoKe_Unique_Name");
-            ipcClient.Recieve += ipcClient_Recieve;
+            //SendData();
+            //Console.Read();
+            NamedPipedIpcClient.Default_B.Start();
+            NamedPipedIpcClient.Default_B.Recieve += ipcClient_Recieve;
             Console.WriteLine("client2 start.");
             while (true)
             {
                 string value = Console.ReadLine();
-                IpcResult result = ipcClient.Send(new IpcArgs(value));
+                IpcResult result = NamedPipedIpcClient.Default_B.Send(new IpcArgs(value));
                 Console.WriteLine(result.Result);
             }
         }
@@ -26,6 +29,28 @@ namespace Test.IpcClient2
         {
             Console.WriteLine(args.Content);
             return "client2 recieved.";
+        }
+
+        private static void SendData()
+        {
+            try
+            {
+                using (NamedPipeClientStream pipeClient =
+              new NamedPipeClientStream("localhost", "testpipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.None))
+                {
+                    pipeClient.Connect();
+                    using (StreamWriter sw = new StreamWriter(pipeClient))
+                    {
+                        sw.WriteLine("hahha");
+                        sw.Flush();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }
