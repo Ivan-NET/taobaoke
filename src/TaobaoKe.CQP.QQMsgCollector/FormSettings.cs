@@ -18,7 +18,10 @@ namespace Rap.CQP.QQMsgCollector
         public FormSettings()
         {
             InitializeComponent();
-            this.lblStatus.Text = NamedPipedIpcClient.Default_B.Started ? "已启动" : "未启动";
+            this.lblServerId.Text = NamedPipedIpcClient.Default_B.ServerId.ToString();
+            this.lblClientId.Text = NamedPipedIpcClient.Default_B.ClientId.ToString();
+            this.lblServerStatus.Text = NamedPipedIpcClient.Default_B.Started ? "已启动" : "未启动";
+            this.lblClientStatus.Text = NamedPipedIpcClient.Default_B.ClientConnected ? "已连接" : "未连接";
         }
 
         private void btnTestConnection_Click(object sender, EventArgs e)

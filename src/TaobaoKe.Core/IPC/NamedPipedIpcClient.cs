@@ -26,25 +26,39 @@ namespace TaobaoKe.Core.IPC
 
         public NamedPipedIpcClient(string name, NamedPipedIpcClientContext context)
         {
-            int hashCode = Math.Abs(name.GetHashCode());
-            string a = hashCode.ToString("0000000000_Ctx_A");
-            string b = hashCode.ToString("0000000000_Ctx_B");
-            Guid guid_A = new Guid(Encoding.ASCII.GetBytes(a));
-            Guid guid_B = new Guid(Encoding.ASCII.GetBytes(b));
+            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"D:\np.txt", true))
+            {
+                string a = ConvertToHexString(name + "A").PadLeft(32, '0');
+                string b = ConvertToHexString(name + "B").PadLeft(32, '0');
+                Guid guid_A = new Guid(a);
+                Guid guid_B = new Guid(b);
 
-            if (context == NamedPipedIpcClientContext.A)
-            {
-                this.serverId = guid_A;
-                this.clientId = guid_B;
-            }
-            else if (context == NamedPipedIpcClientContext.B)
-            {
-                this.serverId = guid_B;
-                this.clientId = guid_A;
+                if (context == NamedPipedIpcClientContext.A)
+                {
+                    this.serverId = guid_A;
+                    this.clientId = guid_B;
+                }
+                else if (context == NamedPipedIpcClientContext.B)
+                {
+                    this.serverId = guid_B;
+                    this.clientId = guid_A;
+                }
             }
         }
 
         public event Recieve Recieve;
+
+        public Guid ServerId
+        {
+            get { return serverId; }
+        }
+
+        public Guid ClientId
+        {
+            get { return clientId; }
+        }
+
+        public bool ClientConnected { get; private set; }
 
         public override IpcResult Send(IpcArgs args, int timeout = 3000)
         {
@@ -69,6 +83,7 @@ namespace TaobaoKe.Core.IPC
         private void InitClientBus(object state)
         {
             clientBus.Subscribe<IpcArgs>(HandleMessage);
+            this.ClientConnected = true;
         }
 
         private void HandleMessage(object sender, MessageReceivedEventArgs<IpcArgs> e)
@@ -95,6 +110,21 @@ namespace TaobaoKe.Core.IPC
         {
             serverBus = null;
             clientBus = null;
+            this.ClientConnected = false;
+        }
+
+        private string ConvertToHexString(string input)
+        {
+            StringBuilder sb = new StringBuilder();
+            char[] values = input.ToCharArray();
+            foreach (char letter in values)
+            {
+                // Get the integral value of the character.
+                int value = Convert.ToInt32(letter);
+                // Convert the decimal value to a hexadecimal value in string form.
+                sb.Append(String.Format("{0:X}", value));
+            }
+            return sb.ToString();
         }
 
         #region Singleton Default Instance

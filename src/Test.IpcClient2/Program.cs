@@ -22,6 +22,11 @@ namespace Test.IpcClient2
                 string value = Console.ReadLine();
                 IpcResult result = NamedPipedIpcClient.Default_B.Send(new IpcArgs(value));
                 Console.WriteLine(result.Result);
+
+                Console.WriteLine(NamedPipedIpcClient.Default_B.ServerId.ToString());
+                Console.WriteLine(NamedPipedIpcClient.Default_B.ClientId.ToString());
+                Console.WriteLine(NamedPipedIpcClient.Default_B.Started ? "已启动" : "未启动");
+                Console.WriteLine(NamedPipedIpcClient.Default_B.ClientConnected ? "已连接" : "未连接");
             }
         }
 

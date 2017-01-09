@@ -44,6 +44,10 @@
             this.colCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.lblClientId = new System.Windows.Forms.Label();
+            this.lblClientStatus = new System.Windows.Forms.Label();
+            this.lblServerId = new System.Windows.Forms.Label();
+            this.lblServerStatus = new System.Windows.Forms.Label();
             this.btnStartMonitor = new System.Windows.Forms.Button();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
             this.btnMonitorSetting = new System.Windows.Forms.Button();
@@ -174,6 +178,10 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.lblClientId);
+            this.panel4.Controls.Add(this.lblClientStatus);
+            this.panel4.Controls.Add(this.lblServerId);
+            this.panel4.Controls.Add(this.lblServerStatus);
             this.panel4.Controls.Add(this.btnStartMonitor);
             this.panel4.Controls.Add(this.btnMonitorSetting);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -181,6 +189,46 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1028, 80);
             this.panel4.TabIndex = 0;
+            // 
+            // lblClientId
+            // 
+            this.lblClientId.AutoSize = true;
+            this.lblClientId.Location = new System.Drawing.Point(312, 51);
+            this.lblClientId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblClientId.Name = "lblClientId";
+            this.lblClientId.Size = new System.Drawing.Size(61, 20);
+            this.lblClientId.TabIndex = 2;
+            this.lblClientId.Text = "ClientId";
+            // 
+            // lblClientStatus
+            // 
+            this.lblClientStatus.AutoSize = true;
+            this.lblClientStatus.Location = new System.Drawing.Point(242, 51);
+            this.lblClientStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblClientStatus.Name = "lblClientStatus";
+            this.lblClientStatus.Size = new System.Drawing.Size(37, 20);
+            this.lblClientStatus.TabIndex = 3;
+            this.lblClientStatus.Text = "状态";
+            // 
+            // lblServerId
+            // 
+            this.lblServerId.AutoSize = true;
+            this.lblServerId.Location = new System.Drawing.Point(312, 10);
+            this.lblServerId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblServerId.Name = "lblServerId";
+            this.lblServerId.Size = new System.Drawing.Size(63, 20);
+            this.lblServerId.TabIndex = 4;
+            this.lblServerId.Text = "ServerId";
+            // 
+            // lblServerStatus
+            // 
+            this.lblServerStatus.AutoSize = true;
+            this.lblServerStatus.Location = new System.Drawing.Point(242, 10);
+            this.lblServerStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblServerStatus.Name = "lblServerStatus";
+            this.lblServerStatus.Size = new System.Drawing.Size(37, 20);
+            this.lblServerStatus.TabIndex = 5;
+            this.lblServerStatus.Text = "状态";
             // 
             // btnStartMonitor
             // 
@@ -250,6 +298,7 @@
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -274,6 +323,10 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnStartMonitor;
         private System.Windows.Forms.Button btnMonitorSetting;
+        private System.Windows.Forms.Label lblClientId;
+        private System.Windows.Forms.Label lblClientStatus;
+        private System.Windows.Forms.Label lblServerId;
+        private System.Windows.Forms.Label lblServerStatus;
     }
 }
 
