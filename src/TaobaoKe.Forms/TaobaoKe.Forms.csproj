@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +65,24 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetting.Designer.cs">
+      <DependentUpon>FormSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTransmitSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTransmitSetting.Designer.cs">
+      <DependentUpon>FormTransmitSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTaoKeSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTaoKeSetting.Designer.cs">
+      <DependentUpon>FormTaoKeSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMonitorSetting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,11 +91,24 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\GlobalSetting.cs" />
+    <Compile Include="Settings\MonitorSetting.cs" />
+    <Compile Include="Settings\TransmitSetting.cs" />
+    <Compile Include="Util\ClipboardHelper.cs" />
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetting.resx">
+      <DependentUpon>FormSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTransmitSetting.resx">
+      <DependentUpon>FormTransmitSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTaoKeSetting.resx">
+      <DependentUpon>FormTaoKeSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMonitorSetting.resx">
       <DependentUpon>FormMonitorSetting.cs</DependentUpon>
@@ -110,6 +146,10 @@
     <None Include="Resources\setting.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TaobaoKe.Common\TaobaoKe.Common.csproj">
+      <Project>{8ae75cae-99bf-445e-864c-11f51dad29f1}</Project>
+      <Name>TaobaoKe.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaobaoKe.Core\TaobaoKe.Core.csproj">
       <Project>{d3c289bd-db0f-40de-8165-cdbf56e910d3}</Project>
       <Name>TaobaoKe.Core</Name>

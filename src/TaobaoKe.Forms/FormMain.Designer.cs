@@ -30,219 +30,66 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lblAccount = new System.Windows.Forms.Label();
-            this.picAvatar = new System.Windows.Forms.PictureBox();
+            this.imgList = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.colRowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTransmitContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFrom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.lblClientId = new System.Windows.Forms.Label();
-            this.lblClientStatus = new System.Windows.Forms.Label();
-            this.lblServerId = new System.Windows.Forms.Label();
-            this.lblServerStatus = new System.Windows.Forms.Label();
-            this.btnStartMonitor = new System.Windows.Forms.Button();
-            this.imgList = new System.Windows.Forms.ImageList(this.components);
-            this.btnMonitorSetting = new System.Windows.Forms.Button();
+            this.bindingNav = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
+            this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).BeginInit();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lnkSetting = new System.Windows.Forms.LinkLabel();
+            this.lblAccount = new System.Windows.Forms.Label();
+            this.picAvatar = new System.Windows.Forms.PictureBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btnStopTransmit = new System.Windows.Forms.Button();
+            this.btnSuspendTransmit = new System.Windows.Forms.Button();
+            this.StartTransmit = new System.Windows.Forms.Button();
+            this.btnStartMonitor = new System.Windows.Forms.Button();
+            this.btnStopMonitor = new System.Windows.Forms.Button();
+            this.bindingSrc = new System.Windows.Forms.BindingSource(this.components);
+            this.colRowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFrom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCommissionRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCoupon = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTransmitTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNav)).BeginInit();
+            this.bindingNav.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).BeginInit();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSrc)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.lblAccount);
-            this.panel1.Controls.Add(this.picAvatar);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1042, 100);
-            this.panel1.TabIndex = 0;
-            // 
-            // lblAccount
-            // 
-            this.lblAccount.AutoSize = true;
-            this.lblAccount.Location = new System.Drawing.Point(99, 25);
-            this.lblAccount.Name = "lblAccount";
-            this.lblAccount.Size = new System.Drawing.Size(29, 20);
-            this.lblAccount.TabIndex = 1;
-            this.lblAccount.Text = "     ";
-            // 
-            // picAvatar
-            // 
-            this.picAvatar.Image = global::TaobaoKe.Forms.Properties.Resources.avatar;
-            this.picAvatar.Location = new System.Drawing.Point(27, 25);
-            this.picAvatar.Name = "picAvatar";
-            this.picAvatar.Size = new System.Drawing.Size(56, 57);
-            this.picAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picAvatar.TabIndex = 0;
-            this.picAvatar.TabStop = false;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.tabControl1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 100);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1042, 590);
-            this.panel2.TabIndex = 1;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.ImageList = this.imgList;
-            this.tabControl1.ItemSize = new System.Drawing.Size(118, 32);
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1042, 590);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.panel3);
-            this.tabPage1.Controls.Add(this.panel4);
-            this.tabPage1.ImageIndex = 0;
-            this.tabPage1.Location = new System.Drawing.Point(4, 36);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1034, 550);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "监控模式(&M)";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.dataGridView1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1028, 464);
-            this.panel3.TabIndex = 0;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colRowNo,
-            this.colTransmitContent,
-            this.colFrom,
-            this.colCreateTime,
-            this.colStatus});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1028, 464);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // colRowNo
-            // 
-            this.colRowNo.HeaderText = "序号";
-            this.colRowNo.Name = "colRowNo";
-            // 
-            // colTransmitContent
-            // 
-            this.colTransmitContent.HeaderText = "转发内容";
-            this.colTransmitContent.Name = "colTransmitContent";
-            // 
-            // colFrom
-            // 
-            this.colFrom.HeaderText = "消息来自";
-            this.colFrom.Name = "colFrom";
-            // 
-            // colCreateTime
-            // 
-            this.colCreateTime.HeaderText = "添加时间";
-            this.colCreateTime.Name = "colCreateTime";
-            // 
-            // colStatus
-            // 
-            this.colStatus.HeaderText = "转发状态";
-            this.colStatus.Name = "colStatus";
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.lblClientId);
-            this.panel4.Controls.Add(this.lblClientStatus);
-            this.panel4.Controls.Add(this.lblServerId);
-            this.panel4.Controls.Add(this.lblServerStatus);
-            this.panel4.Controls.Add(this.btnStartMonitor);
-            this.panel4.Controls.Add(this.btnMonitorSetting);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(3, 467);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1028, 80);
-            this.panel4.TabIndex = 0;
-            // 
-            // lblClientId
-            // 
-            this.lblClientId.AutoSize = true;
-            this.lblClientId.Location = new System.Drawing.Point(312, 51);
-            this.lblClientId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblClientId.Name = "lblClientId";
-            this.lblClientId.Size = new System.Drawing.Size(61, 20);
-            this.lblClientId.TabIndex = 2;
-            this.lblClientId.Text = "ClientId";
-            // 
-            // lblClientStatus
-            // 
-            this.lblClientStatus.AutoSize = true;
-            this.lblClientStatus.Location = new System.Drawing.Point(242, 51);
-            this.lblClientStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblClientStatus.Name = "lblClientStatus";
-            this.lblClientStatus.Size = new System.Drawing.Size(37, 20);
-            this.lblClientStatus.TabIndex = 3;
-            this.lblClientStatus.Text = "状态";
-            // 
-            // lblServerId
-            // 
-            this.lblServerId.AutoSize = true;
-            this.lblServerId.Location = new System.Drawing.Point(312, 10);
-            this.lblServerId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblServerId.Name = "lblServerId";
-            this.lblServerId.Size = new System.Drawing.Size(63, 20);
-            this.lblServerId.TabIndex = 4;
-            this.lblServerId.Text = "ServerId";
-            // 
-            // lblServerStatus
-            // 
-            this.lblServerStatus.AutoSize = true;
-            this.lblServerStatus.Location = new System.Drawing.Point(242, 10);
-            this.lblServerStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblServerStatus.Name = "lblServerStatus";
-            this.lblServerStatus.Size = new System.Drawing.Size(37, 20);
-            this.lblServerStatus.TabIndex = 5;
-            this.lblServerStatus.Text = "状态";
-            // 
-            // btnStartMonitor
-            // 
-            this.btnStartMonitor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStartMonitor.ImageIndex = 3;
-            this.btnStartMonitor.ImageList = this.imgList;
-            this.btnStartMonitor.Location = new System.Drawing.Point(741, 23);
-            this.btnStartMonitor.Name = "btnStartMonitor";
-            this.btnStartMonitor.Size = new System.Drawing.Size(125, 38);
-            this.btnStartMonitor.TabIndex = 1;
-            this.btnStartMonitor.Text = "启动监控/转发";
-            this.btnStartMonitor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnStartMonitor.UseVisualStyleBackColor = true;
-            this.btnStartMonitor.Click += new System.EventHandler(this.btnStartMonitor_Click);
             // 
             // imgList
             // 
@@ -253,52 +100,485 @@
             this.imgList.Images.SetKeyName(2, "setting.png");
             this.imgList.Images.SetKeyName(3, "start.png");
             // 
-            // btnMonitorSetting
+            // panel2
             // 
-            this.btnMonitorSetting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMonitorSetting.ImageIndex = 2;
-            this.btnMonitorSetting.ImageList = this.imgList;
-            this.btnMonitorSetting.Location = new System.Drawing.Point(882, 23);
-            this.btnMonitorSetting.Name = "btnMonitorSetting";
-            this.btnMonitorSetting.Size = new System.Drawing.Size(125, 38);
-            this.btnMonitorSetting.TabIndex = 0;
-            this.btnMonitorSetting.Text = "监控/转发设置";
-            this.btnMonitorSetting.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnMonitorSetting.UseVisualStyleBackColor = true;
-            this.btnMonitorSetting.Click += new System.EventHandler(this.btnMonitorSetting_Click);
+            this.panel2.Controls.Add(this.tabControl1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 137);
+            this.panel2.Margin = new System.Windows.Forms.Padding(6);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(2008, 1163);
+            this.panel2.TabIndex = 1;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.ImageList = this.imgList;
+            this.tabControl1.ItemSize = new System.Drawing.Size(118, 50);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(6);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(2008, 1163);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panel3);
+            this.tabPage1.Location = new System.Drawing.Point(8, 58);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(6);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage1.Size = new System.Drawing.Size(1992, 1097);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "转发状态(&A)";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.dataGridView1);
+            this.panel3.Controls.Add(this.bindingNav);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(6, 6);
+            this.panel3.Margin = new System.Windows.Forms.Padding(6);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1980, 1085);
+            this.panel3.TabIndex = 0;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colRowNo,
+            this.colContent,
+            this.colFrom,
+            this.colCommissionRate,
+            this.colCoupon,
+            this.colCreateTime,
+            this.colTransmitTime,
+            this.colStatus});
+            this.dataGridView1.DataSource = this.bindingSrc;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.Size = new System.Drawing.Size(1980, 1046);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // bindingNav
+            // 
+            this.bindingNav.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.bindingNav.BindingSource = this.bindingSrc;
+            this.bindingNav.CountItem = this.bindingNavigatorCountItem;
+            this.bindingNav.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.bindingNav.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bindingNav.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.bindingNav.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bindingNavigatorMoveFirstItem,
+            this.bindingNavigatorMovePreviousItem,
+            this.bindingNavigatorSeparator,
+            this.bindingNavigatorPositionItem,
+            this.bindingNavigatorCountItem,
+            this.bindingNavigatorSeparator1,
+            this.bindingNavigatorMoveNextItem,
+            this.bindingNavigatorMoveLastItem,
+            this.bindingNavigatorSeparator2,
+            this.bindingNavigatorAddNewItem,
+            this.bindingNavigatorDeleteItem});
+            this.bindingNav.Location = new System.Drawing.Point(0, 1046);
+            this.bindingNav.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this.bindingNav.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this.bindingNav.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this.bindingNav.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this.bindingNav.Name = "bindingNav";
+            this.bindingNav.PositionItem = this.bindingNavigatorPositionItem;
+            this.bindingNav.Size = new System.Drawing.Size(1980, 39);
+            this.bindingNav.TabIndex = 1;
+            this.bindingNav.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(36, 36);
+            this.bindingNavigatorAddNewItem.Text = "新添";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(61, 36);
+            this.bindingNavigatorCountItem.Text = "/ {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "总项数";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(36, 36);
+            this.bindingNavigatorDeleteItem.Text = "删除";
+            // 
+            // bindingNavigatorMoveFirstItem
+            // 
+            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
+            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
+            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(36, 36);
+            this.bindingNavigatorMoveFirstItem.Text = "移到第一条记录";
+            // 
+            // bindingNavigatorMovePreviousItem
+            // 
+            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
+            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
+            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(36, 36);
+            this.bindingNavigatorMovePreviousItem.Text = "移到上一条记录";
+            // 
+            // bindingNavigatorSeparator
+            // 
+            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 39);
+            // 
+            // bindingNavigatorPositionItem
+            // 
+            this.bindingNavigatorPositionItem.AccessibleName = "位置";
+            this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 38);
+            this.bindingNavigatorPositionItem.Text = "0";
+            this.bindingNavigatorPositionItem.ToolTipText = "当前位置";
+            // 
+            // bindingNavigatorSeparator1
+            // 
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 39);
+            // 
+            // bindingNavigatorMoveNextItem
+            // 
+            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
+            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
+            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(36, 36);
+            this.bindingNavigatorMoveNextItem.Text = "移到下一条记录";
+            // 
+            // bindingNavigatorMoveLastItem
+            // 
+            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
+            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
+            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(36, 36);
+            this.bindingNavigatorMoveLastItem.Text = "移到最后一条记录";
+            // 
+            // bindingNavigatorSeparator2
+            // 
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 39);
             // 
             // tabPage2
             // 
-            this.tabPage2.ImageIndex = 1;
-            this.tabPage2.Location = new System.Drawing.Point(4, 36);
+            this.tabPage2.Controls.Add(this.panel5);
+            this.tabPage2.Controls.Add(this.panel6);
+            this.tabPage2.Location = new System.Drawing.Point(8, 58);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1034, 550);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage2.Size = new System.Drawing.Size(1992, 1097);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "群发模式(&G)";
+            this.tabPage2.Text = "手动采集(&S)";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.richTextBox1);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(6, 6);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(1552, 1085);
+            this.panel5.TabIndex = 0;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(1552, 1085);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.button7);
+            this.panel6.Controls.Add(this.button6);
+            this.panel6.Controls.Add(this.button5);
+            this.panel6.Controls.Add(this.button4);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel6.Location = new System.Drawing.Point(1558, 6);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(428, 1085);
+            this.panel6.TabIndex = 1;
+            // 
+            // button7
+            // 
+            this.button7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button7.Location = new System.Drawing.Point(54, 398);
+            this.button7.Margin = new System.Windows.Forms.Padding(6);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(325, 85);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "启动转发(&V)";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button6.Location = new System.Drawing.Point(54, 280);
+            this.button6.Margin = new System.Windows.Forms.Padding(6);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(325, 85);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "启动转发(&V)";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button5.Location = new System.Drawing.Point(54, 165);
+            this.button5.Margin = new System.Windows.Forms.Padding(6);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(325, 85);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "启动转发(&V)";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.Location = new System.Drawing.Point(54, 50);
+            this.button4.Margin = new System.Windows.Forms.Padding(6);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(325, 85);
+            this.button4.TabIndex = 3;
+            this.button4.Text = "启动转发(&V)";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lnkSetting);
+            this.panel1.Controls.Add(this.lblAccount);
+            this.panel1.Controls.Add(this.picAvatar);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(2008, 137);
+            this.panel1.TabIndex = 0;
+            // 
+            // lnkSetting
+            // 
+            this.lnkSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkSetting.AutoSize = true;
+            this.lnkSetting.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.lnkSetting.LinkColor = System.Drawing.Color.DodgerBlue;
+            this.lnkSetting.Location = new System.Drawing.Point(1834, 68);
+            this.lnkSetting.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lnkSetting.Name = "lnkSetting";
+            this.lnkSetting.Size = new System.Drawing.Size(159, 35);
+            this.lnkSetting.TabIndex = 9;
+            this.lnkSetting.TabStop = true;
+            this.lnkSetting.Text = "全局设置(&R)";
+            this.lnkSetting.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTransmitSetting_LinkClicked);
+            // 
+            // lblAccount
+            // 
+            this.lblAccount.AutoSize = true;
+            this.lblAccount.Location = new System.Drawing.Point(198, 46);
+            this.lblAccount.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblAccount.Name = "lblAccount";
+            this.lblAccount.Size = new System.Drawing.Size(55, 35);
+            this.lblAccount.TabIndex = 1;
+            this.lblAccount.Text = "     ";
+            // 
+            // picAvatar
+            // 
+            this.picAvatar.Image = global::TaobaoKe.Forms.Properties.Resources.avatar;
+            this.picAvatar.Location = new System.Drawing.Point(15, 15);
+            this.picAvatar.Margin = new System.Windows.Forms.Padding(6);
+            this.picAvatar.Name = "picAvatar";
+            this.picAvatar.Size = new System.Drawing.Size(112, 105);
+            this.picAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picAvatar.TabIndex = 0;
+            this.picAvatar.TabStop = false;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btnStopTransmit);
+            this.panel4.Controls.Add(this.btnSuspendTransmit);
+            this.panel4.Controls.Add(this.StartTransmit);
+            this.panel4.Controls.Add(this.btnStartMonitor);
+            this.panel4.Controls.Add(this.btnStopMonitor);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(0, 1300);
+            this.panel4.Margin = new System.Windows.Forms.Padding(6);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(2008, 147);
+            this.panel4.TabIndex = 2;
+            // 
+            // btnStopTransmit
+            // 
+            this.btnStopTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStopTransmit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStopTransmit.Location = new System.Drawing.Point(1803, 48);
+            this.btnStopTransmit.Margin = new System.Windows.Forms.Padding(6);
+            this.btnStopTransmit.Name = "btnStopTransmit";
+            this.btnStopTransmit.Size = new System.Drawing.Size(190, 70);
+            this.btnStopTransmit.TabIndex = 4;
+            this.btnStopTransmit.Text = "停止转发(&N)";
+            this.btnStopTransmit.UseVisualStyleBackColor = true;
+            this.btnStopTransmit.Click += new System.EventHandler(this.btnStopTransmit_Click);
+            // 
+            // btnSuspendTransmit
+            // 
+            this.btnSuspendTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSuspendTransmit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSuspendTransmit.Location = new System.Drawing.Point(1601, 48);
+            this.btnSuspendTransmit.Margin = new System.Windows.Forms.Padding(6);
+            this.btnSuspendTransmit.Name = "btnSuspendTransmit";
+            this.btnSuspendTransmit.Size = new System.Drawing.Size(190, 70);
+            this.btnSuspendTransmit.TabIndex = 3;
+            this.btnSuspendTransmit.Text = "暂停转发(&B)";
+            this.btnSuspendTransmit.UseVisualStyleBackColor = true;
+            this.btnSuspendTransmit.Click += new System.EventHandler(this.btnSuspendTransmit_Click);
+            // 
+            // StartTransmit
+            // 
+            this.StartTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.StartTransmit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.StartTransmit.Location = new System.Drawing.Point(1395, 48);
+            this.StartTransmit.Margin = new System.Windows.Forms.Padding(6);
+            this.StartTransmit.Name = "StartTransmit";
+            this.StartTransmit.Size = new System.Drawing.Size(190, 70);
+            this.StartTransmit.TabIndex = 2;
+            this.StartTransmit.Text = "启动转发(&V)";
+            this.StartTransmit.UseVisualStyleBackColor = true;
+            this.StartTransmit.Click += new System.EventHandler(this.StartTransmit_Click);
+            // 
+            // btnStartMonitor
+            // 
+            this.btnStartMonitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStartMonitor.Location = new System.Drawing.Point(920, 48);
+            this.btnStartMonitor.Margin = new System.Windows.Forms.Padding(6);
+            this.btnStartMonitor.Name = "btnStartMonitor";
+            this.btnStartMonitor.Size = new System.Drawing.Size(190, 70);
+            this.btnStartMonitor.TabIndex = 1;
+            this.btnStartMonitor.Text = "启动采集(&X)";
+            this.btnStartMonitor.UseVisualStyleBackColor = true;
+            this.btnStartMonitor.Click += new System.EventHandler(this.btnStartMonitor_Click);
+            // 
+            // btnStopMonitor
+            // 
+            this.btnStopMonitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStopMonitor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStopMonitor.Location = new System.Drawing.Point(1122, 48);
+            this.btnStopMonitor.Margin = new System.Windows.Forms.Padding(6);
+            this.btnStopMonitor.Name = "btnStopMonitor";
+            this.btnStopMonitor.Size = new System.Drawing.Size(190, 70);
+            this.btnStopMonitor.TabIndex = 0;
+            this.btnStopMonitor.Text = "停止采集(&C)";
+            this.btnStopMonitor.UseVisualStyleBackColor = true;
+            this.btnStopMonitor.Click += new System.EventHandler(this.btnStopMonitor_Click);
+            // 
+            // colRowNo
+            // 
+            this.colRowNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colRowNo.HeaderText = "序号";
+            this.colRowNo.Name = "colRowNo";
+            // 
+            // colContent
+            // 
+            this.colContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colContent.DataPropertyName = "Content";
+            this.colContent.HeaderText = "转发内容";
+            this.colContent.Name = "colContent";
+            // 
+            // colFrom
+            // 
+            this.colFrom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colFrom.HeaderText = "消息来自";
+            this.colFrom.Name = "colFrom";
+            // 
+            // colCommissionRate
+            // 
+            this.colCommissionRate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCommissionRate.HeaderText = "佣金比例";
+            this.colCommissionRate.Name = "colCommissionRate";
+            // 
+            // colCoupon
+            // 
+            this.colCoupon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCoupon.HeaderText = "优惠券";
+            this.colCoupon.Name = "colCoupon";
+            // 
+            // colCreateTime
+            // 
+            this.colCreateTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCreateTime.HeaderText = "添加时间";
+            this.colCreateTime.Name = "colCreateTime";
+            // 
+            // colTransmitTime
+            // 
+            this.colTransmitTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colTransmitTime.HeaderText = "转发时间";
+            this.colTransmitTime.Name = "colTransmitTime";
+            // 
+            // colStatus
+            // 
+            this.colStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colStatus.HeaderText = "转发状态";
+            this.colStatus.Name = "colStatus";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 35F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1042, 690);
+            this.ClientSize = new System.Drawing.Size(2008, 1447);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Controls.Add(this.panel4);
+            this.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
+            this.MinimumSize = new System.Drawing.Size(2034, 1518);
             this.Name = "FormMain";
             this.Text = "淘宝客";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).EndInit();
             this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNav)).EndInit();
+            this.bindingNav.ResumeLayout(false);
+            this.bindingNav.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).EndInit();
             this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSrc)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -315,18 +595,41 @@
         private System.Windows.Forms.ImageList imgList;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRowNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTransmitContent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFrom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCreateTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.LinkLabel lnkSetting;
+        private System.Windows.Forms.BindingNavigator bindingNav;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
+        private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
+        private System.Windows.Forms.ToolStripTextBox bindingNavigatorPositionItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator1;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnStopTransmit;
+        private System.Windows.Forms.Button btnSuspendTransmit;
+        private System.Windows.Forms.Button StartTransmit;
         private System.Windows.Forms.Button btnStartMonitor;
-        private System.Windows.Forms.Button btnMonitorSetting;
-        private System.Windows.Forms.Label lblClientId;
-        private System.Windows.Forms.Label lblClientStatus;
-        private System.Windows.Forms.Label lblServerId;
-        private System.Windows.Forms.Label lblServerStatus;
+        private System.Windows.Forms.Button btnStopMonitor;
+        private System.Windows.Forms.BindingSource bindingSrc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRowNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFrom;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCommissionRate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCoupon;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCreateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTransmitTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
     }
 }
 

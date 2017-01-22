@@ -1,10 +1,8 @@
 ﻿using Flexlive.CQP.Framework;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using TaobaoKe.Common.Models;
 using TaobaoKe.Core.IPC;
 
 namespace Rap.CQP.QQMsgCollector
@@ -38,7 +36,7 @@ namespace Rap.CQP.QQMsgCollector
             NamedPipedIpcClient.Default_B.Recieve += Ipc_Recieve;
         }
 
-        string Ipc_Recieve(IpcArgs args)
+        public static string Ipc_Recieve(IpcArgs args)
         {
             MessageBox.Show(args.Content);
             return "";
@@ -82,15 +80,24 @@ namespace Rap.CQP.QQMsgCollector
         {
             //if (fromGroup == 601350384)
             {
-                NamedPipedIpcClient.Default_B.Send(new IpcArgs(msg));
+                QQMessage qqMessage = new QQMessage()
+                {
+                    Message = msg,
+                    fromGroup = fromGroup,
+                    fromQQ = fromQQ,
+                    fromAnonymous = fromAnonymous
+                };
+                string content = JsonConvert.SerializeObject(qqMessage);
+                NamedPipedIpcClient.Default_B.Send(new IpcArgs(content));
 
                 // 处理群消息。
-                var groupMember = CQ.GetGroupMemberInfo(fromGroup, fromQQ);
+                //var groupMember = CQ.GetGroupMemberInfo(fromGroup, fromQQ);
 
-                CQ.SendGroupMessage(fromGroup, String.Format("[{4}]{0} 您的群名片：{1}， 入群时间：{2}， 最后发言：{3}。", CQ.CQCode_At(fromQQ),
-                    groupMember.GroupCard, groupMember.JoinTime, groupMember.LastSpeakingTime, CQ.ProxyType));
-                CQ.SendGroupMessage(fromGroup, String.Format("[{0}]{1}您发的群消息是：{2}", CQ.ProxyType, CQ.CQCode_At(fromQQ), msg));
-                string newMsg = CQ.CQCode_Image(@"C:\Users\ivan\编程\taobaoke\Flexlive.CQP.PluginSolution\Publish\data\image\1.jpg");
+                //CQ.SendGroupMessage(fromGroup, String.Format("[{4}]{0} 您的群名片：{1}， 入群时间：{2}， 最后发言：{3}。", CQ.CQCode_At(fromQQ),
+                //    groupMember.GroupCard, groupMember.JoinTime, groupMember.LastSpeakingTime, CQ.ProxyType));
+                //CQ.SendGroupMessage(fromGroup, String.Format("[{0}]{1}您发的群消息是：{2}", CQ.ProxyType, CQ.CQCode_At(fromQQ), msg));
+                
+                //string newMsg = CQ.CQCode_Image(@"C:\Users\ivan\编程\taobaoke\Flexlive.CQP.PluginSolution\Publish\data\image\1.jpg");
                 //CQ.SendGroupMessage(fromGroup, String.Format("[{0}]{1}您发的群消息是：{2}", CQ.ProxyType, CQ.CQCode_At(fromQQ), newMsg));
             }
         }

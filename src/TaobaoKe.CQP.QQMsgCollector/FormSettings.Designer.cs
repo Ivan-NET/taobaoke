@@ -33,14 +33,15 @@
             this.lblClientStatus = new System.Windows.Forms.Label();
             this.lblServerId = new System.Windows.Forms.Label();
             this.lblClientId = new System.Windows.Forms.Label();
+            this.btnStart = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnTestConnection
             // 
-            this.btnTestConnection.Location = new System.Drawing.Point(265, 64);
-            this.btnTestConnection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnTestConnection.Location = new System.Drawing.Point(530, 128);
+            this.btnTestConnection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnTestConnection.Name = "btnTestConnection";
-            this.btnTestConnection.Size = new System.Drawing.Size(150, 31);
+            this.btnTestConnection.Size = new System.Drawing.Size(300, 62);
             this.btnTestConnection.TabIndex = 0;
             this.btnTestConnection.Text = "测试与主程序的连接(&T)";
             this.btnTestConnection.UseVisualStyleBackColor = true;
@@ -49,54 +50,67 @@
             // lblServerStatus
             // 
             this.lblServerStatus.AutoSize = true;
-            this.lblServerStatus.Location = new System.Drawing.Point(53, 44);
-            this.lblServerStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblServerStatus.Location = new System.Drawing.Point(106, 88);
+            this.lblServerStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblServerStatus.Name = "lblServerStatus";
-            this.lblServerStatus.Size = new System.Drawing.Size(29, 12);
+            this.lblServerStatus.Size = new System.Drawing.Size(58, 24);
             this.lblServerStatus.TabIndex = 1;
             this.lblServerStatus.Text = "状态";
             // 
             // lblClientStatus
             // 
             this.lblClientStatus.AutoSize = true;
-            this.lblClientStatus.Location = new System.Drawing.Point(53, 94);
-            this.lblClientStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblClientStatus.Location = new System.Drawing.Point(106, 188);
+            this.lblClientStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClientStatus.Name = "lblClientStatus";
-            this.lblClientStatus.Size = new System.Drawing.Size(29, 12);
+            this.lblClientStatus.Size = new System.Drawing.Size(58, 24);
             this.lblClientStatus.TabIndex = 1;
             this.lblClientStatus.Text = "状态";
             // 
             // lblServerId
             // 
             this.lblServerId.AutoSize = true;
-            this.lblServerId.Location = new System.Drawing.Point(53, 23);
-            this.lblServerId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblServerId.Location = new System.Drawing.Point(106, 46);
+            this.lblServerId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblServerId.Name = "lblServerId";
-            this.lblServerId.Size = new System.Drawing.Size(53, 12);
+            this.lblServerId.Size = new System.Drawing.Size(106, 24);
             this.lblServerId.TabIndex = 1;
             this.lblServerId.Text = "ServerId";
             // 
             // lblClientId
             // 
             this.lblClientId.AutoSize = true;
-            this.lblClientId.Location = new System.Drawing.Point(53, 73);
-            this.lblClientId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblClientId.Location = new System.Drawing.Point(106, 146);
+            this.lblClientId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClientId.Name = "lblClientId";
-            this.lblClientId.Size = new System.Drawing.Size(53, 12);
+            this.lblClientId.Size = new System.Drawing.Size(106, 24);
             this.lblClientId.TabIndex = 1;
             this.lblClientId.Text = "ClientId";
             // 
+            // btnStart
+            // 
+            this.btnStart.Location = new System.Drawing.Point(530, 46);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(300, 62);
+            this.btnStart.TabIndex = 0;
+            this.btnStart.Tag = "";
+            this.btnStart.Text = "启动(&S)";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
             // FormSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 124);
+            this.ClientSize = new System.Drawing.Size(878, 248);
             this.Controls.Add(this.lblClientId);
             this.Controls.Add(this.lblClientStatus);
             this.Controls.Add(this.lblServerId);
             this.Controls.Add(this.lblServerStatus);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnTestConnection);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormSettings";
             this.Text = "QQ消息采集设置";
             this.ResumeLayout(false);
@@ -111,5 +125,6 @@
         private System.Windows.Forms.Label lblClientStatus;
         private System.Windows.Forms.Label lblServerId;
         private System.Windows.Forms.Label lblClientId;
+        private System.Windows.Forms.Button btnStart;
     }
 }

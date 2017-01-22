@@ -35,6 +35,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Library\Flexlive.CQP.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Library\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -55,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TaobaoKe.Common\TaobaoKe.Common.csproj">
+      <Project>{8ae75cae-99bf-445e-864c-11f51dad29f1}</Project>
+      <Name>TaobaoKe.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaobaoKe.Core\TaobaoKe.Core.csproj">
       <Project>{d3c289bd-db0f-40de-8165-cdbf56e910d3}</Project>
       <Name>TaobaoKe.Core</Name>

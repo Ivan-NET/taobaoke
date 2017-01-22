@@ -18,8 +18,14 @@ namespace Rap.CQP.QQMsgCollector
         public FormSettings()
         {
             InitializeComponent();
+            Init();
+        }
+
+        private void Init()
+        {
             this.lblServerId.Text = NamedPipedIpcClient.Default_B.ServerId.ToString();
             this.lblClientId.Text = NamedPipedIpcClient.Default_B.ClientId.ToString();
+            this.btnStart.Text = NamedPipedIpcClient.Default_B.Started ? "停止(&S)" : "启动(&S)";
             this.lblServerStatus.Text = NamedPipedIpcClient.Default_B.Started ? "已启动" : "未启动";
             this.lblClientStatus.Text = NamedPipedIpcClient.Default_B.ClientConnected ? "已连接" : "未连接";
         }
@@ -35,6 +41,20 @@ namespace Rap.CQP.QQMsgCollector
             {
                 MessageBox.Show("无法连接");
             }
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if (NamedPipedIpcClient.Default_B.Started)
+            {
+                NamedPipedIpcClient.Default_B.Stop();
+            }
+            else
+            {
+                NamedPipedIpcClient.Default_B.Start();
+                NamedPipedIpcClient.Default_B.Recieve += QQMsgCollectorPlugin.Ipc_Recieve;
+            }
+            this.Init();
         }
     }
 }

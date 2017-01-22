@@ -26,23 +26,20 @@ namespace TaobaoKe.Core.IPC
 
         public NamedPipedIpcClient(string name, NamedPipedIpcClientContext context)
         {
-            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"D:\np.txt", true))
-            {
-                string a = ConvertToHexString(name + "A").PadLeft(32, '0');
-                string b = ConvertToHexString(name + "B").PadLeft(32, '0');
-                Guid guid_A = new Guid(a);
-                Guid guid_B = new Guid(b);
+            string a = ConvertToHexString(name + "A").PadLeft(32, '0');
+            string b = ConvertToHexString(name + "B").PadLeft(32, '0');
+            Guid guid_A = new Guid(a);
+            Guid guid_B = new Guid(b);
 
-                if (context == NamedPipedIpcClientContext.A)
-                {
-                    this.serverId = guid_A;
-                    this.clientId = guid_B;
-                }
-                else if (context == NamedPipedIpcClientContext.B)
-                {
-                    this.serverId = guid_B;
-                    this.clientId = guid_A;
-                }
+            if (context == NamedPipedIpcClientContext.A)
+            {
+                this.serverId = guid_A;
+                this.clientId = guid_B;
+            }
+            else if (context == NamedPipedIpcClientContext.B)
+            {
+                this.serverId = guid_B;
+                this.clientId = guid_A;
             }
         }
 
@@ -138,7 +135,7 @@ namespace TaobaoKe.Core.IPC
             {
                 if (_default_A == null)
                 {
-                    string ipc_name = "testpipe";//ConfigurationManager.AppSettings["ipc_name"];
+                    string ipc_name = ConfigurationManager.AppSettings["ipc_name"];
                     if (string.IsNullOrEmpty(ipc_name))
                     {
                         throw new ArgumentNullException("应用程序的配置节中未设置ipc_name");
@@ -155,7 +152,7 @@ namespace TaobaoKe.Core.IPC
             {
                 if (_default_B == null)
                 {
-                    string ipc_name = "testpipe";//ConfigurationManager.AppSettings["ipc_name"];
+                    string ipc_name = ConfigurationManager.AppSettings["ipc_name"];
                     if (string.IsNullOrEmpty(ipc_name))
                     {
                         throw new ArgumentNullException("应用程序的配置节中未设置ipc_name");
