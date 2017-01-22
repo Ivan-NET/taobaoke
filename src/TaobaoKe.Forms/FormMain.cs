@@ -55,11 +55,20 @@ namespace TaobaoKe.Forms
 
         private void btnStartMonitor_Click(object sender, EventArgs e)
         {
+            CheckCQProcess();
             if (!NamedPipedIpcClient.Default_A.Started)
             {
                 NamedPipedIpcClient.Default_A.Start();
                 NamedPipedIpcClient.Default_A.Recieve += Ipc_Recieve;
             }
+        }
+
+        private void CheckCQProcess()
+        {
+            if (Process.GetProcessesByName("CQA").Length == 0)
+                Process.Start(Constants.CQPath);
+            if (Process.GetProcessesByName("Flexlive.CQP.CSharpProxy").Length == 0)
+                Process.Start(Constants.CQProxyPath);
         }
 
         string Ipc_Recieve(IpcArgs args)
@@ -79,32 +88,43 @@ namespace TaobaoKe.Forms
         void Transmit(QQMessage qqMessage)
         {
             string msg = qqMessage.Message;
-            Regex reg = new Regex("");
+            Regex reg = new Regex(@"\[CQ:image,file=(.+)\]");
             Match match = reg.Match(msg);
-            if (match.Success)
+            string tempImagePath = string.Empty;
+            if (match.Success && match.Groups.Count > 1)
             {
-                string imageName = match.Value;
-                string iniFilePath = Path.Combine(Constants.CQImagePath, imageName, ".cqimg");
+                string imageName = match.Groups[1].Value;
+                tempImagePath = Path.Combine(Constants.CQImagePath, imageName);
+                string iniFilePath = tempImagePath + ".cqimg");
                 string imageUrl = IniFileUtil.ReadIniData("image", "url", "", iniFilePath);
-                if (string.IsNullOrEmpty(imageUrl))
+                if (!string.IsNullOrEmpty(imageUrl))
                 {
-                    msg = msg.Replace("", "");
+                    WebRequestHelper.DownloadFile(imageUrl, tempImagePath);
+                    msg = msg.Remove(match.Index, match.Length);
+                    msg = msg.Insert(match.Index, string.Format("<img src='file:///{0}'>", tempImagePath));
                 }
             }
             msg = msg.Replace("\r\n", "<br />");
-            ClipboardHelper.CopyToClipboard(msg, "");
+            this.Invoke((EventHandler)delegate
+            {
+                ClipboardHelper.CopyToClipboard(msg, "");
+            });
 
             DirectoryInfo dir = new DirectoryInfo(GlobalSetting.Instance.TransmitSetting.QQGroupLnkPath);
-            foreach (FileInfo file in dir.GetFiles())
+            this.Invoke((EventHandler) delegate
             {
-                using (Process.Start(file.FullName))
+                foreach (FileInfo file in dir.GetFiles())
                 {
-                    Thread.Sleep(50);
-                    SendKeys.Send("^v"); // Paster
-                    Thread.Sleep(50);
-                    SendKeys.Send("%s"); // Send
+                    using (Process.Start(file.FullName))
+                    {
+                        Thread.Sleep(500);
+                        SendKeys.Send("^v"); // Paster
+                        Thread.Sleep(500);
+                        SendKeys.Send("%s"); // Send
+                    }
                 }
-            }
+            });
+            File.Delete(tempImagePath);
         }
 
         private void btnStopMonitor_Click(object sender, EventArgs e)
