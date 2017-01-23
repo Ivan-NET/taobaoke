@@ -14,5 +14,6 @@ namespace TaobaoKe.Forms
 
         public static readonly string CQProxyPath = Path.Combine(Application.StartupPath + @"\CQ\Flexlive.CQP.CSharpProxy.exe");
 
+        public static readonly string HtmlEditorPath = Path.Combine(Application.StartupPath + @"\kindeditor\e.html");
     }
 }

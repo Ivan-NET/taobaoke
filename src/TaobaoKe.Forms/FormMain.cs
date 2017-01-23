@@ -8,6 +8,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -21,9 +23,11 @@ using TaobaoKe.Forms.Util;
 
 namespace TaobaoKe.Forms
 {
+    [ComVisible(true)]
     public partial class FormMain : FormBase
     {
         DataTable _dataSource = null;
+        private string _htmlContent = string.Empty;
 
         public FormMain()
         {
@@ -33,6 +37,9 @@ namespace TaobaoKe.Forms
 
         private void InitializeControl()
         {
+            this.wbTransmit.Url = new System.Uri(Constants.HtmlEditorPath);
+            this.wbTransmit.ObjectForScripting = this;
+
             _dataSource = new DataTable("Master");
             _dataSource.Columns.Add("Content", typeof(string));
             _dataSource.Columns.Add("From", typeof(string));
@@ -44,6 +51,30 @@ namespace TaobaoKe.Forms
         {
             Application.Exit();
         }
+
+        #region HtmlEditor
+
+        public string GetContent()
+        {
+            return _htmlContent;
+        }
+
+        public void RequestContent(string str)
+        {
+            _htmlContent = str;
+        }
+
+        //public void SetDetailContent()
+        //{
+        //    wbTransmit.Document.InvokeScript("setContent", new object[] { _htmlContent });
+        //}
+
+        private void wbTransmit_Resize(object sender, EventArgs e)
+        {
+            this.wbTransmit.Refresh();
+        }
+
+        #endregion
 
         #region 按钮事件
 
@@ -74,15 +105,18 @@ namespace TaobaoKe.Forms
         string Ipc_Recieve(IpcArgs args)
         {
             QQMessage qqMessage = JsonConvert.DeserializeObject<QQMessage>(args.Content);
-
             Transmit(qqMessage);
+            AddTask(qqMessage);
+            return "";
+        }
 
+        private void AddTask(QQMessage qqMessage)
+        {
             _dataSource.Rows.Add(qqMessage.Message, qqMessage.fromGroup.ToString());
             this.Invoke((EventHandler)delegate
             {
                 dataGridView1.Refresh();
             });
-            return "";
         }
 
         void Transmit(QQMessage qqMessage)
@@ -95,7 +129,7 @@ namespace TaobaoKe.Forms
             {
                 string imageName = match.Groups[1].Value;
                 tempImagePath = Path.Combine(Constants.CQImagePath, imageName);
-                string iniFilePath = tempImagePath + ".cqimg");
+                string iniFilePath = tempImagePath + ".cqimg";
                 string imageUrl = IniFileUtil.ReadIniData("image", "url", "", iniFilePath);
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
@@ -105,7 +139,7 @@ namespace TaobaoKe.Forms
                 }
             }
             msg = msg.Replace("\r\n", "<br />");
-            this.Invoke((EventHandler)delegate
+            this.Invoke((EventHandler) delegate
             {
                 ClipboardHelper.CopyToClipboard(msg, "");
             });
@@ -124,7 +158,8 @@ namespace TaobaoKe.Forms
                     }
                 }
             });
-            File.Delete(tempImagePath);
+            if (File.Exists(tempImagePath))
+                File.Delete(tempImagePath);
         }
 
         private void btnStopMonitor_Click(object sender, EventArgs e)
@@ -148,6 +183,16 @@ namespace TaobaoKe.Forms
         private void btnStopTransmit_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnDoTransmit_Click(object sender, EventArgs e)
+        {
+            QQMessage qqMessage = new QQMessage()
+            {
+                Message = _htmlContent
+            };
+            Transmit(qqMessage);
+            AddTask(qqMessage);
         }
 
         #endregion
