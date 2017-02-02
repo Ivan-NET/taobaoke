@@ -96,8 +96,8 @@ EndSelection:<<<<<<<<4";
 
             var dataObject = new DataObject();
             dataObject.SetData(DataFormats.Html, htmlFragment);
-            dataObject.SetData(DataFormats.Text, plainText);
-            dataObject.SetData(DataFormats.UnicodeText, plainText);
+            //dataObject.SetData(DataFormats.Text, plainText);
+            //dataObject.SetData(DataFormats.UnicodeText, plainText);
             return dataObject;
         }
 

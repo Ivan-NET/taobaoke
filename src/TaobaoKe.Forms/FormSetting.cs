@@ -17,6 +17,8 @@ namespace TaobaoKe.Forms
         {
             this.txtQQGroupNo.Text = GlobalSetting.Instance.MonitorSetting.QQGroupNo;
             this.txtQQGroupLnkPath.Text = GlobalSetting.Instance.TransmitSetting.QQGroupLnkPath;
+            this.txtTransmitInterval.Text = GlobalSetting.Instance.TransmitSetting.TransmitInterval.ToString();
+            this.txtSleepInterval.Text = GlobalSetting.Instance.TransmitSetting.SleepInterval.ToString();
         }
 
         private void lnkBrowseFolder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -55,8 +57,18 @@ namespace TaobaoKe.Forms
         {
             GlobalSetting.Instance.MonitorSetting.QQGroupNo = this.txtQQGroupNo.Text.Trim();
             GlobalSetting.Instance.TransmitSetting.QQGroupLnkPath = txtQQGroupLnkPath.Text;
+            GlobalSetting.Instance.TransmitSetting.TransmitInterval = Convert.ToInt32(txtTransmitInterval.Text);
+            GlobalSetting.Instance.TransmitSetting.SleepInterval = Convert.ToInt32(txtSleepInterval.Text);
             GlobalSetting.Instance.Save();
             // 通知酷Q
+        }
+
+        private void DigitTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != '\b' && !Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
