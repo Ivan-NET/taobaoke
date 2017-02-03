@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using TaobaoKe.Common.Models;
 using TaobaoKe.Core.IPC;
 using TaobaoKe.Core.Util;
+using TaobaoKe.Forms.Properties;
 using TaobaoKe.Forms.Settings;
 using TaobaoKe.Forms.Util;
 using TaobaoKe.Repository;
@@ -46,6 +47,20 @@ namespace TaobaoKe.Forms
 
         private void InitializeControl()
         {
+            this.statusStartAt.Text = DateTime.Now.ToString() + "开始运行";
+            this.imgList.ImageSize = new System.Drawing.Size(24, 24);
+            this.imgList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgList.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+            this.imgList.Images.Add("transmit", Properties.Resources.transmit);
+            this.imgList.Images.Add("add_task", Properties.Resources.add_task);
+            this.imgList.Images.Add("copy", Properties.Resources.copy);
+            this.tpageTransmit.ImageKey = "transmit";
+            this.tpageAddTask.ImageKey = "add_task";
+            //this.btnCopy.ImageKey = "copy";
+
+            this.ResetTransmitButtonState();
+            this.ResetMonitorButtonState();
+
             this.wbTransmit.Url = new System.Uri(Constants.HtmlEditorPath);
             this.wbTransmit.ObjectForScripting = this;
 
@@ -154,13 +169,17 @@ namespace TaobaoKe.Forms
         {
             if (_monitorStarted)
             {
-                this.lnkMonitor.Text = "停止采集(&E)";
-                this.lnkMonitor.LinkColor = Color.LightCoral;
+                this.lnkMonitor.Text = "停止采集";
+                this.lnkMonitor.LinkColor = Color.OrangeRed;
+                this.statusMonitor.Text = "采集中";
+                this.statusMonitor.ForeColor = Color.DodgerBlue;
             }
             else
             {
-                this.lnkMonitor.Text = "启动采集(&E)";
+                this.lnkMonitor.Text = "启动采集";
                 this.lnkMonitor.LinkColor = Color.DodgerBlue;
+                this.statusMonitor.Text = "未采集";
+                this.statusMonitor.ForeColor = Color.OrangeRed;
             }
         }
 
@@ -255,13 +274,17 @@ namespace TaobaoKe.Forms
         {
             if (_transmitStarted)
             {
-                this.lnkTransmit.Text = "停止转发(&R)";
-                this.lnkTransmit.LinkColor = Color.LightCoral;
+                this.lnkTransmit.Text = "停止转发";
+                this.lnkTransmit.LinkColor = Color.OrangeRed;
+                this.statusTransmit.Text = "转发中";
+                this.statusTransmit.ForeColor = Color.DodgerBlue;
             }
             else
             {
-                this.lnkTransmit.Text = "启动转发(&R)";
+                this.lnkTransmit.Text = "启动转发";
                 this.lnkTransmit.LinkColor = Color.DodgerBlue;
+                this.statusTransmit.Text = "未转发";
+                this.statusTransmit.ForeColor = Color.OrangeRed;
             }
         }
 
@@ -377,6 +400,14 @@ namespace TaobaoKe.Forms
             }
         }
 
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(DialogResult.Cancel == MessageBox.Show("确定要退出淘宝客？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
+            {
+                e.Cancel = true;
+            }
+        }
+
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
@@ -462,6 +493,5 @@ namespace TaobaoKe.Forms
         }
 
         #endregion
-
     }
 }
