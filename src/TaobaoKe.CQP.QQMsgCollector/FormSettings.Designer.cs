@@ -28,29 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnTestConnection = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.lblServerStatus = new System.Windows.Forms.Label();
             this.lblClientStatus = new System.Windows.Forms.Label();
             this.lblServerId = new System.Windows.Forms.Label();
             this.lblClientId = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblQQGroupNo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // btnTestConnection
+            // btnRefresh
             // 
-            this.btnTestConnection.Location = new System.Drawing.Point(530, 128);
-            this.btnTestConnection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnTestConnection.Name = "btnTestConnection";
-            this.btnTestConnection.Size = new System.Drawing.Size(300, 62);
-            this.btnTestConnection.TabIndex = 0;
-            this.btnTestConnection.Text = "测试与主程序的连接(&T)";
-            this.btnTestConnection.UseVisualStyleBackColor = true;
-            this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
+            this.btnRefresh.Location = new System.Drawing.Point(530, 128);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(4);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(300, 62);
+            this.btnRefresh.TabIndex = 0;
+            this.btnRefresh.Text = "刷新(&S)";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // lblServerStatus
             // 
             this.lblServerStatus.AutoSize = true;
-            this.lblServerStatus.Location = new System.Drawing.Point(106, 88);
+            this.lblServerStatus.Location = new System.Drawing.Point(36, 65);
             this.lblServerStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblServerStatus.Name = "lblServerStatus";
             this.lblServerStatus.Size = new System.Drawing.Size(58, 24);
@@ -60,7 +62,7 @@
             // lblClientStatus
             // 
             this.lblClientStatus.AutoSize = true;
-            this.lblClientStatus.Location = new System.Drawing.Point(106, 188);
+            this.lblClientStatus.Location = new System.Drawing.Point(36, 157);
             this.lblClientStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClientStatus.Name = "lblClientStatus";
             this.lblClientStatus.Size = new System.Drawing.Size(58, 24);
@@ -70,7 +72,7 @@
             // lblServerId
             // 
             this.lblServerId.AutoSize = true;
-            this.lblServerId.Location = new System.Drawing.Point(106, 46);
+            this.lblServerId.Location = new System.Drawing.Point(36, 23);
             this.lblServerId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblServerId.Name = "lblServerId";
             this.lblServerId.Size = new System.Drawing.Size(106, 24);
@@ -80,7 +82,7 @@
             // lblClientId
             // 
             this.lblClientId.AutoSize = true;
-            this.lblClientId.Location = new System.Drawing.Point(106, 146);
+            this.lblClientId.Location = new System.Drawing.Point(36, 113);
             this.lblClientId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClientId.Name = "lblClientId";
             this.lblClientId.Size = new System.Drawing.Size(106, 24);
@@ -99,6 +101,26 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(36, 203);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 24);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "监听QQ";
+            // 
+            // lblQQGroupNo
+            // 
+            this.lblQQGroupNo.AutoSize = true;
+            this.lblQQGroupNo.Location = new System.Drawing.Point(149, 203);
+            this.lblQQGroupNo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblQQGroupNo.Name = "lblQQGroupNo";
+            this.lblQQGroupNo.Size = new System.Drawing.Size(154, 24);
+            this.lblQQGroupNo.TabIndex = 1;
+            this.lblQQGroupNo.Text = "lblQQGroupNo";
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
@@ -106,11 +128,13 @@
             this.ClientSize = new System.Drawing.Size(878, 248);
             this.Controls.Add(this.lblClientId);
             this.Controls.Add(this.lblClientStatus);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblServerId);
+            this.Controls.Add(this.lblQQGroupNo);
             this.Controls.Add(this.lblServerStatus);
             this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.btnTestConnection);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Controls.Add(this.btnRefresh);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormSettings";
             this.Text = "QQ消息采集设置";
             this.ResumeLayout(false);
@@ -120,11 +144,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnTestConnection;
+        private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Label lblServerStatus;
         private System.Windows.Forms.Label lblClientStatus;
         private System.Windows.Forms.Label lblServerId;
         private System.Windows.Forms.Label lblClientId;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblQQGroupNo;
     }
 }

@@ -18,6 +18,8 @@ namespace TaobaoKe.Forms
         public FormPreview()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(SystemInformation.WorkingArea.Width - this.Width - 18, SystemInformation.WorkingArea.Height - this.Height - 26);
         }
 
         public static FormPreview Instance
@@ -40,8 +42,11 @@ namespace TaobaoKe.Forms
 
         private void FormPreview_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.Hide();
-            e.Cancel = true;
+            if (e.CloseReason != CloseReason.ApplicationExitCall)
+            {
+                this.Hide();
+                e.Cancel = true;
+            }
         }
     }
 }

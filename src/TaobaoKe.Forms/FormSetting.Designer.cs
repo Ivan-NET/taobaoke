@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -68,36 +67,22 @@
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnApply
-            // 
-            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApply.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnApply.Location = new System.Drawing.Point(866, 605);
-            this.btnApply.Margin = new System.Windows.Forms.Padding(6);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(162, 59);
-            this.btnApply.TabIndex = 1;
-            this.btnApply.Text = "应用(&A)";
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
-            // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(692, 605);
+            this.btnCancel.Location = new System.Drawing.Point(874, 605);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(162, 59);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "取消(&C)";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(518, 605);
+            this.btnOK.Location = new System.Drawing.Point(694, 605);
             this.btnOK.Margin = new System.Windows.Forms.Padding(6);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(162, 59);
@@ -140,7 +125,6 @@
             this.txtQQGroupNo.Location = new System.Drawing.Point(330, 194);
             this.txtQQGroupNo.Margin = new System.Windows.Forms.Padding(6);
             this.txtQQGroupNo.Name = "txtQQGroupNo";
-            this.txtQQGroupNo.PasswordChar = '*';
             this.txtQQGroupNo.Size = new System.Drawing.Size(348, 43);
             this.txtQQGroupNo.TabIndex = 11;
             // 
@@ -458,7 +442,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(1054, 688);
-            this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.tabControl1);
@@ -504,7 +487,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.TextBox txtQQGroupLnkPath;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.LinkLabel lnkBrowseFolder;

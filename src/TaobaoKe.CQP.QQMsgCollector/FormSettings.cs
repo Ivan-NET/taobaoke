@@ -28,19 +28,12 @@ namespace Rap.CQP.QQMsgCollector
             this.btnStart.Text = NamedPipedIpcClient.Default_B.Started ? "停止(&S)" : "启动(&S)";
             this.lblServerStatus.Text = NamedPipedIpcClient.Default_B.Started ? "已启动" : "未启动";
             this.lblClientStatus.Text = NamedPipedIpcClient.Default_B.ClientConnected ? "已连接" : "未连接";
+            this.lblQQGroupNo.Text = QQMsgCollectorPlugin._monitorQQGroupNo.ToString();
         }
 
-        private void btnTestConnection_Click(object sender, EventArgs e)
+        private void btnRefresh_Click(object sender, EventArgs e)
         {
-            IpcResult ipcResult = NamedPipedIpcClient.Default_B.Send(new IpcArgs("test"));
-            if (ipcResult.Success)
-            {
-                MessageBox.Show("连接正常");
-            }
-            else
-            {
-                MessageBox.Show("无法连接");
-            }
+            Init();
         }
 
         private void btnStart_Click(object sender, EventArgs e)

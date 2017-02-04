@@ -12,6 +12,8 @@ namespace Rap.CQP.QQMsgCollector
     /// </summary>
     public class QQMsgCollectorPlugin : CQAppAbstract
     {
+        public static long _monitorQQGroupNo = 0;
+         
         /// <summary>
         /// 应用初始化，用来初始化应用的基本信息。
         /// </summary>
@@ -38,7 +40,7 @@ namespace Rap.CQP.QQMsgCollector
 
         public static string Ipc_Recieve(IpcArgs args)
         {
-            MessageBox.Show(args.Content);
+            _monitorQQGroupNo = Convert.ToInt64(args.Content);
             return "";
         }
 
@@ -78,7 +80,15 @@ namespace Rap.CQP.QQMsgCollector
         /// <param name="font">字体。</param>
         public override void GroupMessage(int subType, int sendTime, long fromGroup, long fromQQ, string fromAnonymous, string msg, int font)
         {
-            //if (fromGroup == 601350384)
+            if(_monitorQQGroupNo == 0)
+            {
+                IpcResult ipcResult = NamedPipedIpcClient.Default_B.Send(new IpcArgs("$GetMonitorQQGroupNo$"));
+                if (ipcResult.Success)
+                {
+                    _monitorQQGroupNo = Convert.ToInt64(ipcResult.Result);
+                }
+            }
+            else if (fromGroup == _monitorQQGroupNo)
             {
                 QQMessage qqMessage = new QQMessage()
                 {

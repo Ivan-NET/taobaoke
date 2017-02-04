@@ -40,12 +40,9 @@ namespace TaobaoKe.Forms
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-
+            ApplySettings();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void btnApply_Click(object sender, EventArgs e)

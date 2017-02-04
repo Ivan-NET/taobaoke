@@ -193,9 +193,16 @@ namespace TaobaoKe.Forms
 
         string Ipc_Recieve(IpcArgs args)
         {
-            QQMessage qqMessage = JsonConvert.DeserializeObject<QQMessage>(args.Content);
-            AddTask(qqMessage);
-            return "";
+            if (args.Content == "$GetMonitorQQGroupNo$")
+            {
+                return GlobalSetting.Instance.MonitorSetting.QQGroupNo;
+            }
+            else
+            {
+                QQMessage qqMessage = JsonConvert.DeserializeObject<QQMessage>(args.Content);
+                AddTask(qqMessage);
+                return "";
+            }
         }
 
         private void btnAddTask_Click(object sender, EventArgs e)
@@ -258,7 +265,6 @@ namespace TaobaoKe.Forms
 
         private void StartTransmit()
         {
-            //NamedPipedIpcClient.Default_A.Send(new IpcArgs("asdf"));
             timerTransmit.Interval = GlobalSetting.Instance.TransmitSetting.TransmitInterval * 1000;
             timerTransmit.Start();
             _transmitStarted = true;
@@ -300,6 +306,7 @@ namespace TaobaoKe.Forms
                     Transmit(transmitTask);
                     _transmitTaskRepository.UpdateStatus(transmitTask.Id);
                     _dataSource.Rows.Remove(row);
+                    ResetRowNo();
                     this.gridTasks.Refresh();
                 }
                 finally
@@ -351,8 +358,11 @@ namespace TaobaoKe.Forms
         private void lnkSetting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             FormSetting formSetting = new FormSetting();
-            formSetting.ShowDialog();
-            timerTransmit.Interval = GlobalSetting.Instance.TransmitSetting.TransmitInterval * 1000;
+            if (DialogResult.OK == formSetting.ShowDialog())
+            {
+                timerTransmit.Interval = GlobalSetting.Instance.TransmitSetting.TransmitInterval * 1000;
+                NamedPipedIpcClient.Default_A.Send(new IpcArgs(GlobalSetting.Instance.MonitorSetting.QQGroupNo));
+            }
         }
 
         private void gridTasks_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -410,6 +420,7 @@ namespace TaobaoKe.Forms
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
+            timerTransmit.Dispose();
             Application.Exit();
         }
 
