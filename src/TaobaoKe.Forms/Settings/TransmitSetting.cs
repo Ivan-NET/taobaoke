@@ -8,7 +8,7 @@ namespace TaobaoKe.Forms.Settings
 {
     public class TransmitSetting
     {
-        private int _transmitInterval = 1;
+        private int _transmitInterval = 10;
         private int _sleepInterval = 500;
 
         public string QQGroupLnkPath { get; set; }

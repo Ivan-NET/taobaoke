@@ -16,6 +16,7 @@ namespace TaobaoKe.Forms.Settings
         static GlobalSetting _instance;
         MonitorSetting _monitorSetting;
         TransmitSetting _transmitSetting;
+        TaokeSetting _taokeSetting;
 
         private GlobalSetting()
         {
@@ -67,6 +68,16 @@ namespace TaobaoKe.Forms.Settings
                 if (_transmitSetting == null)
                     _transmitSetting = new TransmitSetting();
                 return _transmitSetting;
+            }
+        }
+
+        public TaokeSetting TaokeSetting
+        {
+            get
+            {
+                if (_taokeSetting == null)
+                    _taokeSetting = new TaokeSetting();
+                return _taokeSetting;
             }
         }
 

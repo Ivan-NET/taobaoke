@@ -49,7 +49,7 @@
             this.wbTransmit = new System.Windows.Forms.WebBrowser();
             this.panel6 = new System.Windows.Forms.Panel();
             this.button7 = new System.Windows.Forms.Button();
-            this.btnCopy = new System.Windows.Forms.Button();
+            this.btnUrlTrans = new System.Windows.Forms.Button();
             this.btnAddTaskAtOnce = new System.Windows.Forms.Button();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -216,7 +216,7 @@
             this.tpageAddTask.Margin = new System.Windows.Forms.Padding(6);
             this.tpageAddTask.Name = "tpageAddTask";
             this.tpageAddTask.Padding = new System.Windows.Forms.Padding(6);
-            this.tpageAddTask.Size = new System.Drawing.Size(1992, 810);
+            this.tpageAddTask.Size = new System.Drawing.Size(1992, 814);
             this.tpageAddTask.TabIndex = 1;
             this.tpageAddTask.Text = "手动添加  ";
             this.tpageAddTask.UseVisualStyleBackColor = true;
@@ -229,7 +229,7 @@
             this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(1);
-            this.panel5.Size = new System.Drawing.Size(1552, 798);
+            this.panel5.Size = new System.Drawing.Size(1552, 802);
             this.panel5.TabIndex = 0;
             // 
             // wbTransmit
@@ -239,7 +239,7 @@
             this.wbTransmit.Margin = new System.Windows.Forms.Padding(6);
             this.wbTransmit.MinimumSize = new System.Drawing.Size(40, 37);
             this.wbTransmit.Name = "wbTransmit";
-            this.wbTransmit.Size = new System.Drawing.Size(1550, 796);
+            this.wbTransmit.Size = new System.Drawing.Size(1550, 800);
             this.wbTransmit.TabIndex = 0;
             this.wbTransmit.Resize += new System.EventHandler(this.wbTransmit_Resize);
             // 
@@ -247,14 +247,14 @@
             // 
             this.panel6.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.panel6.Controls.Add(this.button7);
-            this.panel6.Controls.Add(this.btnCopy);
+            this.panel6.Controls.Add(this.btnUrlTrans);
             this.panel6.Controls.Add(this.btnAddTaskAtOnce);
             this.panel6.Controls.Add(this.btnAddTask);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel6.Location = new System.Drawing.Point(1558, 6);
             this.panel6.Margin = new System.Windows.Forms.Padding(4);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(428, 798);
+            this.panel6.Size = new System.Drawing.Size(428, 802);
             this.panel6.TabIndex = 1;
             // 
             // button7
@@ -270,23 +270,24 @@
             this.button7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button7.UseVisualStyleBackColor = true;
             // 
-            // btnCopy
+            // btnUrlTrans
             // 
-            this.btnCopy.Image = ((System.Drawing.Image)(resources.GetObject("btnCopy.Image")));
-            this.btnCopy.Location = new System.Drawing.Point(54, 280);
-            this.btnCopy.Margin = new System.Windows.Forms.Padding(6);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(324, 85);
-            this.btnCopy.TabIndex = 5;
-            this.btnCopy.Text = "转换复制(&C)";
-            this.btnCopy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCopy.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnUrlTrans.Image = ((System.Drawing.Image)(resources.GetObject("btnUrlTrans.Image")));
+            this.btnUrlTrans.Location = new System.Drawing.Point(54, 56);
+            this.btnUrlTrans.Margin = new System.Windows.Forms.Padding(6);
+            this.btnUrlTrans.Name = "btnUrlTrans";
+            this.btnUrlTrans.Size = new System.Drawing.Size(324, 85);
+            this.btnUrlTrans.TabIndex = 5;
+            this.btnUrlTrans.Text = "转换链接(&C)";
+            this.btnUrlTrans.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnUrlTrans.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnUrlTrans.UseVisualStyleBackColor = true;
+            this.btnUrlTrans.Click += new System.EventHandler(this.btnUrlTrans_Click);
             // 
             // btnAddTaskAtOnce
             // 
             this.btnAddTaskAtOnce.Image = ((System.Drawing.Image)(resources.GetObject("btnAddTaskAtOnce.Image")));
-            this.btnAddTaskAtOnce.Location = new System.Drawing.Point(54, 166);
+            this.btnAddTaskAtOnce.Location = new System.Drawing.Point(54, 284);
             this.btnAddTaskAtOnce.Margin = new System.Windows.Forms.Padding(6);
             this.btnAddTaskAtOnce.Name = "btnAddTaskAtOnce";
             this.btnAddTaskAtOnce.Size = new System.Drawing.Size(324, 85);
@@ -300,7 +301,7 @@
             // btnAddTask
             // 
             this.btnAddTask.Image = ((System.Drawing.Image)(resources.GetObject("btnAddTask.Image")));
-            this.btnAddTask.Location = new System.Drawing.Point(54, 50);
+            this.btnAddTask.Location = new System.Drawing.Point(54, 170);
             this.btnAddTask.Margin = new System.Windows.Forms.Padding(6);
             this.btnAddTask.Name = "btnAddTask";
             this.btnAddTask.Size = new System.Drawing.Size(324, 85);
@@ -418,7 +419,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1342, 35);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1404, 35);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // statusMonitor
@@ -491,7 +492,7 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.Button btnUrlTrans;
         private System.Windows.Forms.Button btnAddTaskAtOnce;
         private System.Windows.Forms.Button btnAddTask;
         private System.Windows.Forms.BindingSource bsTasks;

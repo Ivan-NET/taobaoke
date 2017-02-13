@@ -10,15 +10,11 @@ namespace TaobaoKe.Forms
         public FormSetting()
         {
             InitializeComponent();
+            this.txtSleepInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
+            this.txtTransmitInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
+            this.txtSiteId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
+            this.txtAdZoneId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
             InitializeControl();
-        }
-
-        private void InitializeControl()
-        {
-            this.txtQQGroupNo.Text = GlobalSetting.Instance.MonitorSetting.QQGroupNo;
-            this.txtQQGroupLnkPath.Text = GlobalSetting.Instance.TransmitSetting.QQGroupLnkPath;
-            this.txtTransmitInterval.Text = GlobalSetting.Instance.TransmitSetting.TransmitInterval.ToString();
-            this.txtSleepInterval.Text = GlobalSetting.Instance.TransmitSetting.SleepInterval.ToString();
         }
 
         private void lnkBrowseFolder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -54,10 +50,30 @@ namespace TaobaoKe.Forms
         {
             GlobalSetting.Instance.MonitorSetting.QQGroupNo = this.txtQQGroupNo.Text.Trim();
             GlobalSetting.Instance.TransmitSetting.QQGroupLnkPath = txtQQGroupLnkPath.Text;
+
             GlobalSetting.Instance.TransmitSetting.TransmitInterval = Convert.ToInt32(txtTransmitInterval.Text);
             GlobalSetting.Instance.TransmitSetting.SleepInterval = Convert.ToInt32(txtSleepInterval.Text);
+
+            GlobalSetting.Instance.TaokeSetting.Account = txtAccount.Text.Trim();
+            GlobalSetting.Instance.TaokeSetting.Password = txtPassword.Text;
+            GlobalSetting.Instance.TaokeSetting.SiteId = txtSiteId.Text.Trim();
+            GlobalSetting.Instance.TaokeSetting.AdZoneId = txtAdZoneId.Text.Trim();
+
             GlobalSetting.Instance.Save();
-            // 通知酷Q
+        }
+
+        private void InitializeControl()
+        {
+            this.txtQQGroupNo.Text = GlobalSetting.Instance.MonitorSetting.QQGroupNo;
+            this.txtQQGroupLnkPath.Text = GlobalSetting.Instance.TransmitSetting.QQGroupLnkPath;
+
+            this.txtTransmitInterval.Text = GlobalSetting.Instance.TransmitSetting.TransmitInterval.ToString();
+            this.txtSleepInterval.Text = GlobalSetting.Instance.TransmitSetting.SleepInterval.ToString();
+
+            txtAccount.Text = GlobalSetting.Instance.TaokeSetting.Account;
+            txtPassword.Text = GlobalSetting.Instance.TaokeSetting.Password;
+            txtSiteId.Text = GlobalSetting.Instance.TaokeSetting.SiteId;
+            txtAdZoneId.Text = GlobalSetting.Instance.TaokeSetting.AdZoneId;
         }
 
         private void DigitTextBox_KeyPress(object sender, KeyPressEventArgs e)

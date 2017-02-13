@@ -57,9 +57,13 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtAdZoneId = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtSiteId = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtAccount = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -75,7 +79,7 @@
             this.btnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(162, 59);
-            this.btnCancel.TabIndex = 1;
+            this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "取消(&C)";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -86,7 +90,7 @@
             this.btnOK.Margin = new System.Windows.Forms.Padding(6);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(162, 59);
-            this.btnOK.TabIndex = 2;
+            this.btnOK.TabIndex = 7;
             this.btnOK.Text = "确定(&O)";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -126,7 +130,7 @@
             this.txtQQGroupNo.Margin = new System.Windows.Forms.Padding(6);
             this.txtQQGroupNo.Name = "txtQQGroupNo";
             this.txtQQGroupNo.Size = new System.Drawing.Size(348, 43);
-            this.txtQQGroupNo.TabIndex = 11;
+            this.txtQQGroupNo.TabIndex = 2;
             // 
             // label3
             // 
@@ -146,7 +150,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(348, 43);
-            this.textBox2.TabIndex = 8;
+            this.textBox2.TabIndex = 1;
             // 
             // label2
             // 
@@ -165,7 +169,7 @@
             this.textBox1.Margin = new System.Windows.Forms.Padding(6);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(348, 43);
-            this.textBox1.TabIndex = 9;
+            this.textBox1.TabIndex = 0;
             // 
             // label1
             // 
@@ -214,7 +218,7 @@
             this.lnkBrowseFolder.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lnkBrowseFolder.Name = "lnkBrowseFolder";
             this.lnkBrowseFolder.Size = new System.Drawing.Size(69, 35);
-            this.lnkBrowseFolder.TabIndex = 17;
+            this.lnkBrowseFolder.TabIndex = 1;
             this.lnkBrowseFolder.TabStop = true;
             this.lnkBrowseFolder.Text = "浏览";
             this.lnkBrowseFolder.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBrowseFolder_LinkClicked);
@@ -228,7 +232,7 @@
             this.lnkOpenFolder.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lnkOpenFolder.Name = "lnkOpenFolder";
             this.lnkOpenFolder.Size = new System.Drawing.Size(150, 35);
-            this.lnkOpenFolder.TabIndex = 16;
+            this.lnkOpenFolder.TabIndex = 2;
             this.lnkOpenFolder.TabStop = true;
             this.lnkOpenFolder.Text = "打开文件夹";
             this.lnkOpenFolder.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOpenFolder_LinkClicked);
@@ -239,8 +243,7 @@
             this.txtSleepInterval.Margin = new System.Windows.Forms.Padding(6);
             this.txtSleepInterval.Name = "txtSleepInterval";
             this.txtSleepInterval.Size = new System.Drawing.Size(108, 43);
-            this.txtSleepInterval.TabIndex = 15;
-            this.txtSleepInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
+            this.txtSleepInterval.TabIndex = 6;
             // 
             // label14
             // 
@@ -258,8 +261,7 @@
             this.txtTransmitInterval.Margin = new System.Windows.Forms.Padding(6);
             this.txtTransmitInterval.Name = "txtTransmitInterval";
             this.txtTransmitInterval.Size = new System.Drawing.Size(108, 43);
-            this.txtTransmitInterval.TabIndex = 15;
-            this.txtTransmitInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
+            this.txtTransmitInterval.TabIndex = 5;
             // 
             // label6
             // 
@@ -309,7 +311,7 @@
             this.txtQQGroupLnkPath.Name = "txtQQGroupLnkPath";
             this.txtQQGroupLnkPath.ReadOnly = true;
             this.txtQQGroupLnkPath.Size = new System.Drawing.Size(438, 43);
-            this.txtQQGroupLnkPath.TabIndex = 11;
+            this.txtQQGroupLnkPath.TabIndex = 0;
             // 
             // textBox7
             // 
@@ -318,7 +320,7 @@
             this.textBox7.Margin = new System.Windows.Forms.Padding(6);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(108, 43);
-            this.textBox7.TabIndex = 11;
+            this.textBox7.TabIndex = 4;
             // 
             // label8
             // 
@@ -359,7 +361,7 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox8.Size = new System.Drawing.Size(438, 144);
-            this.textBox8.TabIndex = 12;
+            this.textBox8.TabIndex = 3;
             // 
             // label12
             // 
@@ -383,9 +385,13 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.textBox4);
+            this.tabPage3.Controls.Add(this.txtAdZoneId);
+            this.tabPage3.Controls.Add(this.label17);
+            this.tabPage3.Controls.Add(this.txtSiteId);
+            this.tabPage3.Controls.Add(this.label16);
+            this.tabPage3.Controls.Add(this.txtPassword);
             this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.textBox5);
+            this.tabPage3.Controls.Add(this.txtAccount);
             this.tabPage3.Controls.Add(this.label5);
             this.tabPage3.Location = new System.Drawing.Point(8, 49);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
@@ -396,15 +402,50 @@
             this.tabPage3.Text = "淘客设置(&E)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // textBox4
+            // txtAdZoneId
             // 
-            this.textBox4.Enabled = false;
-            this.textBox4.Location = new System.Drawing.Point(330, 120);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.PasswordChar = '*';
-            this.textBox4.Size = new System.Drawing.Size(348, 43);
-            this.textBox4.TabIndex = 6;
+            this.txtAdZoneId.Location = new System.Drawing.Point(330, 263);
+            this.txtAdZoneId.Margin = new System.Windows.Forms.Padding(6);
+            this.txtAdZoneId.Name = "txtAdZoneId";
+            this.txtAdZoneId.Size = new System.Drawing.Size(348, 43);
+            this.txtAdZoneId.TabIndex = 3;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(64, 266);
+            this.label17.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(125, 35);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "推广位ID";
+            // 
+            // txtSiteId
+            // 
+            this.txtSiteId.Location = new System.Drawing.Point(330, 194);
+            this.txtSiteId.Margin = new System.Windows.Forms.Padding(6);
+            this.txtSiteId.Name = "txtSiteId";
+            this.txtSiteId.Size = new System.Drawing.Size(348, 43);
+            this.txtSiteId.TabIndex = 2;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(64, 197);
+            this.label16.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(98, 35);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "导购ID";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(330, 120);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(6);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(348, 43);
+            this.txtPassword.TabIndex = 1;
             // 
             // label4
             // 
@@ -416,14 +457,13 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "淘宝密码";
             // 
-            // textBox5
+            // txtAccount
             // 
-            this.textBox5.Enabled = false;
-            this.textBox5.Location = new System.Drawing.Point(330, 48);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(6);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(348, 43);
-            this.textBox5.TabIndex = 7;
+            this.txtAccount.Location = new System.Drawing.Point(330, 48);
+            this.txtAccount.Margin = new System.Windows.Forms.Padding(6);
+            this.txtAccount.Name = "txtAccount";
+            this.txtAccount.Size = new System.Drawing.Size(348, 43);
+            this.txtAccount.TabIndex = 0;
             // 
             // label5
             // 
@@ -472,9 +512,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtAccount;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtTransmitInterval;
         private System.Windows.Forms.Label label6;
@@ -495,5 +535,9 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtAdZoneId;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtSiteId;
+        private System.Windows.Forms.Label label16;
     }
 }

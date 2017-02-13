@@ -1,24 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TaobaoKe.Common.Models;
 using TaobaoKe.Core.IPC;
 using TaobaoKe.Core.Util;
-using TaobaoKe.Forms.Properties;
 using TaobaoKe.Forms.Settings;
 using TaobaoKe.Forms.Util;
 using TaobaoKe.Repository;
@@ -36,6 +28,11 @@ namespace TaobaoKe.Forms
         bool _monitorStarted = false;
         bool _transmitStarted = false;
         private bool _suspendPreview = false;
+        Regex _regexUrl = new Regex(@"(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?");
+        Regex _regexTaoToken = new Regex(@"￥\w+￥");
+        private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
+        private string _alimamaTbToken = null;
+        private string _alimamaCookie = null;
 
         public FormMain()
         {
@@ -353,6 +350,120 @@ namespace TaobaoKe.Forms
 
         #endregion
 
+        #region 转换相关
+
+        private void btnUrlTrans_Click(object sender, EventArgs e)
+        {
+            _htmlEditValue = UrlTransform(_htmlEditValue);
+            SetDetailContent();
+        }
+
+        private string UrlTransform(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
+            {
+                MatchCollection matchesUrl = _regexUrl.Matches(message);
+                foreach (Match matchUrl in matchesUrl)
+                {
+                    string url = matchUrl.Value;
+                    using (var response = WebRequestHelper.GetWebResponse(url))
+                    {
+                        url = response.ResponseUri.ToString();
+                    }
+                    string detailItemId = string.Empty;
+                    int start = url.IndexOf("&itemId=");
+                    if (start > -1)
+                    {
+                        start = start + "&itemId=".Length;
+                        int end = url.IndexOf("&", start);
+                        detailItemId = url.Substring(start, end - start);
+                    }
+                    if (!string.IsNullOrEmpty(detailItemId))
+                    {
+                        if (!AlimamaLoggedOn())
+                        {
+                            LoginAlimama();
+                        }
+                        if (!AlimamaLoggedOn())
+                        {
+                            throw new Exception("未成功登录阿里妈妈");
+                        }
+                        TransformResult transformResult = DoUrlTransform(detailItemId);
+                        if (transformResult == null) // 第1次尝试转换，阿里妈妈登录状态已失效
+                        {
+                            LoginAlimama(); // 第2次尝试转换
+                        }
+                        transformResult = DoUrlTransform(detailItemId);
+                        if (transformResult == null)
+                        {
+                            throw new Exception("未能转换链接，请检查淘客设置");
+                        }
+                        else
+                        {
+                            message = message.Replace(matchUrl.Value, transformResult.ShortLinkUrl);
+                            // 淘口令
+                            message = _regexTaoToken.Replace(message, transformResult.TaoToken);
+                        }
+                    }
+                }
+            }
+            return message;
+        }
+
+        private bool AlimamaLoggedOn()
+        {
+            return !string.IsNullOrEmpty(_alimamaTbToken) && !string.IsNullOrEmpty(_alimamaCookie);
+        }
+
+        private void LoginAlimama()
+        {
+            CheckTaokeSetting();
+            FormAlimamaLogin formAlimamaLogin = new FormAlimamaLogin();
+            if (formAlimamaLogin.ShowDialog() == DialogResult.OK)
+            {
+                _alimamaTbToken = formAlimamaLogin.TbToken;
+                _alimamaCookie = formAlimamaLogin.Cookie;
+            }
+        }
+
+        private void CheckTaokeSetting()
+        {
+            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.Account))
+            {
+                throw new Exception("淘宝帐号未设置，请检查淘客设置");
+            }
+            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.Password))
+            {
+                throw new Exception("淘宝密码未设置，请检查淘客设置");
+            }
+            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.SiteId))
+            {
+                throw new Exception("导购Id未设置，请检查淘客设置");
+            }
+            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.AdZoneId))
+            {
+                throw new Exception("推广位Id未设置，请检查淘客设置");
+            }
+        }
+
+        private TransformResult DoUrlTransform(string detailItemId)
+        {
+            TransformParam transformParam = new TransformParam()
+            {
+                SiteId = GlobalSetting.Instance.TaokeSetting.SiteId,
+                AdZoneId = GlobalSetting.Instance.TaokeSetting.AdZoneId,
+                PromotionURL = _detailItemUrl + detailItemId,
+                T = DateUtil.GetUnixTimestamp(),
+                PvId = "0",
+                TbToken = _alimamaTbToken,
+                InputCharset = "utf-8"
+
+            };
+            return AlimamaUrlTrans.Transform(transformParam, _alimamaCookie);
+        }
+
+        #endregion
+
         #region 其它事件
 
         private void lnkSetting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -361,7 +472,14 @@ namespace TaobaoKe.Forms
             if (DialogResult.OK == formSetting.ShowDialog())
             {
                 timerTransmit.Interval = GlobalSetting.Instance.TransmitSetting.TransmitInterval * 1000;
-                NamedPipedIpcClient.Default_A.Send(new IpcArgs(GlobalSetting.Instance.MonitorSetting.QQGroupNo));
+                try
+                {
+                    NamedPipedIpcClient.Default_A.Send(new IpcArgs(GlobalSetting.Instance.MonitorSetting.QQGroupNo));
+                }
+                catch
+                {
+                    // 酷Q代理未启动的情况，不需要抛出异常
+                }
             }
         }
 
@@ -392,7 +510,7 @@ namespace TaobaoKe.Forms
 
         private void tabMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.tabMain.SelectedTab == this.tpageTransmit)
+            if (this.tabMain.SelectedTab == this.tpageTransmit)
             {
                 if (_suspendPreview && !FormPreview.Instance.Visible)
                 {
@@ -412,7 +530,7 @@ namespace TaobaoKe.Forms
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(DialogResult.Cancel == MessageBox.Show("确定要退出淘宝客？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
+            if (DialogResult.Cancel == MessageBox.Show("确定要退出淘宝客？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
             {
                 e.Cancel = true;
             }
@@ -425,7 +543,7 @@ namespace TaobaoKe.Forms
         }
 
         #endregion
-        
+
         #region 私有方法
 
         private void ResetRowNo()
@@ -504,5 +622,6 @@ namespace TaobaoKe.Forms
         }
 
         #endregion
+
     }
 }
