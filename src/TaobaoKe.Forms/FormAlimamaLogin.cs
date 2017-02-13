@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -17,16 +18,26 @@ namespace TaobaoKe.Forms
 {
     public partial class FormAlimamaLogin : FormBase
     {
+        private readonly string _account;
+        private readonly string _password;
         private static readonly int offset = 20;
         private bool logging = false;
         private bool logged = false;
         private object loggingLock = new object();
         private byte loggingCountDown = 0;
+        private bool retried = false;
 
-        public FormAlimamaLogin()
+        public FormAlimamaLogin(string account, string password)
         {
+            _account = account;
+            _password = password;
+            if(string.IsNullOrEmpty(_account))
+                throw new Exception("淘宝帐号不允许为空");
+            if (string.IsNullOrEmpty(_password))
+                throw new Exception("淘宝密码不允许为空");
             InitializeComponent();
             this.webBrowserLogin.ScriptErrorsSuppressed = true;
+            this.tslnkRetry.Visible = false;
         }
 
         public string TbToken { get; private set; }
@@ -48,8 +59,8 @@ namespace TaobaoKe.Forms
             // 跳转到登录页面
             string url = "https://login.taobao.com/member/login.jhtml?style=mini&from=alimama&redirectURL=http%3A%2F%2Flogin.taobao.com%2Fmember%2Ftaobaoke%2Flogin.htm%3Fis_login%3d1&full_redirect=true&disableQuickLogin=true";
             // 设置帐号
-            InternetSetCookie(url, "lgc", GlobalSetting.Instance.TaokeSetting.Account);
-            InternetSetCookie(url, "tracknick", GlobalSetting.Instance.TaokeSetting.Account);
+            InternetSetCookie(url, "lgc", _account);
+            InternetSetCookie(url, "tracknick", _account);
             webBrowserLogin.Navigate(url);
         }
 
@@ -57,14 +68,23 @@ namespace TaobaoKe.Forms
         {
             if (this.webBrowserLogin.Url.Host == "login.taobao.com")
             {
-                this.statusAlimamaLogin.Text = "登录页面已打开，准备自动登录";
                 if (!logging && !logged)
                 {
-                    lock (loggingLock)
+                    this.statusAlimamaLogin.Text = "登录页面已打开，准备自动登录";
+                    StartLogging();
+                }
+                else if (logged)
+                {
+                    if (!retried)
                     {
-                        logging = true;
-                        loggingCountDown = 3;
-                        timerTick.Start();
+                        this.statusAlimamaLogin.Text = "登录失败，准备重试";
+                        StartLogging();
+                        retried = true;
+                    }
+                    else
+                    {
+                        this.statusAlimamaLogin.Text = "登录失败";
+                        this.tslnkRetry.Visible = true;
                     }
                 }
             }
@@ -80,6 +100,17 @@ namespace TaobaoKe.Forms
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
+            }
+        }
+
+        private void StartLogging()
+        {
+            lock (loggingLock)
+            {
+                logging = true;
+                loggingCountDown = 3;
+                retried = false;
+                timerTick.Start();
             }
         }
 
@@ -110,6 +141,12 @@ namespace TaobaoKe.Forms
             }
         }
 
+        private void tslnkRetry_Click(object sender, EventArgs e)
+        {
+            StartLogging();
+            this.tslnkRetry.Visible = false;
+        }
+
         private void DoLogin()
         {
             this.statusAlimamaLogin.Text = "自动登录中";
@@ -127,7 +164,7 @@ namespace TaobaoKe.Forms
             System.Threading.Thread.Sleep(500);
             Application.DoEvents();
 
-            SendKeys.Send(GlobalSetting.Instance.TaokeSetting.Password);
+            SendKeys.Send(_password);
 
             System.Threading.Thread.Sleep(500);
             Application.DoEvents();

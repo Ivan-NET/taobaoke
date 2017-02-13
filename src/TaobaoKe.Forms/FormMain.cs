@@ -317,11 +317,6 @@ namespace TaobaoKe.Forms
         {
             string tempImagePath = string.Empty;
             string msg = ParseCQMessage(transmitTask.Content, out tempImagePath);
-            // 复制到剪切板
-            this.Invoke((EventHandler)delegate
-            {
-                ClipboardHelper.CopyToClipboard(msg, "");
-            });
             // 打开群快捷方式，进行粘贴
             if (string.IsNullOrEmpty(GlobalSetting.Instance.TransmitSetting.QQGroupLnkPath))
             {
@@ -334,6 +329,14 @@ namespace TaobaoKe.Forms
                 {
                     foreach (FileInfo file in dir.GetFiles())
                     {
+                        // 转链接
+                        string qqGroupName = Path.GetFileNameWithoutExtension(file.Name);
+                        string transformedMsg = UrlTransform(msg, qqGroupName);
+                        // 复制到剪切板
+                        this.Invoke((EventHandler)delegate
+                        {
+                            ClipboardHelper.CopyToClipboard(transformedMsg, "");
+                        });
                         using (Process.Start(file.FullName))
                         {
                             Thread.Sleep(GlobalSetting.Instance.TransmitSetting.SleepInterval);
@@ -358,7 +361,7 @@ namespace TaobaoKe.Forms
             SetDetailContent();
         }
 
-        private string UrlTransform(string message)
+        private string UrlTransform(string message, string qqGroupName = "")
         {
             if (!string.IsNullOrEmpty(message))
             {
@@ -388,12 +391,12 @@ namespace TaobaoKe.Forms
                         {
                             throw new Exception("未成功登录阿里妈妈");
                         }
-                        TransformResult transformResult = DoUrlTransform(detailItemId);
+                        TransformResult transformResult = DoUrlTransform(detailItemId, qqGroupName);
                         if (transformResult == null) // 第1次尝试转换，阿里妈妈登录状态已失效
                         {
                             LoginAlimama(); // 第2次尝试转换
                         }
-                        transformResult = DoUrlTransform(detailItemId);
+                        transformResult = DoUrlTransform(detailItemId, qqGroupName);
                         if (transformResult == null)
                         {
                             throw new Exception("未能转换链接，请检查淘客设置");
@@ -418,7 +421,7 @@ namespace TaobaoKe.Forms
         private void LoginAlimama()
         {
             CheckTaokeSetting();
-            FormAlimamaLogin formAlimamaLogin = new FormAlimamaLogin();
+            FormAlimamaLogin formAlimamaLogin = new FormAlimamaLogin(GlobalSetting.Instance.TaokeSetting.Account, GlobalSetting.Instance.TaokeSetting.Password);
             if (formAlimamaLogin.ShowDialog() == DialogResult.OK)
             {
                 _alimamaTbToken = formAlimamaLogin.TbToken;
@@ -436,22 +439,23 @@ namespace TaobaoKe.Forms
             {
                 throw new Exception("淘宝密码未设置，请检查淘客设置");
             }
-            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.SiteId))
+        }
+
+        private TransformResult DoUrlTransform(string detailItemId, string qqGroupName)
+        {
+            SiteAdZone siteAdZone = GetSiteAdZone(qqGroupName);
+            if (string.IsNullOrEmpty(siteAdZone.SiteId))
             {
                 throw new Exception("导购Id未设置，请检查淘客设置");
             }
-            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.AdZoneId))
+            if (string.IsNullOrEmpty(siteAdZone.AdZoneId))
             {
                 throw new Exception("推广位Id未设置，请检查淘客设置");
             }
-        }
-
-        private TransformResult DoUrlTransform(string detailItemId)
-        {
             TransformParam transformParam = new TransformParam()
             {
-                SiteId = GlobalSetting.Instance.TaokeSetting.SiteId,
-                AdZoneId = GlobalSetting.Instance.TaokeSetting.AdZoneId,
+                SiteId = siteAdZone.SiteId,
+                AdZoneId = siteAdZone.AdZoneId,
                 PromotionURL = _detailItemUrl + detailItemId,
                 T = DateUtil.GetUnixTimestamp(),
                 PvId = "0",
@@ -460,6 +464,18 @@ namespace TaobaoKe.Forms
 
             };
             return AlimamaUrlTrans.Transform(transformParam, _alimamaCookie);
+        }
+
+        private SiteAdZone GetSiteAdZone(string qqGroupName)
+        {
+            SiteAdZone result = null;
+            if(!string.IsNullOrEmpty(qqGroupName))
+            {
+                GlobalSetting.Instance.TaokeSetting.QQGroupSiteAdZones.TryGetValue(qqGroupName, out result);
+            }
+            if (result == null)
+                result = GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone;
+            return result;
         }
 
         #endregion
@@ -622,6 +638,5 @@ namespace TaobaoKe.Forms
         }
 
         #endregion
-
     }
 }

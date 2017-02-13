@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\QQMessage.cs" />
+    <Compile Include="Models\SiteAdZone.cs" />
     <Compile Include="Models\TransmitTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
