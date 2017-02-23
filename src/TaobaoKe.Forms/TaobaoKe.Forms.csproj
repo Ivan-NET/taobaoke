@@ -70,6 +70,12 @@
     <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,24 +100,6 @@
     <Compile Include="FormSetting.Designer.cs">
       <DependentUpon>FormSetting.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTransmitSetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormTransmitSetting.Designer.cs">
-      <DependentUpon>FormTransmitSetting.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormTaoKeSetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormTaoKeSetting.Designer.cs">
-      <DependentUpon>FormTaoKeSetting.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormMonitorSetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormMonitorSetting.Designer.cs">
-      <DependentUpon>FormMonitorSetting.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\GlobalSetting.cs" />
@@ -125,6 +113,9 @@
     <EmbeddedResource Include="FormAlimamaLogin.resx">
       <DependentUpon>FormAlimamaLogin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,15 +128,6 @@
     <EmbeddedResource Include="FormSetting.resx">
       <DependentUpon>FormSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTransmitSetting.resx">
-      <DependentUpon>FormTransmitSetting.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormTaoKeSetting.resx">
-      <DependentUpon>FormTaoKeSetting.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormMonitorSetting.resx">
-      <DependentUpon>FormMonitorSetting.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -156,6 +138,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -179,6 +164,10 @@
     <None Include="Resources\setting.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Downloads\log4net-1.2.13\src\log4net.vs2008.csproj">
+      <Project>{181fe707-e161-4722-9f38-6aaab6faa106}</Project>
+      <Name>log4net.vs2008</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaobaoKe.Common\TaobaoKe.Common.csproj">
       <Project>{8ae75cae-99bf-445e-864c-11f51dad29f1}</Project>
       <Name>TaobaoKe.Common</Name>

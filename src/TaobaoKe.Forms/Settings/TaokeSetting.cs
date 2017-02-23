@@ -14,6 +14,8 @@ namespace TaobaoKe.Forms.Settings
 
         public string Account { get; set; }
         public string Password { get; set; }
+        
+        public string PId { get; set; }
 
         public SiteAdZone DefaultSiteAdZone
         {

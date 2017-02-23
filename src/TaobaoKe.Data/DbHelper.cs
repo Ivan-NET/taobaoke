@@ -16,8 +16,13 @@ namespace TaobaoKe.Data
 
         public static SQLiteConnection OpenConnection()
         {
+            return OpenConnection(DataSource);
+        }
+
+        public static SQLiteConnection OpenConnection(string dataSource)
+        {
             SQLiteConnectionStringBuilder connStrBld = new SQLiteConnectionStringBuilder();
-            connStrBld.DataSource = DataSource;
+            connStrBld.DataSource = dataSource;
             var conn = new SQLiteConnection(connStrBld.ToString());
             conn.Open();
             return conn;

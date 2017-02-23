@@ -60,6 +60,7 @@
             this.picAvatar = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusStartAt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusShowLog = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusMonitor = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusTransmit = new System.Windows.Forms.ToolStripStatusLabel();
@@ -399,6 +400,7 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusStartAt,
+            this.statusShowLog,
             this.toolStripStatusLabel1,
             this.statusMonitor,
             this.statusTransmit,
@@ -416,10 +418,18 @@
             this.statusStartAt.Size = new System.Drawing.Size(166, 35);
             this.statusStartAt.Text = "statusStartAt";
             // 
+            // statusShowLog
+            // 
+            this.statusShowLog.IsLink = true;
+            this.statusShowLog.Name = "statusShowLog";
+            this.statusShowLog.Size = new System.Drawing.Size(110, 35);
+            this.statusShowLog.Text = "查看日志";
+            this.statusShowLog.Click += new System.EventHandler(this.statusShowLog_Click);
+            // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1404, 35);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1232, 35);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // statusMonitor
@@ -512,6 +522,7 @@
         private System.Windows.Forms.ToolStripStatusLabel statusStartAt;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel statusShowLog;
     }
 }
 

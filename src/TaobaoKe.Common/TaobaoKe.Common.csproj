@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\TwoInOneLink.cs" />
     <Compile Include="Models\QQMessage.cs" />
     <Compile Include="Models\SiteAdZone.cs" />
     <Compile Include="Models\TransmitTask.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TaobaoKe.Core.Log;
 
 namespace TaobaoKe.Forms
 {
@@ -35,14 +36,16 @@ namespace TaobaoKe.Forms
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     //Application.Idle += Application_Idle; //注册程序运行空闲去执行主程序窗体相应初始化代码
-                    Application.Run(new FormMain());
-
+                    FormMain formMain = new FormMain();
+                    LogHelper.Log(LogLevel.INFO, LogItemType.Initialize, "启动成功");
+                    Application.Run(formMain);
                 }
             }
             catch (Exception ex)
             {
-                //LogHelper.Log(ex);
-                MessageBox.Show("系统出现未知异常，请重启系统！");
+                string message = "系统出现未知异常，请重启系统！";
+                LogHelper.Log(LogLevel.ERROR, LogItemType.Initialize, message, ex);
+                MessageBox.Show(message);
             }
         }
 
@@ -68,7 +71,7 @@ namespace TaobaoKe.Forms
             if (e != null)
             {
                 MessageBox.Show(e.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // TODO:Log
+                LogHelper.Log(LogLevel.ERROR, LogItemType.System, e);
             }
         }
     }

@@ -36,17 +36,17 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.104.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Library\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogRepository.cs" />
     <Compile Include="TransmitTaskRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,6 +54,10 @@
     <ProjectReference Include="..\TaobaoKe.Common\TaobaoKe.Common.csproj">
       <Project>{8ae75cae-99bf-445e-864c-11f51dad29f1}</Project>
       <Name>TaobaoKe.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaobaoKe.Core\TaobaoKe.Core.csproj">
+      <Project>{d3c289bd-db0f-40de-8165-cdbf56e910d3}</Project>
+      <Name>TaobaoKe.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaobaoKe.Data\TaobaoKe.Data.csproj">
       <Project>{d239da62-0629-467c-8a1e-e991115969d0}</Project>

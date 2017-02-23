@@ -44,6 +44,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -54,14 +55,24 @@
     <Compile Include="IPC\IpcClient.cs" />
     <Compile Include="IPC\IpcResult.cs" />
     <Compile Include="IPC\NamedPipedIpcClient.cs" />
+    <Compile Include="Log\LogItemLayout.cs" />
+    <Compile Include="Log\LogHelper.cs" />
+    <Compile Include="Log\LogItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\AlimamaUrlTrans.cs" />
+    <Compile Include="Util\ExceptionUtil.cs" />
+    <Compile Include="Util\ShortUrlConvert.cs" />
     <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\IniFileUtil.cs" />
     <Compile Include="Util\SecurityUtil.cs" />
     <Compile Include="Util\WebRequestHelper.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Downloads\log4net-1.2.13\src\log4net.vs2008.csproj">
+      <Project>{181fe707-e161-4722-9f38-6aaab6faa106}</Project>
+      <Name>log4net.vs2008</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

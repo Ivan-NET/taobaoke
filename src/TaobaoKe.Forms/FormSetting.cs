@@ -72,6 +72,7 @@ namespace TaobaoKe.Forms
 
             GlobalSetting.Instance.TaokeSetting.Account = txtAccount.Text.Trim();
             GlobalSetting.Instance.TaokeSetting.Password = txtPassword.Text;
+            GlobalSetting.Instance.TaokeSetting.PId = txtPId.Text.Trim();
             GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.SiteId = txtSiteId.Text.Trim();
             GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.AdZoneId = txtAdZoneId.Text.Trim();
             GlobalSetting.Instance.TaokeSetting.QQGroupSiteAdZones = QQGroupSiteAdZones;
@@ -89,6 +90,7 @@ namespace TaobaoKe.Forms
 
             txtAccount.Text = GlobalSetting.Instance.TaokeSetting.Account;
             txtPassword.Text = GlobalSetting.Instance.TaokeSetting.Password;
+            txtPId.Text = GlobalSetting.Instance.TaokeSetting.PId;
             txtSiteId.Text = GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.SiteId;
             txtAdZoneId.Text = GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.AdZoneId;
             QQGroupSiteAdZones = new Dictionary<string, SiteAdZone>();

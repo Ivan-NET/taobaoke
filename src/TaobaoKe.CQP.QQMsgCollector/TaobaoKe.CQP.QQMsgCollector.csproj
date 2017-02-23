@@ -48,6 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\TaobaoKe.Forms\FormLog.cs">
+      <Link>FormLog.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\TaobaoKe.Forms\FormLog.Designer.cs">
+      <Link>FormLog.Designer.cs</Link>
+    </Compile>
     <Compile Include="FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +75,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\TaobaoKe.Forms\FormLog.resx">
+      <Link>FormLog.resx</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
