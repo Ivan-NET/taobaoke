@@ -16,12 +16,12 @@ namespace TaobaoKe.Forms
     {
         DataTable _dataSource = null;
         private string _qqGroupLinkPath;
-        private Dictionary<string, SiteAdZone> _qqGroupSiteAdZones;
+        private Dictionary<string, string> _qqGroupAdZones;
 
-        public FormAdZonesSetting(string qqGroupLinkPath, Dictionary<string, SiteAdZone> qqGroupSiteAdZones)
+        public FormAdZonesSetting(string qqGroupLinkPath, Dictionary<string, string> qqGroupAdZones)
         {
             _qqGroupLinkPath = qqGroupLinkPath;
-            _qqGroupSiteAdZones = qqGroupSiteAdZones;
+            _qqGroupAdZones = qqGroupAdZones;
             if (!Directory.Exists(_qqGroupLinkPath))
             {
                 throw new Exception("群快捷方式路径不存在");
@@ -32,9 +32,12 @@ namespace TaobaoKe.Forms
 
         private void InitializeControl()
         {
+            AdZone[] adzones = new AdZone[AlimamaAPI.AdZones.Count];
+            AlimamaAPI.AdZones.Values.CopyTo(adzones, 0);
+            colAdZoneId.DataSource = adzones;
+            colAdZoneId.ValueMember = "AdZoneName";
             _dataSource = new DataTable("Master");
             _dataSource.Columns.Add("QQGroupName", typeof(string));
-            _dataSource.Columns.Add("SiteId", typeof(string));
             _dataSource.Columns.Add("AdZoneId", typeof(string));
             bsAdZones.DataSource = _dataSource;
             bsAdZones.DataMember = "";
@@ -51,23 +54,19 @@ namespace TaobaoKe.Forms
             foreach (FileInfo file in dir.GetFiles())
             {
                 string qqGroupName = Path.GetFileNameWithoutExtension(file.Name);
-                SiteAdZone siteAdZone = GetSiteAdZone(qqGroupName);
+                string adZoneId = GetAdZoneId(qqGroupName);
                 DataRow newRow = _dataSource.NewRow();
                 newRow["QQGroupName"] = qqGroupName;
-                if (siteAdZone != null)
-                {
-                    newRow["SiteId"] = siteAdZone.SiteId;
-                    newRow["AdZoneId"] = siteAdZone.AdZoneId;
-                }
+                newRow["AdZoneId"] = adZoneId;
                 _dataSource.Rows.Add(newRow);
             }
             _dataSource.AcceptChanges();
         }
 
-        private SiteAdZone GetSiteAdZone(string qqGroupName)
+        private string GetAdZoneId(string qqGroupName)
         {
-            SiteAdZone result = null;
-            _qqGroupSiteAdZones.TryGetValue(qqGroupName, out result);
+            string result = null;
+            _qqGroupAdZones.TryGetValue(qqGroupName, out result);
             return result;
         }
 
@@ -84,32 +83,16 @@ namespace TaobaoKe.Forms
                 if (row.RowState != DataRowState.Deleted)
                 {
                     string qqGroupName = Convert.ToString(row["QQGroupName"]);
-                    string siteId = Convert.ToString(row["SiteId"]);
                     string adZoneId = Convert.ToString(row["AdZoneId"]);
-                    if (!string.IsNullOrEmpty(siteId) || !string.IsNullOrEmpty(adZoneId))
+                    if (!string.IsNullOrEmpty(adZoneId))
                     {
-                        if (string.IsNullOrEmpty(siteId))
-                        {
-                            throw new Exception(string.Format("群名称'{0}'的导购Id不允许为空", qqGroupName));
-                        }
-                        if (string.IsNullOrEmpty(adZoneId))
-                        {
-                            throw new Exception(string.Format("群名称'{0}'的推广位Id不允许为空", qqGroupName));
-                        }
-                        SiteAdZone siteAdZone = null;
-                        if (!_qqGroupSiteAdZones.TryGetValue(qqGroupName, out siteAdZone))
-                        {
-                            siteAdZone = new SiteAdZone();
-                            _qqGroupSiteAdZones.Add(qqGroupName, siteAdZone);
-                        }
-                        siteAdZone.SiteId = siteId;
-                        siteAdZone.AdZoneId = adZoneId;
+                        _qqGroupAdZones[qqGroupName] = adZoneId;
                     }
                 }
                 else
                 {
                     string qqGroupName = Convert.ToString(row["QQGroupName", DataRowVersion.Original]);
-                    _qqGroupSiteAdZones.Remove(qqGroupName);
+                    _qqGroupAdZones.Remove(qqGroupName);
                 }
             }
         }

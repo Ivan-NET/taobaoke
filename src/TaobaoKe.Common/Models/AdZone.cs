@@ -5,9 +5,10 @@ using System.Text;
 
 namespace TaobaoKe.Common.Models
 {
-    public class SiteAdZone
+    public class AdZone
     {
         public string SiteId { get; set; }
         public string AdZoneId { get; set; }
+        public string AdZoneName { get; set; }
     }
 }

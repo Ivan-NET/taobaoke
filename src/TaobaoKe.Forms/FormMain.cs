@@ -32,9 +32,7 @@ namespace TaobaoKe.Forms
         private bool _suspendPreview = false;
         Regex _regexUrl = new Regex(@"(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?");
         Regex _regexTaoToken = new Regex(@"￥\w+￥");
-        private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
-        private string _alimamaTbToken = null;
-        private string _alimamaCookie = null;
+        //private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
 
         public FormMain()
         {
@@ -207,7 +205,7 @@ namespace TaobaoKe.Forms
             else
             {
                 QQMessage qqMessage = JsonConvert.DeserializeObject<QQMessage>(args.Content);
-                LogHelper.Log(LogLevel.INFO, LogItemType.Monitor, qqMessage.ToString());
+                LogHelper.Log(LogLevel.INFO, LogItemType.Receive, qqMessage.ToString());
                 AddTask(qqMessage);
                 return "";
             }
@@ -240,12 +238,14 @@ namespace TaobaoKe.Forms
 
         private void AddTask(QQMessage qqMessage, bool addToTop = false)
         {
+
             TransmitTask transmitTask = new TransmitTask()
             {
                 Content = qqMessage.Message,
                 From = qqMessage.fromGroup > 0 ? qqMessage.fromGroup.ToString() : "手工添加",
                 CreateTime = DateTime.Now,
-                Priority = addToTop ? 1 : 0
+                Priority = addToTop ? 1 : 0,
+                //Coupon
             };
             _transmitTaskRepository.Add(transmitTask);
             AddToDataSource(transmitTask, addToTop, true);
@@ -366,6 +366,8 @@ namespace TaobaoKe.Forms
             }
             if (File.Exists(tempImagePath))
                 File.Delete(tempImagePath);
+
+            LogHelper.Log(LogLevel.INFO, LogItemType.Transmit, string.Format("任务ID{0}转发成功", transmitTask.Id));
         }
 
         #endregion
@@ -383,80 +385,64 @@ namespace TaobaoKe.Forms
             if (!string.IsNullOrEmpty(message))
             {
                 MatchCollection matchesUrl = _regexUrl.Matches(message);
-                foreach (Match matchUrl in matchesUrl)
+                string activityId = string.Empty, itemId = string.Empty;
+                if (matchesUrl.Count == 1)
                 {
+                    string ulandTaobaoUrl = string.Empty;
+                    Match matchUrl = matchesUrl[0];
                     string url = matchUrl.Value;
                     using (var response = WebRequestHelper.GetWebResponse(url))
                     {
-                        url = response.ResponseUri.ToString();
+                        ulandTaobaoUrl = response.ResponseUri.ToString();
                     }
-                    if (!string.IsNullOrEmpty(url))
+                    if (!string.IsNullOrEmpty(ulandTaobaoUrl))
                     {
-                        string towInOneLink = DoUrlTransform(url, qqGroupName);
-                        //将长链接转短连接
-                        string source = "1681459862";//新浪接口要求的请求者标识,暂时写死这个,有访问次数风险
-                        string shortUrl = ShortUrlConvert.Convert(towInOneLink, source);
-                        message = message.Replace(matchUrl.Value, shortUrl);
-                        // 淘口令
-                        //message = _regexTaoToken.Replace(message, transformResult.TaoToken);
+                        string[] paramValues = WebRequestHelper.GetQueryParamValues(ulandTaobaoUrl, "activityId", "itemId");
+                        activityId = paramValues[0];
+                        itemId = paramValues[1];
                     }
+                    string towInOneLink = DoUrlTransform(qqGroupName, activityId, itemId);
+                    //将长链接转短连接
+                    string source = "1681459862";//新浪接口要求的请求者标识,暂时写死这个,有访问次数风险
+                    string shortUrl = ShortUrlConvert.Convert(towInOneLink, source);
+                    message = message.Replace(matchUrl.Value, shortUrl);
+                    // 淘口令
+                    //message = _regexTaoToken.Replace(message, transformResult.TaoToken);
+                }
+                else if (matchesUrl.Count == 3)
+                {
+                    // 共找到 3 处匹配：
+                    //http://img0.qingtaoke.com/www/img/goods/20170113/524855101182.jpg
+                    //https://shop.m.taobao.com/shop/coupon.htm?seller_id=2227168127&amp;activityId=3ce6dd5e39df4d648afb032dddad8397
+                    //https://detail.tmall.com/item.htm?id=524855101182
+                    Match matchActivity = matchesUrl[1];
+                    Match matchItemId = matchesUrl[2];
+                    activityId = WebRequestHelper.GetQueryParamValue(matchActivity.Value, "activityId");
+                    itemId = WebRequestHelper.GetQueryParamValue(matchItemId.Value, "id");
+                    string towInOneLink = DoUrlTransform(qqGroupName, activityId, itemId);
+                    //将长链接转短连接
+                    string source = "1681459862";//新浪接口要求的请求者标识,暂时写死这个,有访问次数风险
+                    string shortUrl = ShortUrlConvert.Convert(towInOneLink, source);
+                    int start = message.LastIndexOf('>', matchActivity.Index) + 1;
+                    int end = message.IndexOf("<br", matchItemId.Index);
+                    string msg = string.Format("领优惠券下单地址：{0}", shortUrl);
+                    message = message.Remove(start, end - start).Insert(start, msg);
+                    //message = message.Replace(matchUrl.Value, shortUrl);
                 }
             }
             return message;
         }
 
-        private bool AlimamaLoggedOn()
+        private string DoUrlTransform(string qqGroupName, string activityId, string itemId)
         {
-            return !string.IsNullOrEmpty(_alimamaTbToken) && !string.IsNullOrEmpty(_alimamaCookie);
-        }
-
-        private void LoginAlimama()
-        {
-            CheckTaokeSetting();
-            FormAlimamaLogin formAlimamaLogin = new FormAlimamaLogin(GlobalSetting.Instance.TaokeSetting.Account, GlobalSetting.Instance.TaokeSetting.Password);
-            if (formAlimamaLogin.ShowDialog() == DialogResult.OK)
+            string adZoneId = GetAdZoneId(qqGroupName);
+            if (string.IsNullOrEmpty(adZoneId))
             {
-                _alimamaTbToken = formAlimamaLogin.TbToken;
-                _alimamaCookie = formAlimamaLogin.Cookie;
+                throw new Exception("推广位未设置，请检查淘客设置");
             }
-        }
-
-        private void CheckTaokeSetting()
-        {
-            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.Account))
-            {
-                throw new Exception("淘宝帐号未设置，请检查淘客设置");
-            }
-            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.Password))
-            {
-                throw new Exception("淘宝密码未设置，请检查淘客设置");
-            }
-        }
-
-        private string DoUrlTransform(string url, string qqGroupName)
-        {
-            if (string.IsNullOrEmpty(GlobalSetting.Instance.TaokeSetting.PId))
-            {
-                throw new Exception("导购位未设置，请检查淘客设置");
-            }
-            SiteAdZone siteAdZone = GetSiteAdZone(qqGroupName);
-            if (string.IsNullOrEmpty(siteAdZone.SiteId))
-            {
-                throw new Exception("导购Id未设置，请检查淘客设置");
-            }
-            if (string.IsNullOrEmpty(siteAdZone.AdZoneId))
-            {
-                throw new Exception("推广位Id未设置，请检查淘客设置");
-            }
-            // 解析所需参数
-            Uri uri = new Uri(url);
-            string queryString = uri.Query;
-            NameValueCollection queryParams = WebRequestHelper.GetQueryString(queryString);
-            string itemId = queryParams["itemId"];
-            String activityId = queryParams["activityId"];
             String src = "huacai";//标示请求源,不影响链接转化
             String dx = "1";//是否定向,不影响链接转化
-            String pId = string.Format("{0}_{1}_{2}", GlobalSetting.Instance.TaokeSetting.PId, siteAdZone.SiteId, siteAdZone.AdZoneId);
+            String pId = AlimamaAPI.GetPId(adZoneId);
             TwoInOneLink twoInOneLink = new TwoInOneLink(activityId, pId, itemId, src, dx);
             return twoInOneLink.GenerateLink();
             //TransformParam transformParam = new TransformParam()
@@ -473,15 +459,15 @@ namespace TaobaoKe.Forms
             //return AlimamaUrlTrans.Transform(transformParam, _alimamaCookie);
         }
 
-        private SiteAdZone GetSiteAdZone(string qqGroupName)
+        private string GetAdZoneId(string qqGroupName)
         {
-            SiteAdZone result = null;
+            string result = null;
             if (!string.IsNullOrEmpty(qqGroupName))
             {
-                GlobalSetting.Instance.TaokeSetting.QQGroupSiteAdZones.TryGetValue(qqGroupName, out result);
+                GlobalSetting.Instance.TaokeSetting.QQGroupAdZones.TryGetValue(qqGroupName, out result);
             }
             if (result == null)
-                result = GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone;
+                result = GlobalSetting.Instance.TaokeSetting.DefaultAdZoneId;
             return result;
         }
 
@@ -520,7 +506,7 @@ namespace TaobaoKe.Forms
 
         private void gridTasks_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.ColumnIndex == 1)
+            if (e.ColumnIndex == 1 && e.RowIndex > -1)
             {
                 DataRowView rowView = (DataRowView)this.bsTasks[e.RowIndex];
                 string content = Convert.ToString(rowView["Content"]);

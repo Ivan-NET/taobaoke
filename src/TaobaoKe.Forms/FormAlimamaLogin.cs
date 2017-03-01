@@ -44,15 +44,15 @@ namespace TaobaoKe.Forms
 
         public string Cookie { get; private set; }
 
-        private void FormAlimamaLogin_MouseMove(object sender, MouseEventArgs e)
-        {
-            //this.webBrowser1.Location
-            string s = string.Format("WebBrowse:({0},{1}), Mouse:({2},{3}), ({4},{5})"
-                , this.webBrowserLogin.Location.X, this.webBrowserLogin.Location.Y
-                , e.X, e.Y
-                , e.X - this.webBrowserLogin.Location.X, e.Y - this.webBrowserLogin.Location.Y);
-            this.statusAlimamaLogin.Text = s;
-        }
+        //private void FormAlimamaLogin_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    //this.webBrowser1.Location
+        //    string s = string.Format("WebBrowse:({0},{1}), Mouse:({2},{3}), ({4},{5})"
+        //        , this.webBrowserLogin.Location.X, this.webBrowserLogin.Location.Y
+        //        , e.X, e.Y
+        //        , e.X - this.webBrowserLogin.Location.X, e.Y - this.webBrowserLogin.Location.Y);
+        //    this.statusAlimamaLogin.Text = s;
+        //}
 
         private void FormAlimamaLogin_Load(object sender, EventArgs e)
         {
@@ -70,6 +70,7 @@ namespace TaobaoKe.Forms
             {
                 if (!logging && !logged)
                 {
+                    this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
                     this.statusAlimamaLogin.Text = "登录页面已打开，准备自动登录";
                     StartLogging();
                 }
@@ -77,12 +78,14 @@ namespace TaobaoKe.Forms
                 {
                     if (!retried)
                     {
+                        this.statusAlimamaLogin.ForeColor = Color.OrangeRed;
                         this.statusAlimamaLogin.Text = "登录失败，准备重试";
                         StartLogging();
                         retried = true;
                     }
                     else
                     {
+                        this.statusAlimamaLogin.ForeColor = Color.OrangeRed;
                         this.statusAlimamaLogin.Text = "登录失败";
                         this.tslnkRetry.Visible = true;
                     }
@@ -96,6 +99,7 @@ namespace TaobaoKe.Forms
                 TbToken = cookieTbToken == null ? null : cookieTbToken.Value;
                 if (TbToken != null)
                 {
+                    this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
                     this.statusAlimamaLogin.Text = "登录成功";
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -118,6 +122,7 @@ namespace TaobaoKe.Forms
         {
             if (logging && loggingCountDown > 0)
             {
+                this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
                 this.statusAlimamaLogin.Text = loggingCountDown + "秒后开始自动登录";
                 loggingCountDown--;
                 if (loggingCountDown == 0)
@@ -132,12 +137,15 @@ namespace TaobaoKe.Forms
         {
             lock (loggingLock)
             {
-                this.Invoke((EventHandler)delegate
+                if (this.Visible)
                 {
-                    DoLogin();
-                    logging = false;
-                    logged = true;
-                });
+                    this.Invoke((EventHandler)delegate
+                    {
+                        DoLogin();
+                        logging = false;
+                        logged = true;
+                    });
+                }
             }
         }
 
@@ -149,6 +157,7 @@ namespace TaobaoKe.Forms
 
         private void DoLogin()
         {
+            this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
             this.statusAlimamaLogin.Text = "自动登录中";
             // 密码输入框
             IHTMLDocument2 document = webBrowserLogin.Document.DomDocument as IHTMLDocument2;
@@ -294,6 +303,11 @@ namespace TaobaoKe.Forms
         }
 
         #endregion
+
+        private void FormAlimamaLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.bgwSimulateDoWork.Dispose();
+        }
     }
 
     [Flags]

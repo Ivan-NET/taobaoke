@@ -36,6 +36,7 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblQQGroupNo = new System.Windows.Forms.Label();
+            this.btnShowLog = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnRefresh
@@ -45,7 +46,7 @@
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(300, 62);
             this.btnRefresh.TabIndex = 0;
-            this.btnRefresh.Text = "刷新(&S)";
+            this.btnRefresh.Text = "刷新(&R)";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
@@ -121,11 +122,23 @@
             this.lblQQGroupNo.TabIndex = 1;
             this.lblQQGroupNo.Text = "lblQQGroupNo";
             // 
+            // btnShowLog
+            // 
+            this.btnShowLog.Location = new System.Drawing.Point(530, 215);
+            this.btnShowLog.Margin = new System.Windows.Forms.Padding(4);
+            this.btnShowLog.Name = "btnShowLog";
+            this.btnShowLog.Size = new System.Drawing.Size(300, 62);
+            this.btnShowLog.TabIndex = 2;
+            this.btnShowLog.Text = "查看日志(&V)";
+            this.btnShowLog.UseVisualStyleBackColor = true;
+            this.btnShowLog.Click += new System.EventHandler(this.btnShowLog_Click);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 248);
+            this.ClientSize = new System.Drawing.Size(878, 330);
+            this.Controls.Add(this.btnShowLog);
             this.Controls.Add(this.lblClientId);
             this.Controls.Add(this.lblClientStatus);
             this.Controls.Add(this.label1);
@@ -152,5 +165,6 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblQQGroupNo;
+        private System.Windows.Forms.Button btnShowLog;
     }
 }

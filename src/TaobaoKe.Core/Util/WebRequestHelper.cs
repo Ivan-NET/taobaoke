@@ -57,13 +57,13 @@ namespace TaobaoKe.Core.Util
             return GetResponseText(webResponse);
         }
 
-        public static string Put(string url, string contentType,string body, Dictionary<string, string> headers)
+        public static string Put(string url, string contentType, string body, Dictionary<string, string> headers)
         {
             WebRequest webRequest = WebRequest.Create(url);
             webRequest.Method = "PUT";
             if (!string.IsNullOrEmpty(contentType))
                 webRequest.ContentType = contentType;
-            PrepareRequestHeaders(webRequest,headers);
+            PrepareRequestHeaders(webRequest, headers);
             using (StreamWriter sw = new StreamWriter(webRequest.GetRequestStream()))
             {
                 sw.Write(body);
@@ -222,15 +222,15 @@ namespace TaobaoKe.Core.Util
             return responseText;
         }
 
-        public static void DownloadFile(string url, string saveFilePath)
+        public static void DownloadFile(string saveFilePath, string url, string contentType = "", Dictionary<string, string> headerDic = null)
         {
-            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+            //System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
             //request.Credentials = new NetworkCredential(userId, password);
-            using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
+            using (HttpWebResponse response = (HttpWebResponse)GetWebResponse(url, contentType, headerDic))
             {
-                using (System.IO.Stream responseStream = response.GetResponseStream())
+                using (Stream responseStream = response.GetResponseStream())
                 {
-                    using (System.IO.Stream fileStream = new System.IO.FileStream(saveFilePath, System.IO.FileMode.Create))
+                    using (Stream fileStream = new System.IO.FileStream(saveFilePath, System.IO.FileMode.Create))
                     {
                         byte[] by = new byte[100 * 1024];
                         int osize = responseStream.Read(by, 0, (int)by.Length);
@@ -243,7 +243,7 @@ namespace TaobaoKe.Core.Util
                     }
                 }
             }
-            request.Abort();
+            //request.Abort();
         }
 
         public static bool IsUrlAvailable(string url)
@@ -307,6 +307,29 @@ namespace TaobaoKe.Core.Util
                     webRequest.Headers.Add(item.Key, item.Value);
                 }
             }
+        }
+
+        public static string[] GetQueryParamValues(string url, params string[] paramArray)
+        {
+            // 解析所需参数
+            Uri uri = new Uri(url);
+            string queryString = uri.Query;
+            NameValueCollection queryParams = WebRequestHelper.GetQueryString(queryString);
+            string[] result = new string[paramArray.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = queryParams[paramArray[i]];
+            }
+            return result;
+        }
+
+        public static string GetQueryParamValue(string url, string param)
+        {
+            url = HttpUtility.HtmlDecode(url);
+            Uri uri = new Uri(url);
+            string queryString = uri.Query;
+            NameValueCollection queryParams = GetQueryString(queryString);
+            return queryParams[param];
         }
 
         /// <summary>
@@ -387,7 +410,7 @@ namespace TaobaoKe.Core.Util
         /// <param name="encoding">null为自动选择编码</param>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string UrlDecode(string str, Encoding encoding)
+        public static string UrlDecode(string str, Encoding encoding = null)
         {
             if (encoding == null)
             {

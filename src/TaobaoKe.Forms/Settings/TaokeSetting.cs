@@ -9,35 +9,35 @@ namespace TaobaoKe.Forms.Settings
 {
     class TaokeSetting
     {
-        private SiteAdZone _defaultSiteAdZone = null;
-        private Dictionary<string, SiteAdZone> _qqGroupSiteAdZones = null;
+        private string _defaultAdZoneId = null;
+        private Dictionary<string, string> _qqGroupAdZones = null;
 
         public string Account { get; set; }
         public string Password { get; set; }
         
-        public string PId { get; set; }
-
-        public SiteAdZone DefaultSiteAdZone
+        public string DefaultAdZoneId
         {
             get
             {
-                if(_defaultSiteAdZone == null)
-                    _defaultSiteAdZone = new SiteAdZone();
-                return _defaultSiteAdZone;
+                return _defaultAdZoneId;
+            }
+            set
+            {
+                _defaultAdZoneId = value;
             }
         }
 
-        public Dictionary<string, SiteAdZone> QQGroupSiteAdZones
+        public Dictionary<string, string> QQGroupAdZones
         {
             get
             {
-                if (_qqGroupSiteAdZones == null)
+                if (_qqGroupAdZones == null)
                 {
-                    _qqGroupSiteAdZones = new Dictionary<string, SiteAdZone>();
+                    _qqGroupAdZones = new Dictionary<string, string>();
                 }
-                return _qqGroupSiteAdZones;
+                return _qqGroupAdZones;
             }
-            set { _qqGroupSiteAdZones = value; }
+            set { _qqGroupAdZones = value; }
         }
     }
 }

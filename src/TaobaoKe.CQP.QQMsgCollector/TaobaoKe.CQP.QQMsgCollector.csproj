@@ -48,13 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\TaobaoKe.Forms\FormLog.cs">
-      <Link>FormLog.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\TaobaoKe.Forms\FormLog.Designer.cs">
-      <Link>FormLog.Designer.cs</Link>
-    </Compile>
     <Compile Include="FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,11 +66,12 @@
       <Project>{d3c289bd-db0f-40de-8165-cdbf56e910d3}</Project>
       <Name>TaobaoKe.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TaobaoKe.Repository\TaobaoKe.Repository.csproj">
+      <Project>{119d62d8-37c4-4a34-a42e-9b55b6608992}</Project>
+      <Name>TaobaoKe.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\TaobaoKe.Forms\FormLog.resx">
-      <Link>FormLog.resx</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>

@@ -4,6 +4,7 @@ using System;
 using System.Windows.Forms;
 using TaobaoKe.Common.Models;
 using TaobaoKe.Core.IPC;
+using TaobaoKe.Core.Log;
 
 namespace Rap.CQP.QQMsgCollector
 {
@@ -88,7 +89,7 @@ namespace Rap.CQP.QQMsgCollector
                     _monitorQQGroupNo = Convert.ToInt64(ipcResult.Result);
                 }
             }
-            else if (fromGroup == _monitorQQGroupNo)
+            if (fromGroup == _monitorQQGroupNo)
             {
                 QQMessage qqMessage = new QQMessage()
                 {
@@ -99,6 +100,7 @@ namespace Rap.CQP.QQMsgCollector
                 };
                 string content = JsonConvert.SerializeObject(qqMessage);
                 NamedPipedIpcClient.Default_B.Send(new IpcArgs(content));
+                LogHelper.Log(LogLevel.INFO, LogItemType.Monitor, content);
 
                 // 处理群消息。
                 //var groupMember = CQ.GetGroupMemberInfo(fromGroup, fromQQ);
@@ -106,7 +108,7 @@ namespace Rap.CQP.QQMsgCollector
                 //CQ.SendGroupMessage(fromGroup, String.Format("[{4}]{0} 您的群名片：{1}， 入群时间：{2}， 最后发言：{3}。", CQ.CQCode_At(fromQQ),
                 //    groupMember.GroupCard, groupMember.JoinTime, groupMember.LastSpeakingTime, CQ.ProxyType));
                 //CQ.SendGroupMessage(fromGroup, String.Format("[{0}]{1}您发的群消息是：{2}", CQ.ProxyType, CQ.CQCode_At(fromQQ), msg));
-                
+
                 //string newMsg = CQ.CQCode_Image(@"C:\Users\ivan\编程\taobaoke\Flexlive.CQP.PluginSolution\Publish\data\image\1.jpg");
                 //CQ.SendGroupMessage(fromGroup, String.Format("[{0}]{1}您发的群消息是：{2}", CQ.ProxyType, CQ.CQCode_At(fromQQ), newMsg));
             }

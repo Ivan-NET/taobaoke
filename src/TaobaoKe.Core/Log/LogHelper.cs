@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -71,24 +72,29 @@ namespace TaobaoKe.Core.Log
     public enum LogLevel : byte
     {
         /// <summary>
-        /// 致使错误
+        /// 致命
         /// </summary>
+        [DescriptionAttribute("致命")]
         Fatal = 0,
         /// <summary>
         /// 错误
         /// </summary>
+        [DescriptionAttribute("错误")]
         ERROR = 1,
         /// <summary>
         /// 警告
         /// </summary>
+        [DescriptionAttribute("警告")]
         WARN = 2,
         /// <summary>
         /// 调试
         /// </summary>
+        [DescriptionAttribute("调试")]
         DEBUG = 3,
         /// <summary>
         /// 信息
         /// </summary>
+        [DescriptionAttribute("信息")]
         INFO = 4
     }
 }

@@ -51,10 +51,10 @@
             // 
             this.webBrowserLogin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowserLogin.Location = new System.Drawing.Point(0, 0);
-            this.webBrowserLogin.Margin = new System.Windows.Forms.Padding(2);
-            this.webBrowserLogin.MinimumSize = new System.Drawing.Size(10, 11);
+            this.webBrowserLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.webBrowserLogin.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserLogin.Name = "webBrowserLogin";
-            this.webBrowserLogin.Size = new System.Drawing.Size(386, 420);
+            this.webBrowserLogin.Size = new System.Drawing.Size(772, 778);
             this.webBrowserLogin.TabIndex = 0;
             this.webBrowserLogin.Url = new System.Uri("", System.UriKind.Relative);
             this.webBrowserLogin.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserLogin_DocumentCompleted);
@@ -65,40 +65,41 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusAlimamaLogin,
             this.tslnkRetry});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 420);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 778);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(386, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 14, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(772, 36);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // statusAlimamaLogin
             // 
             this.statusAlimamaLogin.Name = "statusAlimamaLogin";
-            this.statusAlimamaLogin.Size = new System.Drawing.Size(104, 17);
+            this.statusAlimamaLogin.Size = new System.Drawing.Size(206, 31);
             this.statusAlimamaLogin.Text = "正在打开登录页面";
             // 
             // tslnkRetry
             // 
             this.tslnkRetry.IsLink = true;
             this.tslnkRetry.Name = "tslnkRetry";
-            this.tslnkRetry.Size = new System.Drawing.Size(32, 17);
+            this.tslnkRetry.Size = new System.Drawing.Size(62, 31);
             this.tslnkRetry.Text = "重试";
             this.tslnkRetry.Click += new System.EventHandler(this.tslnkRetry_Click);
             // 
             // FormAlimamaLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 35F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 442);
+            this.ClientSize = new System.Drawing.Size(772, 814);
             this.Controls.Add(this.webBrowserLogin);
             this.Controls.Add(this.statusStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAlimamaLogin";
             this.Text = "自动登录阿里妈妈";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAlimamaLogin_FormClosing);
             this.Load += new System.EventHandler(this.FormAlimamaLogin_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using TaobaoKe.Common.Models;
 using TaobaoKe.Forms.Settings;
@@ -9,7 +10,7 @@ namespace TaobaoKe.Forms
 {
     public partial class FormSetting : FormBase
     {
-        private Dictionary<string, SiteAdZone> _qqGroupSiteAdZones = null;
+        private Dictionary<string, string> _qqGroupAdZones = null;
 
         public FormSetting()
         {
@@ -19,19 +20,6 @@ namespace TaobaoKe.Forms
             //this.txtSiteId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
             //this.txtAdZoneId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DigitTextBox_KeyPress);
             InitializeControl();
-        }
-
-        private Dictionary<string, SiteAdZone> QQGroupSiteAdZones
-        {
-            get
-            {
-                if (_qqGroupSiteAdZones == null)
-                {
-                    _qqGroupSiteAdZones = new Dictionary<string, SiteAdZone>();
-                }
-                return _qqGroupSiteAdZones;
-            }
-            set { _qqGroupSiteAdZones = value; }
         }
 
         private void lnkBrowseFolder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -72,10 +60,8 @@ namespace TaobaoKe.Forms
 
             GlobalSetting.Instance.TaokeSetting.Account = txtAccount.Text.Trim();
             GlobalSetting.Instance.TaokeSetting.Password = txtPassword.Text;
-            GlobalSetting.Instance.TaokeSetting.PId = txtPId.Text.Trim();
-            GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.SiteId = txtSiteId.Text.Trim();
-            GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.AdZoneId = txtAdZoneId.Text.Trim();
-            GlobalSetting.Instance.TaokeSetting.QQGroupSiteAdZones = QQGroupSiteAdZones;
+            GlobalSetting.Instance.TaokeSetting.DefaultAdZoneId = cboxAdZone.Text;
+            GlobalSetting.Instance.TaokeSetting.QQGroupAdZones = _qqGroupAdZones;
 
             GlobalSetting.Instance.Save();
         }
@@ -90,17 +76,18 @@ namespace TaobaoKe.Forms
 
             txtAccount.Text = GlobalSetting.Instance.TaokeSetting.Account;
             txtPassword.Text = GlobalSetting.Instance.TaokeSetting.Password;
-            txtPId.Text = GlobalSetting.Instance.TaokeSetting.PId;
-            txtSiteId.Text = GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.SiteId;
-            txtAdZoneId.Text = GlobalSetting.Instance.TaokeSetting.DefaultSiteAdZone.AdZoneId;
-            QQGroupSiteAdZones = new Dictionary<string, SiteAdZone>();
-            foreach (var item in GlobalSetting.Instance.TaokeSetting.QQGroupSiteAdZones)
+            if (!string.IsNullOrEmpty(txtAccount.Text) && !string.IsNullOrEmpty(txtPassword.Text))
             {
-                QQGroupSiteAdZones.Add(item.Key, new SiteAdZone()
-                    {
-                        SiteId = item.Value.SiteId,
-                        AdZoneId = item.Value.AdZoneId
-                    });
+                AdZone[] adzones = new AdZone[AlimamaAPI.AdZones.Count];
+                AlimamaAPI.AdZones.Values.CopyTo(adzones, 0);
+                cboxAdZone.DataSource = adzones;
+                cboxAdZone.ValueMember = "AdZoneName";
+                cboxAdZone.Text = GlobalSetting.Instance.TaokeSetting.DefaultAdZoneId;
+            }
+            _qqGroupAdZones = new Dictionary<string, string>();
+            foreach (var item in GlobalSetting.Instance.TaokeSetting.QQGroupAdZones)
+            {
+                _qqGroupAdZones.Add(item.Key, item.Value);
             }
         }
 
@@ -123,8 +110,17 @@ namespace TaobaoKe.Forms
 
         private void lnkAdZonesSetting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            FormAdZonesSetting formAdZonesSetting = new FormAdZonesSetting(txtQQGroupLnkPath.Text, QQGroupSiteAdZones);
+            FormAdZonesSetting formAdZonesSetting = new FormAdZonesSetting(txtQQGroupLnkPath.Text, _qqGroupAdZones);
             formAdZonesSetting.ShowDialog();
+        }
+
+        private void cboxAdZone_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index > -1)
+            {
+                AdZone item = (AdZone)cboxAdZone.Items[e.Index];
+                e.Graphics.DrawString(item.AdZoneName, e.Font, Brushes.Black, e.Bounds);
+            }
         }
     }
 }

@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="AlimamaAPI.cs" />
     <Compile Include="FormAdZonesSetting.cs">
       <SubType>Form</SubType>
     </Compile>

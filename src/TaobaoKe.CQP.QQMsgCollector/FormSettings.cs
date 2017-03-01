@@ -10,6 +10,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Windows.Forms;
 using TaobaoKe.Core.IPC;
+using TaobaoKe.Forms;
 
 namespace Rap.CQP.QQMsgCollector
 {
@@ -48,6 +49,11 @@ namespace Rap.CQP.QQMsgCollector
                 NamedPipedIpcClient.Default_B.Recieve += QQMsgCollectorPlugin.Ipc_Recieve;
             }
             this.Init();
+        }
+
+        private void btnShowLog_Click(object sender, EventArgs e)
+        {
+            //FormLog.Instance.Show();
         }
     }
 }
