@@ -189,8 +189,10 @@
     <Content Include="Resources\add_task.png" />
     <Content Include="Resources\clear.png" />
     <Content Include="Resources\copy.png" />
+    <Content Include="Resources\download.png" />
     <Content Include="Resources\form_icon.ico" />
     <Content Include="Resources\login_banner.gif" />
+    <None Include="Resources\payment_detail.png" />
     <Content Include="Resources\transmit.png" />
     <None Include="Resources\add_user_512px_1170210_easyicon.net.png" />
     <Content Include="Resources\transmit.ico" />

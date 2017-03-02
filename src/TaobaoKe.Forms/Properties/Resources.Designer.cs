@@ -121,6 +121,16 @@ namespace TaobaoKe.Forms.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap download {
+            get {
+                object obj = ResourceManager.GetObject("download", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (Icon) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon form_icon {
@@ -136,6 +146,16 @@ namespace TaobaoKe.Forms.Properties {
         internal static System.Drawing.Bitmap login_banner {
             get {
                 object obj = ResourceManager.GetObject("login_banner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap payment_detail {
+            get {
+                object obj = ResourceManager.GetObject("payment_detail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

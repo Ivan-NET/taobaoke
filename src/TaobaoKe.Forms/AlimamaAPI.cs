@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace TaobaoKe.Forms
     {
         private static readonly string Url_Guides = "http://pub.alimama.com/common/site/generalize/guideList.json?_tb_token_={0}&_input_charset=utf-8";
         private static readonly string Url_AdZones = "http://pub.alimama.com/common/adzone/adzoneManage.json?request_count=1&tab=3&toPage=1&perPageSize=40&gcid=8&_tb_token_={0}&_input_charset=utf-8";
-        private static readonly string Url_OrderDetails = "http://pub.alimama.com/report/getTbkPaymentDetails.json?startTime=2017-02-01&endTime=2017-02-26&queryType=1&toPage=1&perPageSize=20&_tb_token_={0}&_input_charset=utf-8";
+        private static readonly string Url_PaymentDetails = "http://pub.alimama.com/report/getTbkPaymentDetails.json?startTime=2017-02-01&endTime=2017-02-26&queryType=1&toPage=1&perPageSize=20&_tb_token_={0}&_input_charset=utf-8";
         private static string _tbToken = null;
         private static string _cookie = null;
         private static string _memberId = null;
@@ -27,7 +28,7 @@ namespace TaobaoKe.Forms
             List<Guide> result = new List<Guide>();
             string url = string.Format(Url_Guides, _tbToken);
             string rsp = HttpGet(url);
-            Newtonsoft.Json.Linq.JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
+            JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
             foreach (var item in obj["data"]["guideList"])
             {
                 string guideId = item.Value<string>("guideID");
@@ -65,7 +66,7 @@ namespace TaobaoKe.Forms
             Dictionary<string, AdZone> result = new Dictionary<string, AdZone>();
             string url = string.Format(Url_AdZones, _tbToken);
             string rsp = HttpGet(url);
-            Newtonsoft.Json.Linq.JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
+            JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
             foreach (var item in obj["data"]["pagelist"])
             {
                 _memberId = item.Value<string>("memberid");
@@ -94,11 +95,18 @@ namespace TaobaoKe.Forms
             return string.Format("{0}_{1}_{2}", MemberId, siteId, adZoneId);
         }
 
-        public static void GetOrderDetails()
+        public static void QueryPaymentDetails()
         {
             CheckLoginAlimama();
-            string url = string.Format(Url_OrderDetails, _tbToken);
+            string url = string.Format(Url_PaymentDetails, _tbToken);
             string rsp = HttpGet(url);
+            PaymentDetailsResponse rspObj = JsonConvert.DeserializeObject<PaymentDetailsResponse>(rsp);
+            //foreach (var item in obj["data"]["paymentList"])
+            //{
+            //    Payment payment = new Payment();
+            //    item
+            //    item.Value<string>("createTime");
+            //}
         }
 
         private static string HttpGet(string url)

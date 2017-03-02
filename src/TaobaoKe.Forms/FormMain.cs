@@ -33,6 +33,7 @@ namespace TaobaoKe.Forms
         Regex _regexUrl = new Regex(@"(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?");
         Regex _regexTaoToken = new Regex(@"￥\w+￥");
         //private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
+        bool tpagePaymentDetailsFirstActive = true;
 
         public FormMain()
         {
@@ -50,10 +51,10 @@ namespace TaobaoKe.Forms
             this.imgList.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
             this.imgList.Images.Add("transmit", Properties.Resources.transmit);
             this.imgList.Images.Add("add_task", Properties.Resources.add_task);
-            this.imgList.Images.Add("copy", Properties.Resources.copy);
+            this.imgList.Images.Add("payment_detail", Properties.Resources.payment_detail);
             this.tpageTransmit.ImageKey = "transmit";
             this.tpageAddTask.ImageKey = "add_task";
-            //this.btnCopy.ImageKey = "copy";
+            this.tpagePaymentDetails.ImageKey = "payment_detail";
 
             this.ResetTransmitButtonState();
             this.ResetMonitorButtonState();
@@ -473,6 +474,15 @@ namespace TaobaoKe.Forms
 
         #endregion
 
+        #region 订单明细
+
+        private void QueryPaymentDetails()
+        {
+            AlimamaAPI.QueryPaymentDetails();
+        }
+
+        #endregion
+
         #region 其它事件
 
         private void lnkSetting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -526,6 +536,12 @@ namespace TaobaoKe.Forms
                     FormPreview.Instance.Show();
                     _suspendPreview = false;
                 }
+            }
+            else if (this.tabMain.SelectedTab == this.tpagePaymentDetails)
+            {
+                //if (tpagePaymentDetailsFirstActive)
+                    this.QueryPaymentDetails();
+                tpagePaymentDetailsFirstActive = false;
             }
             else
             {

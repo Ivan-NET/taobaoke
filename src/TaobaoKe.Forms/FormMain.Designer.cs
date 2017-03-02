@@ -52,6 +52,27 @@
             this.btnUrlTrans = new System.Windows.Forms.Button();
             this.btnAddTaskAtOnce = new System.Windows.Forms.Button();
             this.btnAddTask = new System.Windows.Forms.Button();
+            this.tpagePaymentDetails = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.colOrderCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.cboxQueryType = new System.Windows.Forms.ComboBox();
+            this.cbox = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lnkTransmit = new System.Windows.Forms.LinkLabel();
             this.lnkMonitor = new System.Windows.Forms.LinkLabel();
@@ -74,6 +95,9 @@
             this.tpageAddTask.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.tpagePaymentDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -103,6 +127,7 @@
             // 
             this.tabMain.Controls.Add(this.tpageTransmit);
             this.tabMain.Controls.Add(this.tpageAddTask);
+            this.tabMain.Controls.Add(this.tpagePaymentDetails);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.ImageList = this.imgList;
             this.tabMain.ItemSize = new System.Drawing.Size(118, 42);
@@ -313,6 +338,188 @@
             this.btnAddTask.UseVisualStyleBackColor = true;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
+            // tpagePaymentDetails
+            // 
+            this.tpagePaymentDetails.Controls.Add(this.dataGridView1);
+            this.tpagePaymentDetails.Controls.Add(this.panel4);
+            this.tpagePaymentDetails.Location = new System.Drawing.Point(8, 50);
+            this.tpagePaymentDetails.Name = "tpagePaymentDetails";
+            this.tpagePaymentDetails.Padding = new System.Windows.Forms.Padding(3);
+            this.tpagePaymentDetails.Size = new System.Drawing.Size(1992, 814);
+            this.tpagePaymentDetails.TabIndex = 2;
+            this.tpagePaymentDetails.Text = "订单明细  ";
+            this.tpagePaymentDetails.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colOrderCreateTime,
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5,
+            this.Column6,
+            this.Column7,
+            this.Column8,
+            this.Column9,
+            this.Column10});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 103);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowTemplate.Height = 37;
+            this.dataGridView1.Size = new System.Drawing.Size(1986, 708);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // colOrderCreateTime
+            // 
+            this.colOrderCreateTime.HeaderText = "创建时间";
+            this.colOrderCreateTime.Name = "colOrderCreateTime";
+            this.colOrderCreateTime.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "商品信息";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "订单状态";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "收入比率";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "分成比率";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "付款金额";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "效果预估";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "结算时间";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "结算金额";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "预估收入";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "成交平台";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.dateTimePicker2);
+            this.panel4.Controls.Add(this.dateTimePicker1);
+            this.panel4.Controls.Add(this.label2);
+            this.panel4.Controls.Add(this.comboBox3);
+            this.panel4.Controls.Add(this.cboxQueryType);
+            this.panel4.Controls.Add(this.cbox);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1986, 100);
+            this.panel4.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Image = global::TaobaoKe.Forms.Properties.Resources.download;
+            this.button1.Location = new System.Drawing.Point(1889, 22);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(72, 56);
+            this.button1.TabIndex = 3;
+            this.button1.Tag = "下载报表";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Location = new System.Drawing.Point(862, 30);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(251, 43);
+            this.dateTimePicker2.TabIndex = 2;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(557, 30);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(251, 43);
+            this.dateTimePicker1.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(814, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 35);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "至";
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(1130, 30);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(208, 43);
+            this.comboBox3.TabIndex = 0;
+            // 
+            // cboxQueryType
+            // 
+            this.cboxQueryType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cboxQueryType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboxQueryType.FormattingEnabled = true;
+            this.cboxQueryType.Items.AddRange(new object[] {
+            "创建时间",
+            "结算时间"});
+            this.cboxQueryType.Location = new System.Drawing.Point(314, 30);
+            this.cboxQueryType.Name = "cboxQueryType";
+            this.cboxQueryType.Size = new System.Drawing.Size(208, 44);
+            this.cboxQueryType.TabIndex = 0;
+            // 
+            // cbox
+            // 
+            this.cbox.FormattingEnabled = true;
+            this.cbox.Location = new System.Drawing.Point(19, 30);
+            this.cbox.Name = "cbox";
+            this.cbox.Size = new System.Drawing.Size(208, 43);
+            this.cbox.TabIndex = 0;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.lnkTransmit);
@@ -429,7 +636,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1232, 35);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1294, 35);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // statusMonitor
@@ -476,6 +683,10 @@
             this.tpageAddTask.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
+            this.tpagePaymentDetails.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).EndInit();
@@ -523,6 +734,27 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel statusShowLog;
+        private System.Windows.Forms.TabPage tpagePaymentDetails;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colOrderCreateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.ComboBox cbox;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cboxQueryType;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Button button1;
     }
 }
 
