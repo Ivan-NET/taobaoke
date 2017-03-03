@@ -16,7 +16,9 @@ namespace TaobaoKe.Forms
     {
         private static readonly string Url_Guides = "http://pub.alimama.com/common/site/generalize/guideList.json?_tb_token_={0}&_input_charset=utf-8";
         private static readonly string Url_AdZones = "http://pub.alimama.com/common/adzone/adzoneManage.json?request_count=1&tab=3&toPage=1&perPageSize=40&gcid=8&_tb_token_={0}&_input_charset=utf-8";
-        private static readonly string Url_PaymentDetails = "http://pub.alimama.com/report/getTbkPaymentDetails.json?startTime={1}&endTime={2}&queryType={0}&toPage=1&perPageSize=0&_tb_token_={3}&_input_charset=utf-8";
+        private static readonly string Url_PaymentDetails = "http://pub.alimama.com/report/getTbkPaymentDetails.json?startTime={1}&endTime={2}&payStatus={0}&queryType=1&toPage=1&perPageSize=&_tb_token_={3}&_input_charset=utf-8";
+        private static readonly string Url_PaymentDetails_Report = "http://pub.alimama.com/report/getTbkPaymentDetails.json?queryType=1&payStatus={0}&DownloadID=DOWNLOAD_REPORT_INCOME_NEW&startTime={1}&endTime={2}";
+        
         private static string _tbToken = null;
         private static string _cookie = null;
         private static string _memberId = null;
@@ -121,12 +123,33 @@ namespace TaobaoKe.Forms
         public static List<Payment> QueryPaymentDetails(string payStatus, string startTime, string endTime)
         {            
             CheckLoginAlimama();
-            try 
+            try
             {
+                List<Payment> result = new List<Payment>();
                 string url = string.Format(Url_PaymentDetails, payStatus, startTime, endTime, _tbToken);
                 string rsp = HttpGet(url);
                 PaymentDetailsResponse rspObj = JsonConvert.DeserializeObject<PaymentDetailsResponse>(rsp);
-                return rspObj.data.paymentList;
+                if (rspObj.data != null && rspObj.data.paymentList != null)
+                    result = rspObj.data.paymentList;
+                return result;
+            }
+            catch
+            {
+                CleanTbToken();
+                throw;
+            }
+        }
+
+        public static void ExportPaymentDetailsReport(string payStatus, string startTime, string endTime, string savePath)
+        {          
+            CheckLoginAlimama();
+            try
+            {
+                List<Payment> result = new List<Payment>();
+                string url = string.Format(Url_PaymentDetails_Report, payStatus, startTime, endTime);
+                Dictionary<string, string> headers = new Dictionary<string, string>();
+                headers.Add("Cookie", _cookie);
+                WebRequestHelper.DownloadFile(savePath, url, headerDic: headers);
             }
             catch
             {

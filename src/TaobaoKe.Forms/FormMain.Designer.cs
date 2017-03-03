@@ -53,9 +53,9 @@
             this.btnAddTaskAtOnce = new System.Windows.Forms.Button();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.tpagePaymentDetails = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.gridPaymentDetails = new System.Windows.Forms.DataGridView();
             this.colOrderCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,7 +67,7 @@
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bsPaymentDetails = new System.Windows.Forms.BindingSource(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnDownloadPaymentDetails = new System.Windows.Forms.Button();
             this.timeTo = new System.Windows.Forms.DateTimePicker();
             this.timeFrom = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -87,6 +87,7 @@
             this.statusMonitor = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusTransmit = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolTipDownloadPaymentDetails = new System.Windows.Forms.ToolTip(this.components);
             this.panel2.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tpageTransmit.SuspendLayout();
@@ -97,7 +98,7 @@
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
             this.tpagePaymentDetails.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridPaymentDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsPaymentDetails)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -121,7 +122,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 74);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1004, 469);
+            this.panel2.Size = new System.Drawing.Size(1258, 567);
             this.panel2.TabIndex = 1;
             // 
             // tabMain
@@ -135,7 +136,7 @@
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(1004, 469);
+            this.tabMain.Size = new System.Drawing.Size(1258, 567);
             this.tabMain.TabIndex = 0;
             this.tabMain.SelectedIndexChanged += new System.EventHandler(this.tabMain_SelectedIndexChanged);
             // 
@@ -145,7 +146,7 @@
             this.tpageTransmit.Location = new System.Drawing.Point(4, 46);
             this.tpageTransmit.Name = "tpageTransmit";
             this.tpageTransmit.Padding = new System.Windows.Forms.Padding(3);
-            this.tpageTransmit.Size = new System.Drawing.Size(996, 419);
+            this.tpageTransmit.Size = new System.Drawing.Size(1250, 517);
             this.tpageTransmit.TabIndex = 0;
             this.tpageTransmit.Text = "转发列表  ";
             this.tpageTransmit.UseVisualStyleBackColor = true;
@@ -156,7 +157,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(990, 413);
+            this.panel3.Size = new System.Drawing.Size(1244, 511);
             this.panel3.TabIndex = 0;
             // 
             // gridTasks
@@ -180,7 +181,7 @@
             this.gridTasks.ReadOnly = true;
             this.gridTasks.RowTemplate.Height = 23;
             this.gridTasks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridTasks.Size = new System.Drawing.Size(990, 413);
+            this.gridTasks.Size = new System.Drawing.Size(1244, 511);
             this.gridTasks.TabIndex = 0;
             this.gridTasks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridTasks_CellFormatting);
             this.gridTasks.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridTasks_CellMouseClick);
@@ -238,7 +239,7 @@
             this.tpageAddTask.Location = new System.Drawing.Point(4, 46);
             this.tpageAddTask.Name = "tpageAddTask";
             this.tpageAddTask.Padding = new System.Windows.Forms.Padding(3);
-            this.tpageAddTask.Size = new System.Drawing.Size(996, 419);
+            this.tpageAddTask.Size = new System.Drawing.Size(1250, 517);
             this.tpageAddTask.TabIndex = 1;
             this.tpageAddTask.Text = "手动添加  ";
             this.tpageAddTask.UseVisualStyleBackColor = true;
@@ -251,7 +252,7 @@
             this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.panel5.Size = new System.Drawing.Size(776, 413);
+            this.panel5.Size = new System.Drawing.Size(1030, 511);
             this.panel5.TabIndex = 0;
             // 
             // wbTransmit
@@ -260,7 +261,7 @@
             this.wbTransmit.Location = new System.Drawing.Point(0, 1);
             this.wbTransmit.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbTransmit.Name = "wbTransmit";
-            this.wbTransmit.Size = new System.Drawing.Size(776, 411);
+            this.wbTransmit.Size = new System.Drawing.Size(1030, 509);
             this.wbTransmit.TabIndex = 0;
             this.wbTransmit.Resize += new System.EventHandler(this.wbTransmit_Resize);
             // 
@@ -272,10 +273,10 @@
             this.panel6.Controls.Add(this.btnAddTaskAtOnce);
             this.panel6.Controls.Add(this.btnAddTask);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel6.Location = new System.Drawing.Point(779, 3);
+            this.panel6.Location = new System.Drawing.Point(1033, 3);
             this.panel6.Margin = new System.Windows.Forms.Padding(2);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(214, 413);
+            this.panel6.Size = new System.Drawing.Size(214, 511);
             this.panel6.TabIndex = 1;
             // 
             // button7
@@ -331,25 +332,25 @@
             // 
             // tpagePaymentDetails
             // 
-            this.tpagePaymentDetails.Controls.Add(this.dataGridView1);
+            this.tpagePaymentDetails.Controls.Add(this.gridPaymentDetails);
             this.tpagePaymentDetails.Controls.Add(this.panel4);
             this.tpagePaymentDetails.Location = new System.Drawing.Point(4, 46);
             this.tpagePaymentDetails.Margin = new System.Windows.Forms.Padding(2);
             this.tpagePaymentDetails.Name = "tpagePaymentDetails";
             this.tpagePaymentDetails.Padding = new System.Windows.Forms.Padding(2);
-            this.tpagePaymentDetails.Size = new System.Drawing.Size(996, 419);
+            this.tpagePaymentDetails.Size = new System.Drawing.Size(1250, 517);
             this.tpagePaymentDetails.TabIndex = 2;
             this.tpagePaymentDetails.Text = "订单明细  ";
             this.tpagePaymentDetails.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // gridPaymentDetails
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.gridPaymentDetails.AllowUserToAddRows = false;
+            this.gridPaymentDetails.AllowUserToDeleteRows = false;
+            this.gridPaymentDetails.AutoGenerateColumns = false;
+            this.gridPaymentDetails.BackgroundColor = System.Drawing.Color.White;
+            this.gridPaymentDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridPaymentDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colOrderCreateTime,
             this.Column1,
             this.Column2,
@@ -361,15 +362,17 @@
             this.Column8,
             this.Column9,
             this.Column10});
-            this.dataGridView1.DataSource = this.bsPaymentDetails;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(2, 56);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowTemplate.Height = 37;
-            this.dataGridView1.Size = new System.Drawing.Size(992, 361);
-            this.dataGridView1.TabIndex = 1;
+            this.gridPaymentDetails.DataSource = this.bsPaymentDetails;
+            this.gridPaymentDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridPaymentDetails.Location = new System.Drawing.Point(2, 56);
+            this.gridPaymentDetails.Margin = new System.Windows.Forms.Padding(2);
+            this.gridPaymentDetails.Name = "gridPaymentDetails";
+            this.gridPaymentDetails.ReadOnly = true;
+            this.gridPaymentDetails.RowTemplate.Height = 37;
+            this.gridPaymentDetails.Size = new System.Drawing.Size(1246, 459);
+            this.gridPaymentDetails.TabIndex = 1;
+            this.gridPaymentDetails.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridPaymentDetails_CellContentClick);
+            this.gridPaymentDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridPaymentDetails_CellFormatting);
             // 
             // colOrderCreateTime
             // 
@@ -377,6 +380,7 @@
             this.colOrderCreateTime.HeaderText = "创建时间";
             this.colOrderCreateTime.Name = "colOrderCreateTime";
             this.colOrderCreateTime.ReadOnly = true;
+            this.colOrderCreateTime.Width = 150;
             // 
             // Column1
             // 
@@ -385,6 +389,8 @@
             this.Column1.HeaderText = "商品信息";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
+            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // Column2
             // 
@@ -427,6 +433,7 @@
             this.Column7.HeaderText = "结算时间";
             this.Column7.Name = "Column7";
             this.Column7.ReadOnly = true;
+            this.Column7.Width = 150;
             // 
             // Column8
             // 
@@ -451,7 +458,7 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.btnDownloadPaymentDetails);
             this.panel4.Controls.Add(this.timeTo);
             this.panel4.Controls.Add(this.timeFrom);
             this.panel4.Controls.Add(this.label2);
@@ -462,19 +469,21 @@
             this.panel4.Location = new System.Drawing.Point(2, 2);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(992, 54);
+            this.panel4.Size = new System.Drawing.Size(1246, 54);
             this.panel4.TabIndex = 0;
             // 
-            // button1
+            // btnDownloadPaymentDetails
             // 
-            this.button1.Image = global::TaobaoKe.Forms.Properties.Resources.download;
-            this.button1.Location = new System.Drawing.Point(944, 12);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(36, 30);
-            this.button1.TabIndex = 3;
-            this.button1.Tag = "下载报表";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnDownloadPaymentDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDownloadPaymentDetails.Image = global::TaobaoKe.Forms.Properties.Resources.download;
+            this.btnDownloadPaymentDetails.Location = new System.Drawing.Point(1178, 9);
+            this.btnDownloadPaymentDetails.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDownloadPaymentDetails.Name = "btnDownloadPaymentDetails";
+            this.btnDownloadPaymentDetails.Size = new System.Drawing.Size(56, 38);
+            this.btnDownloadPaymentDetails.TabIndex = 3;
+            this.btnDownloadPaymentDetails.Tag = "";
+            this.btnDownloadPaymentDetails.UseVisualStyleBackColor = true;
+            this.btnDownloadPaymentDetails.Click += new System.EventHandler(this.btnDownloadPaymentDetails_Click);
             // 
             // timeTo
             // 
@@ -547,7 +556,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1004, 74);
+            this.panel1.Size = new System.Drawing.Size(1258, 74);
             this.panel1.TabIndex = 0;
             // 
             // lnkTransmit
@@ -556,7 +565,7 @@
             this.lnkTransmit.AutoSize = true;
             this.lnkTransmit.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkTransmit.LinkColor = System.Drawing.Color.DodgerBlue;
-            this.lnkTransmit.Location = new System.Drawing.Point(936, 37);
+            this.lnkTransmit.Location = new System.Drawing.Point(1190, 37);
             this.lnkTransmit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkTransmit.Name = "lnkTransmit";
             this.lnkTransmit.Size = new System.Drawing.Size(65, 20);
@@ -571,7 +580,7 @@
             this.lnkMonitor.AutoSize = true;
             this.lnkMonitor.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkMonitor.LinkColor = System.Drawing.Color.DodgerBlue;
-            this.lnkMonitor.Location = new System.Drawing.Point(866, 37);
+            this.lnkMonitor.Location = new System.Drawing.Point(1120, 37);
             this.lnkMonitor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkMonitor.Name = "lnkMonitor";
             this.lnkMonitor.Size = new System.Drawing.Size(65, 20);
@@ -588,7 +597,7 @@
             this.lnkSetting.ImageList = this.imgList;
             this.lnkSetting.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkSetting.LinkColor = System.Drawing.Color.DodgerBlue;
-            this.lnkSetting.Location = new System.Drawing.Point(796, 37);
+            this.lnkSetting.Location = new System.Drawing.Point(1050, 37);
             this.lnkSetting.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkSetting.Name = "lnkSetting";
             this.lnkSetting.Size = new System.Drawing.Size(65, 20);
@@ -626,10 +635,10 @@
             this.statusMonitor,
             this.statusTransmit,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 543);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 641);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1004, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1258, 26);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -651,7 +660,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(635, 21);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(889, 21);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // statusMonitor
@@ -678,7 +687,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1004, 569);
+            this.ClientSize = new System.Drawing.Size(1258, 667);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
@@ -699,7 +708,7 @@
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.tpagePaymentDetails.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridPaymentDetails)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsPaymentDetails)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -751,7 +760,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel statusShowLog;
         private System.Windows.Forms.TabPage tpagePaymentDetails;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView gridPaymentDetails;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.ComboBox cboxPayStatus;
         private System.Windows.Forms.DateTimePicker timeTo;
@@ -759,9 +768,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cboxQueryType;
         private System.Windows.Forms.ComboBox cboxShortcutTimes;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnDownloadPaymentDetails;
+        private System.Windows.Forms.BindingSource bsPaymentDetails;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOrderCreateTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewLinkColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
@@ -771,7 +781,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.BindingSource bsPaymentDetails;
+        private System.Windows.Forms.ToolTip toolTipDownloadPaymentDetails;
     }
 }
 

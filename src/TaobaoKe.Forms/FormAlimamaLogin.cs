@@ -101,6 +101,7 @@ namespace TaobaoKe.Forms
                 {
                     this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
                     this.statusAlimamaLogin.Text = "登录成功";
+                    System.Threading.Thread.Sleep(500);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

@@ -35,7 +35,6 @@ namespace TaobaoKe.Forms
         Regex _regexUrl = new Regex(@"(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?");
         Regex _regexTaoToken = new Regex(@"￥\w+￥");
         //private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
-        bool tpagePaymentDetailsFirstActive = true;
         bool isShotcutTimesSetting = false;
 
         public FormMain()
@@ -79,6 +78,7 @@ namespace TaobaoKe.Forms
             _dataSourcePaymentDetails = new DataTable("Master");
             _dataSourcePaymentDetails.Columns.Add("CreateTime", typeof(string)); // 创建时间
             _dataSourcePaymentDetails.Columns.Add("AuctionInfo", typeof(string)); // 商品信息
+            _dataSourcePaymentDetails.Columns.Add("AuctionUrl", typeof(string)); // 商品链接
             _dataSourcePaymentDetails.Columns.Add("PayStatus", typeof(string)); // 订单状态
             _dataSourcePaymentDetails.Columns.Add("DiscountAndSubsidyToString", typeof(string)); // 收入比率
             _dataSourcePaymentDetails.Columns.Add("ShareRate", typeof(string)); // 分成比率
@@ -95,7 +95,7 @@ namespace TaobaoKe.Forms
             this.cboxQueryType.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbox_DrawItem);
             this.cboxShortcutTimes.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbox_DrawItem);
 
-            this.cboxQueryType.SelectedIndexChanged += new System.EventHandler(this.cboxQueryPaymentDetails_SelectValueChanged);
+            this.cboxPayStatus.SelectedIndexChanged += new System.EventHandler(this.cboxQueryPaymentDetails_SelectValueChanged);
             this.timeTo.ValueChanged += new System.EventHandler(this.cboxQueryPaymentDetails_SelectValueChanged);
             this.timeFrom.ValueChanged += new System.EventHandler(this.cboxQueryPaymentDetails_SelectValueChanged);
 
@@ -104,6 +104,8 @@ namespace TaobaoKe.Forms
 
             this.cboxQueryType.SelectedIndex = 0;
             this.cboxShortcutTimes.SelectedIndex = 0;
+
+            this.toolTipDownloadPaymentDetails.SetToolTip(btnDownloadPaymentDetails, "下载报表");
 
             LoadUntransmittedTasks();
         }
@@ -603,46 +605,117 @@ namespace TaobaoKe.Forms
             }
         }
 
-        private void QueryPaymentDetails()
+        private void QueryPaymentDetails(bool exportReport = false)
         {
             if (!isShotcutTimesSetting && timeFrom.Value <= timeTo.Value)
             {
                 string payStatus = GetPayStatus(this.cboxPayStatus.SelectedIndex);
-                string startTime = this.timeFrom.Value.ToString("yyyy-hh-MM");
-                string endTime = this.timeTo.Value.ToString("yyyy-hh-MM");
-                List<Payment> details = AlimamaAPI.QueryPaymentDetails(payStatus, startTime, endTime);
-                foreach (var item in details)
+                if (this.cboxQueryType.SelectedIndex == 1)
+                    payStatus = GetPayStatus(1);
+                string startTime = this.timeFrom.Value.ToString("yyyy-MM-dd");
+                string endTime = this.timeTo.Value.ToString("yyyy-MM-dd");
+                if (exportReport)
                 {
-                    DataRow row = _dataSourcePaymentDetails.NewRow();
-                    row["CreateTime"] = item.createTime;
-                    row["AuctionInfo"] = item.createTime;
-                    row["PayStatus"] = item.payStatus;
-                    row["DiscountAndSubsidyToString"] = item.discountAndSubsidyToString;
-                    row["ShareRate"] = item.shareRate;
-                    row["RealPayFeeString"] = item.realPayFeeString;
-                    row["PubShareFeeString"] = item.tkPubShareFeeString;
-                    row["EarningTime"] = item.earningTime;
-                    row["TotalAlipayFeeString"] = item.totalAlipayFeeString;
-                    row["FeeString"] = item.feeString;
-                    row["TerminalType"] = item.terminalType;
-                    _dataSourcePaymentDetails.Rows.Add(row);
+                    using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+                    {
+                        if (dialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string savePath = Path.Combine(dialog.SelectedPath
+                                , string.Format("淘宝客推广订单明细{0}-{1}{2}.xls", startTime, endTime, GetPayStatusName(payStatus)));
+                            AlimamaAPI.ExportPaymentDetailsReport(payStatus, startTime, endTime, savePath);
+                            Process.Start("explorer", dialog.SelectedPath);
+                        }
+                    }
+                }
+                else
+                {
+                    _dataSourcePaymentDetails.Clear();
+                    List<Payment> details = AlimamaAPI.QueryPaymentDetails(payStatus, startTime, endTime);
+                    foreach (var item in details)
+                    {
+                        DataRow row = _dataSourcePaymentDetails.NewRow();
+                        row["CreateTime"] = item.createTime;
+                        row["AuctionInfo"] = "【商品描述】" + item.auctionTitle + "    【所属店铺】" + item.exShopTitle;
+                        row["AuctionUrl"] = item.auctionUrl;
+                        row["PayStatus"] = item.payStatus;
+                        row["DiscountAndSubsidyToString"] = item.discountAndSubsidyToString;
+                        row["ShareRate"] = item.shareRate;
+                        row["RealPayFeeString"] = item.realPayFeeString;
+                        row["PubShareFeeString"] = item.tkPubShareFeeString;
+                        row["EarningTime"] = item.earningTime;
+                        row["TotalAlipayFeeString"] = item.totalAlipayFeeString;
+                        row["FeeString"] = item.feeString;
+                        row["TerminalType"] = item.terminalType;
+                        _dataSourcePaymentDetails.Rows.Add(row);
+                    }
                 }
             }
         }
 
         private string GetPayStatus(int selectedIndex)
         {
-            if (selectedIndex == 0)
+            if (selectedIndex == 0) // 全部订单
                 return "";
-            if (selectedIndex == 1)
+            if (selectedIndex == 1) // 订单结算
                 return "3";
-            if (selectedIndex == 2)
+            if (selectedIndex == 2) // 订单付款
                 return "12";
-            if (selectedIndex == 3)
+            if (selectedIndex == 3) // 订单失效
                 return "13";
-            if (selectedIndex == 4)
+            if (selectedIndex == 4) // 订单成功
                 return "14";
             return "";
+        }
+
+        private string GetPayStatusName(string payStatus)
+        {
+            if (payStatus == "3")
+                return "订单结算";
+            else if (payStatus == "12")
+                return "订单付款";
+            else if (payStatus == "13")
+                return "订单失效";
+            else if (payStatus == "14")
+                return "订单成功";
+            return "";
+        }
+
+        private Color GetPayStatusColor(string payStatus)
+        {
+            if (payStatus == "3")
+                return Color.Green;
+            else if (payStatus == "12")
+                return Color.Blue;
+            else if (payStatus == "13")
+                return Color.Red;
+            else if (payStatus == "14")
+                return Color.Green;
+            return Color.Black;
+        }
+
+        private void gridPaymentDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 2)
+            {
+                DataRowView rowView = (DataRowView) this.bsPaymentDetails[e.RowIndex];
+                string payStatus = rowView["PayStatus"].ToString();
+                e.Value = GetPayStatusName(payStatus);
+                e.CellStyle.ForeColor = GetPayStatusColor(payStatus);
+            }
+        }
+        
+        private void gridPaymentDetails_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                DataRowView rowView = (DataRowView)this.bsPaymentDetails[e.RowIndex];
+                Process.Start(rowView["AuctionUrl"].ToString());
+            }
+        }
+
+        private void btnDownloadPaymentDetails_Click(object sender, EventArgs e)
+        {
+            QueryPaymentDetails(true);
         }
 
         #endregion
@@ -700,12 +773,6 @@ namespace TaobaoKe.Forms
                     FormPreview.Instance.Show();
                     _suspendPreview = false;
                 }
-            }
-            else if (this.tabMain.SelectedTab == this.tpagePaymentDetails)
-            {
-                //if (tpagePaymentDetailsFirstActive)
-                this.QueryPaymentDetails();
-                tpagePaymentDetailsFirstActive = false;
             }
             else
             {
