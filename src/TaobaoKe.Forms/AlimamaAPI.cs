@@ -16,31 +16,11 @@ namespace TaobaoKe.Forms
     {
         private static readonly string Url_Guides = "http://pub.alimama.com/common/site/generalize/guideList.json?_tb_token_={0}&_input_charset=utf-8";
         private static readonly string Url_AdZones = "http://pub.alimama.com/common/adzone/adzoneManage.json?request_count=1&tab=3&toPage=1&perPageSize=40&gcid=8&_tb_token_={0}&_input_charset=utf-8";
-        private static readonly string Url_PaymentDetails = "http://pub.alimama.com/report/getTbkPaymentDetails.json?startTime=2017-02-01&endTime=2017-02-26&queryType=1&toPage=1&perPageSize=20&_tb_token_={0}&_input_charset=utf-8";
+        private static readonly string Url_PaymentDetails = "http://pub.alimama.com/report/getTbkPaymentDetails.json?startTime={1}&endTime={2}&queryType={0}&toPage=1&perPageSize=0&_tb_token_={3}&_input_charset=utf-8";
         private static string _tbToken = null;
         private static string _cookie = null;
         private static string _memberId = null;
         private static Dictionary<string, AdZone> _adZones = null;
-
-        public static List<Guide> GetGuides()
-        {
-            CheckLoginAlimama();
-            List<Guide> result = new List<Guide>();
-            string url = string.Format(Url_Guides, _tbToken);
-            string rsp = HttpGet(url);
-            JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
-            foreach (var item in obj["data"]["guideList"])
-            {
-                string guideId = item.Value<string>("guideID");
-                string guideName = item.Value<string>("name");
-                result.Add(new Guide()
-                {
-                    Id = guideId,
-                    Name = guideName
-                });
-            }
-            return result;
-        }
 
         public static string MemberId
         {
@@ -60,27 +40,70 @@ namespace TaobaoKe.Forms
             }
         }
 
+        public static List<Guide> GetGuides()
+        {
+            CheckLoginAlimama();
+            try
+            {
+                List<Guide> result = new List<Guide>();
+                string url = string.Format(Url_Guides, _tbToken);
+                string rsp = HttpGet(url);
+                JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
+                foreach (var item in obj["data"]["guideList"])
+                {
+                    string guideId = item.Value<string>("guideID");
+                    string guideName = item.Value<string>("name");
+                    result.Add(new Guide()
+                    {
+                        Id = guideId,
+                        Name = guideName
+                    });
+                }
+                return result;
+            }
+            catch
+            {
+                CleanTbToken();
+                throw;
+            }
+        }
+
+        public static void CleanTbToken()
+        {
+            _tbToken = null;
+            _cookie = null;
+            _memberId = null;
+        }
+
         private static Dictionary<string, AdZone> GetAdZones()
         {
             CheckLoginAlimama();
-            Dictionary<string, AdZone> result = new Dictionary<string, AdZone>();
-            string url = string.Format(Url_AdZones, _tbToken);
-            string rsp = HttpGet(url);
-            JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
-            foreach (var item in obj["data"]["pagelist"])
+            try
             {
-                _memberId = item.Value<string>("memberid");
-                string adZoneId = item.Value<string>("adzoneid");
-                string adZoneName = item.Value<string>("name");
-                string siteId = item.Value<string>("siteid");
-                result.Add(adZoneId, new AdZone()
+                Dictionary<string, AdZone> result = new Dictionary<string, AdZone>();
+                string url = string.Format(Url_AdZones, _tbToken);
+                string rsp = HttpGet(url);
+                JObject obj = JsonConvert.DeserializeObject<dynamic>(rsp);
+                foreach (var item in obj["data"]["pagelist"])
                 {
-                    SiteId = siteId,
-                    AdZoneId = adZoneId,
-                    AdZoneName = adZoneName
-                });
+                    _memberId = item.Value<string>("memberid");
+                    string adZoneId = item.Value<string>("adzoneid");
+                    string adZoneName = item.Value<string>("name");
+                    string siteId = item.Value<string>("siteid");
+                    result.Add(adZoneId, new AdZone()
+                    {
+                        SiteId = siteId,
+                        AdZoneId = adZoneId,
+                        AdZoneName = adZoneName
+                    });
+                }
+                return result;
             }
-            return result;
+            catch
+            {
+                CleanTbToken();
+                throw;
+            }
         }
 
         public static string GetPId(string adZoneId)
@@ -95,18 +118,21 @@ namespace TaobaoKe.Forms
             return string.Format("{0}_{1}_{2}", MemberId, siteId, adZoneId);
         }
 
-        public static void QueryPaymentDetails()
-        {
+        public static List<Payment> QueryPaymentDetails(string payStatus, string startTime, string endTime)
+        {            
             CheckLoginAlimama();
-            string url = string.Format(Url_PaymentDetails, _tbToken);
-            string rsp = HttpGet(url);
-            PaymentDetailsResponse rspObj = JsonConvert.DeserializeObject<PaymentDetailsResponse>(rsp);
-            //foreach (var item in obj["data"]["paymentList"])
-            //{
-            //    Payment payment = new Payment();
-            //    item
-            //    item.Value<string>("createTime");
-            //}
+            try 
+            {
+                string url = string.Format(Url_PaymentDetails, payStatus, startTime, endTime, _tbToken);
+                string rsp = HttpGet(url);
+                PaymentDetailsResponse rspObj = JsonConvert.DeserializeObject<PaymentDetailsResponse>(rsp);
+                return rspObj.data.paymentList;
+            }
+            catch
+            {
+                CleanTbToken();
+                throw;
+            }
         }
 
         private static string HttpGet(string url)

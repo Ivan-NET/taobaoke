@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Diagnostics;
@@ -23,6 +24,7 @@ namespace TaobaoKe.Forms
     public partial class FormMain : FormBase
     {
         DataTable _dataSource = null;
+        DataTable _dataSourcePaymentDetails = null;
         private string _htmlEditValue = string.Empty;
         TransmitTaskRepository _transmitTaskRepository = new TransmitTaskRepository();
         Regex _regexCQImage = new Regex(@"\[CQ:image,file=(.+)\]");
@@ -34,6 +36,7 @@ namespace TaobaoKe.Forms
         Regex _regexTaoToken = new Regex(@"￥\w+￥");
         //private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
         bool tpagePaymentDetailsFirstActive = true;
+        bool isShotcutTimesSetting = false;
 
         public FormMain()
         {
@@ -72,6 +75,35 @@ namespace TaobaoKe.Forms
             _dataSource.Columns.Add("CreateTime", typeof(DateTime));
             bsTasks.DataSource = _dataSource;
             bsTasks.DataMember = "";
+
+            _dataSourcePaymentDetails = new DataTable("Master");
+            _dataSourcePaymentDetails.Columns.Add("CreateTime", typeof(string)); // 创建时间
+            _dataSourcePaymentDetails.Columns.Add("AuctionInfo", typeof(string)); // 商品信息
+            _dataSourcePaymentDetails.Columns.Add("PayStatus", typeof(string)); // 订单状态
+            _dataSourcePaymentDetails.Columns.Add("DiscountAndSubsidyToString", typeof(string)); // 收入比率
+            _dataSourcePaymentDetails.Columns.Add("ShareRate", typeof(string)); // 分成比率
+            _dataSourcePaymentDetails.Columns.Add("RealPayFeeString", typeof(string)); // 付款金额
+            _dataSourcePaymentDetails.Columns.Add("PubShareFeeString", typeof(string)); // 效果预估
+            _dataSourcePaymentDetails.Columns.Add("EarningTime", typeof(string)); // 结算时间
+            _dataSourcePaymentDetails.Columns.Add("TotalAlipayFeeString", typeof(string)); // 结算金额
+            _dataSourcePaymentDetails.Columns.Add("FeeString", typeof(string)); // 预估收入
+            _dataSourcePaymentDetails.Columns.Add("TerminalType", typeof(string)); // 成交平台
+            bsPaymentDetails.DataSource = _dataSourcePaymentDetails;
+            bsPaymentDetails.DataMember = "";
+
+            this.cboxPayStatus.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbox_DrawItem);
+            this.cboxQueryType.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbox_DrawItem);
+            this.cboxShortcutTimes.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbox_DrawItem);
+
+            this.cboxQueryType.SelectedIndexChanged += new System.EventHandler(this.cboxQueryPaymentDetails_SelectValueChanged);
+            this.timeTo.ValueChanged += new System.EventHandler(this.cboxQueryPaymentDetails_SelectValueChanged);
+            this.timeFrom.ValueChanged += new System.EventHandler(this.cboxQueryPaymentDetails_SelectValueChanged);
+
+            SetQueryTypeDropDownItems();
+            SetShortcutTimesDropDownItems();
+
+            this.cboxQueryType.SelectedIndex = 0;
+            this.cboxShortcutTimes.SelectedIndex = 0;
 
             LoadUntransmittedTasks();
         }
@@ -476,9 +508,141 @@ namespace TaobaoKe.Forms
 
         #region 订单明细
 
+        private void ResetPayStatusDropDownItems(int queryType)
+        {
+            this.cboxPayStatus.Items.Clear();
+            if (queryType == 0)
+            {
+                this.cboxPayStatus.Items.Add("全部订单");
+                this.cboxPayStatus.Items.Add("订单结算");
+                this.cboxPayStatus.Items.Add("订单付款");
+                this.cboxPayStatus.Items.Add("订单失效");
+                this.cboxPayStatus.Items.Add("订单成功");
+            }
+            else if (queryType == 1)
+            {
+                this.cboxPayStatus.Items.Add("订单结算");
+            }
+            this.cboxPayStatus.SelectedIndex = 0;
+        }
+
+        private void SetQueryTypeDropDownItems()
+        {
+            this.cboxQueryType.Items.Add("创建时间");
+            this.cboxQueryType.Items.Add("结算时间");
+        }
+
+        private void SetShortcutTimesDropDownItems()
+        {
+            this.cboxShortcutTimes.Items.Add("快捷日期");
+            this.cboxShortcutTimes.Items.Add("昨天");
+            this.cboxShortcutTimes.Items.Add("过去7天");
+            this.cboxShortcutTimes.Items.Add("过去15天");
+            this.cboxShortcutTimes.Items.Add("过去30天");
+            this.cboxShortcutTimes.Items.Add("过去60天");
+            this.cboxShortcutTimes.Items.Add("过去90天");
+        }
+
+        private void cboxQueryType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ResetPayStatusDropDownItems(cboxQueryType.SelectedIndex);
+        }
+
+        private void cboxShortcutTimes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.Visible && this.cboxShortcutTimes.SelectedIndex != 0)
+            {
+                DateTime now = DateTime.Now;
+                DateTime from = now, to = now;
+                switch (this.cboxShortcutTimes.SelectedIndex)
+                {
+                    case 1:
+                        from = now.AddDays(-1);
+                        to = now.AddDays(-1);
+                        break;
+                    case 2:
+                        from = now.AddDays(-7);
+                        to = now.AddDays(-1);
+                        break;
+                    case 3:
+                        from = now.AddDays(-15);
+                        to = now.AddDays(-1);
+                        break;
+                    case 4:
+                        from = now.AddDays(-30);
+                        to = now.AddDays(-1);
+                        break;
+                    case 5:
+                        from = now.AddDays(-60);
+                        to = now.AddDays(-1);
+                        break;
+                    case 6:
+                        from = now.AddDays(-90);
+                        to = now.AddDays(-1);
+                        break;
+                }
+                isShotcutTimesSetting = true;
+                try
+                {
+                    this.timeFrom.Value = from;
+                    this.timeTo.Value = to;
+                }
+                finally
+                {
+                    isShotcutTimesSetting = false;
+                }
+                QueryPaymentDetails();
+            }
+        }
+
+        private void cboxQueryPaymentDetails_SelectValueChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                QueryPaymentDetails();
+            }
+        }
+
         private void QueryPaymentDetails()
         {
-            AlimamaAPI.QueryPaymentDetails();
+            if (!isShotcutTimesSetting && timeFrom.Value <= timeTo.Value)
+            {
+                string payStatus = GetPayStatus(this.cboxPayStatus.SelectedIndex);
+                string startTime = this.timeFrom.Value.ToString("yyyy-hh-MM");
+                string endTime = this.timeTo.Value.ToString("yyyy-hh-MM");
+                List<Payment> details = AlimamaAPI.QueryPaymentDetails(payStatus, startTime, endTime);
+                foreach (var item in details)
+                {
+                    DataRow row = _dataSourcePaymentDetails.NewRow();
+                    row["CreateTime"] = item.createTime;
+                    row["AuctionInfo"] = item.createTime;
+                    row["PayStatus"] = item.payStatus;
+                    row["DiscountAndSubsidyToString"] = item.discountAndSubsidyToString;
+                    row["ShareRate"] = item.shareRate;
+                    row["RealPayFeeString"] = item.realPayFeeString;
+                    row["PubShareFeeString"] = item.tkPubShareFeeString;
+                    row["EarningTime"] = item.earningTime;
+                    row["TotalAlipayFeeString"] = item.totalAlipayFeeString;
+                    row["FeeString"] = item.feeString;
+                    row["TerminalType"] = item.terminalType;
+                    _dataSourcePaymentDetails.Rows.Add(row);
+                }
+            }
+        }
+
+        private string GetPayStatus(int selectedIndex)
+        {
+            if (selectedIndex == 0)
+                return "";
+            if (selectedIndex == 1)
+                return "3";
+            if (selectedIndex == 2)
+                return "12";
+            if (selectedIndex == 3)
+                return "13";
+            if (selectedIndex == 4)
+                return "14";
+            return "";
         }
 
         #endregion
@@ -540,7 +704,7 @@ namespace TaobaoKe.Forms
             else if (this.tabMain.SelectedTab == this.tpagePaymentDetails)
             {
                 //if (tpagePaymentDetailsFirstActive)
-                    this.QueryPaymentDetails();
+                this.QueryPaymentDetails();
                 tpagePaymentDetailsFirstActive = false;
             }
             else
