@@ -100,7 +100,7 @@ namespace Rap.CQP.QQMsgCollector
                 };
                 string content = JsonConvert.SerializeObject(qqMessage);
                 NamedPipedIpcClient.Default_B.Send(new IpcArgs(content));
-                LogHelper.Log(LogLevel.INFO, LogItemType.Monitor, content);
+                //LogHelper.Log(LogLevel.INFO, LogItemType.Monitor, content);
 
                 // 处理群消息。
                 //var groupMember = CQ.GetGroupMemberInfo(fromGroup, fromQQ);

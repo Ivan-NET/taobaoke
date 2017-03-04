@@ -34,7 +34,11 @@ namespace TaobaoKe.Forms
         private bool _suspendPreview = false;
         Regex _regexUrl = new Regex(@"(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?");
         Regex _regexTaoToken = new Regex(@"￥\w+￥");
-        //private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
+        Regex _regexSellerId = new Regex(@"sellerId=(\d+)");
+        Regex _regCoupon = new Regex("<dt>(.+)优惠券</dt>");
+        Regex _regCouponCount = new Regex(@"<span class=""count"">(\d+)</span>");
+        Regex _regCouponRest = new Regex(@"<span class=""rest"">(\d+)</span>");
+        private readonly string _detailItemUrl = "https://detail.tmall.com/item.htm?id=";
         bool isShotcutTimesSetting = false;
 
         public FormMain()
@@ -273,14 +277,13 @@ namespace TaobaoKe.Forms
 
         private void AddTask(QQMessage qqMessage, bool addToTop = false)
         {
-
             TransmitTask transmitTask = new TransmitTask()
             {
                 Content = qqMessage.Message,
                 From = qqMessage.fromGroup > 0 ? qqMessage.fromGroup.ToString() : "手工添加",
                 CreateTime = DateTime.Now,
                 Priority = addToTop ? 1 : 0,
-                //Coupon
+                Coupon = GetCoupon(qqMessage.Message)
             };
             _transmitTaskRepository.Add(transmitTask);
             AddToDataSource(transmitTask, addToTop, true);
@@ -288,6 +291,34 @@ namespace TaobaoKe.Forms
             {
                 gridTasks.Refresh();
             });
+        }
+
+        private string GetCoupon(string message)
+        {
+            string activityId = string.Empty, itemId = string.Empty;
+            UrlTransform(message, "", out activityId, out itemId, false);
+            if (!string.IsNullOrEmpty(activityId) && !string.IsNullOrEmpty(itemId))
+            {
+                string html = WebRequestHelper.Get(_detailItemUrl + itemId);
+                Match match = _regexSellerId.Match(html);
+                if (match != null && match.Groups.Count > 1)
+                {
+                    //match.Groups
+                    string sellerId = match.Groups[1].Value;
+                    string couponUrl = string.Format("https://shop.m.taobao.com/shop/coupon.htm?seller_id={0}&activityId={1}", sellerId, activityId);
+                    //string accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
+                    string userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1";
+                    html = WebRequestHelper.Get(couponUrl, "", userAgent);
+                    Match matchCoupon = _regCoupon.Match(html);
+                    Match matchCouponCount = _regCouponCount.Match(html);
+                    Match matchCouponRest = _regCouponRest.Match(html);
+                    string coupon = matchCoupon.Groups.Count > 1 ? matchCoupon.Groups[1].Value : "";
+                    string couponRest = matchCouponRest.Groups.Count > 1 ? matchCouponRest.Groups[1].Value : "";
+                    string couponCount = matchCouponCount.Groups.Count > 1 ? matchCouponCount.Groups[1].Value : "";
+                    return string.Format("{0} 剩{1}张 已领用{2}张", coupon, couponRest, couponCount);
+                }
+            }
+            return "";
         }
 
         #endregion
@@ -417,10 +448,17 @@ namespace TaobaoKe.Forms
 
         private string UrlTransform(string message, string qqGroupName = "")
         {
+            string activityId = string.Empty, itemId = string.Empty;
+            return UrlTransform(message, qqGroupName, out activityId, out itemId);
+        }
+
+        private string UrlTransform(string message, string qqGroupName, out string activityId, out string itemId, bool urlTransform = true)
+        {
+            activityId = string.Empty;
+            itemId = string.Empty;
             if (!string.IsNullOrEmpty(message))
             {
                 MatchCollection matchesUrl = _regexUrl.Matches(message);
-                string activityId = string.Empty, itemId = string.Empty;
                 if (matchesUrl.Count == 1)
                 {
                     string ulandTaobaoUrl = string.Empty;
@@ -436,33 +474,41 @@ namespace TaobaoKe.Forms
                         activityId = paramValues[0];
                         itemId = paramValues[1];
                     }
-                    string towInOneLink = DoUrlTransform(qqGroupName, activityId, itemId);
-                    //将长链接转短连接
-                    string source = "1681459862";//新浪接口要求的请求者标识,暂时写死这个,有访问次数风险
-                    string shortUrl = ShortUrlConvert.Convert(towInOneLink, source);
-                    message = message.Replace(matchUrl.Value, shortUrl);
-                    // 淘口令
-                    //message = _regexTaoToken.Replace(message, transformResult.TaoToken);
+                    if (urlTransform)
+                    {
+                        string towInOneLink = DoUrlTransform(qqGroupName, activityId, itemId);
+                        //将长链接转短连接
+                        string source = "1681459862";//新浪接口要求的请求者标识,暂时写死这个,有访问次数风险
+                        string shortUrl = ShortUrlConvert.Convert(towInOneLink, source);
+
+                        message = message.Replace(matchUrl.Value, shortUrl);
+                        // 淘口令
+                        //message = _regexTaoToken.Replace(message, transformResult.TaoToken);
+                    }
                 }
-                else if (matchesUrl.Count == 3)
+                else if (matchesUrl.Count >= 2)
                 {
                     // 共找到 3 处匹配：
                     //http://img0.qingtaoke.com/www/img/goods/20170113/524855101182.jpg
                     //https://shop.m.taobao.com/shop/coupon.htm?seller_id=2227168127&amp;activityId=3ce6dd5e39df4d648afb032dddad8397
                     //https://detail.tmall.com/item.htm?id=524855101182
-                    Match matchActivity = matchesUrl[1];
-                    Match matchItemId = matchesUrl[2];
+                    Match matchActivity = matchesUrl[matchesUrl.Count - 2];
+                    Match matchItemId = matchesUrl[matchesUrl.Count - 1];
                     activityId = WebRequestHelper.GetQueryParamValue(matchActivity.Value, "activityId");
                     itemId = WebRequestHelper.GetQueryParamValue(matchItemId.Value, "id");
-                    string towInOneLink = DoUrlTransform(qqGroupName, activityId, itemId);
-                    //将长链接转短连接
-                    string source = "1681459862";//新浪接口要求的请求者标识,暂时写死这个,有访问次数风险
-                    string shortUrl = ShortUrlConvert.Convert(towInOneLink, source);
-                    int start = message.LastIndexOf('>', matchActivity.Index) + 1;
-                    int end = message.IndexOf("<br", matchItemId.Index);
-                    string msg = string.Format("领优惠券下单地址：{0}", shortUrl);
-                    message = message.Remove(start, end - start).Insert(start, msg);
-                    //message = message.Replace(matchUrl.Value, shortUrl);
+                    if (urlTransform)
+                    {
+                        string towInOneLink = DoUrlTransform(qqGroupName, activityId, itemId);
+                        //将长链接转短连接
+                        string source = "1681459862";//新浪接口要求的请求者标识,暂时写死这个,有访问次数风险
+                        string shortUrl = ShortUrlConvert.Convert(towInOneLink, source);
+
+                        int start = message.LastIndexOf('>', matchActivity.Index) + 1;
+                        int end = message.IndexOf("<br", matchItemId.Index);
+                        string msg = string.Format("领优惠券下单地址：{0}", shortUrl);
+                        message = message.Remove(start, end - start).Insert(start, msg);
+                        //message = message.Replace(matchUrl.Value, shortUrl);
+                    }
                 }
             }
             return message;
@@ -697,13 +743,13 @@ namespace TaobaoKe.Forms
         {
             if (e.ColumnIndex == 2)
             {
-                DataRowView rowView = (DataRowView) this.bsPaymentDetails[e.RowIndex];
+                DataRowView rowView = (DataRowView)this.bsPaymentDetails[e.RowIndex];
                 string payStatus = rowView["PayStatus"].ToString();
                 e.Value = GetPayStatusName(payStatus);
                 e.CellStyle.ForeColor = GetPayStatusColor(payStatus);
             }
         }
-        
+
         private void gridPaymentDetails_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 1)
@@ -874,7 +920,7 @@ namespace TaobaoKe.Forms
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
                     if (!File.Exists(tempImagePath))
-                        WebRequestHelper.DownloadFile(imageUrl, tempImagePath);
+                        WebRequestHelper.DownloadFile(tempImagePath, imageUrl);
                     msg = msg.Remove(match.Index, match.Length);
                     msg = msg.Insert(match.Index, string.Format("<img src='file:///{0}' height='200'>", tempImagePath));
                 }

@@ -70,7 +70,7 @@ namespace TaobaoKe.Forms
             {
                 if (!logging && !logged)
                 {
-                    this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
+                    this.statusAlimamaLogin.ForeColor = Color.Blue;
                     this.statusAlimamaLogin.Text = "登录页面已打开，准备自动登录";
                     StartLogging();
                 }
@@ -78,14 +78,14 @@ namespace TaobaoKe.Forms
                 {
                     if (!retried)
                     {
-                        this.statusAlimamaLogin.ForeColor = Color.OrangeRed;
+                        this.statusAlimamaLogin.ForeColor = Color.Red;
                         this.statusAlimamaLogin.Text = "登录失败，准备重试";
                         StartLogging();
                         retried = true;
                     }
                     else
                     {
-                        this.statusAlimamaLogin.ForeColor = Color.OrangeRed;
+                        this.statusAlimamaLogin.ForeColor = Color.Red;
                         this.statusAlimamaLogin.Text = "登录失败";
                         this.tslnkRetry.Visible = true;
                     }
@@ -99,9 +99,11 @@ namespace TaobaoKe.Forms
                 TbToken = cookieTbToken == null ? null : cookieTbToken.Value;
                 if (TbToken != null)
                 {
-                    this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
+                    this.statusAlimamaLogin.ForeColor = Color.Green;
                     this.statusAlimamaLogin.Text = "登录成功";
-                    System.Threading.Thread.Sleep(500);
+                    this.tslnkRetry.Visible = false;
+                    Application.DoEvents();
+                    System.Threading.Thread.Sleep(1000);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -123,7 +125,7 @@ namespace TaobaoKe.Forms
         {
             if (logging && loggingCountDown > 0)
             {
-                this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
+                this.statusAlimamaLogin.ForeColor = Color.Blue;
                 this.statusAlimamaLogin.Text = loggingCountDown + "秒后开始自动登录";
                 loggingCountDown--;
                 if (loggingCountDown == 0)
@@ -158,7 +160,7 @@ namespace TaobaoKe.Forms
 
         private void DoLogin()
         {
-            this.statusAlimamaLogin.ForeColor = Color.DodgerBlue;
+            this.statusAlimamaLogin.ForeColor = Color.Blue;
             this.statusAlimamaLogin.Text = "自动登录中";
             // 密码输入框
             IHTMLDocument2 document = webBrowserLogin.Document.DomDocument as IHTMLDocument2;

@@ -66,10 +66,6 @@
       <Project>{d3c289bd-db0f-40de-8165-cdbf56e910d3}</Project>
       <Name>TaobaoKe.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaobaoKe.Repository\TaobaoKe.Repository.csproj">
-      <Project>{119d62d8-37c4-4a34-a42e-9b55b6608992}</Project>
-      <Name>TaobaoKe.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormSettings.resx">

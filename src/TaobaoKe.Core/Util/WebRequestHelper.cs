@@ -22,9 +22,9 @@ namespace TaobaoKe.Core.Util
             "System.ServiceModel.Channels.RemoteEndpointMessageProperty";
         private const string OwinContext = "MS_OwinContext";
 
-        public static string Get(string url)
+        public static string Get(string url, string accept = "", string userAgent = "")
         {
-            return Get(url, null, null);
+            return Get(url, null, null, accept, userAgent);
         }
 
         public static string RandomBoundary()
@@ -38,9 +38,9 @@ namespace TaobaoKe.Core.Util
             return request.GetResponse().ContentLength;
         }
 
-        public static string Get(string url, string contentType, Dictionary<string, string> headerDic)
+        public static string Get(string url, string contentType, Dictionary<string, string> headerDic, string accept = "", string userAgent = "")
         {
-            using (WebResponse response = GetWebResponse(url, contentType, headerDic))
+            using (WebResponse response = GetWebResponse(url, contentType, headerDic, accept, userAgent))
             {
                 return GetResponseText(response);
             }
@@ -72,15 +72,15 @@ namespace TaobaoKe.Core.Util
             return GetResponseText(webRequest.GetResponse());
         }
 
-        public static void Get(string url, string contentType, Dictionary<string, string> headerDic, ResponseAction action)
+        public static void Get(string url, string contentType, Dictionary<string, string> headerDic, ResponseAction action, string accept = "", string userAgent = "")
         {
-            using (WebResponse response = GetWebResponse(url, contentType, headerDic))
+            using (WebResponse response = GetWebResponse(url, contentType, headerDic, accept, userAgent))
             {
                 action(response);
             }
         }
 
-        public static WebResponse GetWebResponse(string url, string contentType = "", Dictionary<string, string> headerDic = null)
+        public static WebResponse GetWebResponse(string url, string contentType = "", Dictionary<string, string> headerDic = null, string accept = "", string userAgent = "")
         {
             //支持HTTPS
             ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
@@ -95,6 +95,14 @@ namespace TaobaoKe.Core.Util
                 {
                     request.Headers.Add(pair.Key, pair.Value);
                 }
+            }
+            if (!string.IsNullOrEmpty(accept))
+            {
+                ((HttpWebRequest)request).Accept = accept;
+            }
+            if (!string.IsNullOrEmpty(userAgent))
+            {
+                ((HttpWebRequest)request).UserAgent = userAgent;
             }
             return request.GetResponse();
         }
