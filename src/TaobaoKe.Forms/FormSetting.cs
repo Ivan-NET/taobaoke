@@ -58,10 +58,18 @@ namespace TaobaoKe.Forms
             GlobalSetting.Instance.TransmitSetting.TransmitInterval = Convert.ToInt32(txtTransmitInterval.Text);
             GlobalSetting.Instance.TransmitSetting.SleepInterval = Convert.ToInt32(txtSleepInterval.Text);
 
-            GlobalSetting.Instance.TaokeSetting.Account = txtAccount.Text.Trim();
-            GlobalSetting.Instance.TaokeSetting.Password = txtPassword.Text;
-            GlobalSetting.Instance.TaokeSetting.DefaultAdZoneId = cboxAdZone.Text;
+            GlobalSetting.Instance.TaokeSetting.DefaultAdZoneId = cboxAdZone.SelectedValue == null ? string.Empty : cboxAdZone.SelectedValue.ToString();
             GlobalSetting.Instance.TaokeSetting.QQGroupAdZones = _qqGroupAdZones;
+            string newAccount = txtAccount.Text.Trim();
+            if (GlobalSetting.Instance.TaokeSetting.Account != null && GlobalSetting.Instance.TaokeSetting.Account != newAccount)
+            {
+                // 帐号发生切换，需要重新启动
+                AlimamaAPI.CleanTbToken();
+                GlobalSetting.Instance.TaokeSetting.DefaultAdZoneId = string.Empty;
+                GlobalSetting.Instance.TaokeSetting.QQGroupAdZones = null;
+            }
+            GlobalSetting.Instance.TaokeSetting.Account = newAccount;
+            GlobalSetting.Instance.TaokeSetting.Password = txtPassword.Text;
 
             GlobalSetting.Instance.Save();
         }
@@ -81,7 +89,8 @@ namespace TaobaoKe.Forms
                 AdZone[] adzones = new AdZone[AlimamaAPI.AdZones.Count];
                 AlimamaAPI.AdZones.Values.CopyTo(adzones, 0);
                 cboxAdZone.DataSource = adzones;
-                cboxAdZone.ValueMember = "AdZoneName";
+                cboxAdZone.ValueMember = "AdZoneId";
+                cboxAdZone.DisplayMember = "AdZoneName";
                 cboxAdZone.Text = GlobalSetting.Instance.TaokeSetting.DefaultAdZoneId;
             }
             _qqGroupAdZones = new Dictionary<string, string>();

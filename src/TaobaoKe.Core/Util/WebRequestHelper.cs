@@ -434,6 +434,11 @@ namespace TaobaoKe.Core.Util
             }
             return HttpUtility.UrlDecode(str, encoding);
         }
+
+        public static string UrlEncode(string url)
+        {
+            return HttpUtility.UrlEncode(url);
+        }
     }
 
     public class RequestContentType

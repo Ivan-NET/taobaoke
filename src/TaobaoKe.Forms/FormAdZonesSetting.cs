@@ -35,7 +35,8 @@ namespace TaobaoKe.Forms
             AdZone[] adzones = new AdZone[AlimamaAPI.AdZones.Count];
             AlimamaAPI.AdZones.Values.CopyTo(adzones, 0);
             colAdZoneId.DataSource = adzones;
-            colAdZoneId.ValueMember = "AdZoneName";
+            colAdZoneId.ValueMember = "AdZoneId";
+            colAdZoneId.DisplayMember = "AdZoneName";
             _dataSource = new DataTable("Master");
             _dataSource.Columns.Add("QQGroupName", typeof(string));
             _dataSource.Columns.Add("AdZoneId", typeof(string));

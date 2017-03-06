@@ -447,7 +447,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.ForeColor = System.Drawing.Color.DarkGray;
-            this.label19.Location = new System.Drawing.Point(190, 197);
+            this.label19.Location = new System.Drawing.Point(158, 197);
             this.label19.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(87, 35);
@@ -460,9 +460,9 @@
             this.label17.Location = new System.Drawing.Point(64, 198);
             this.label17.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(125, 35);
+            this.label17.Size = new System.Drawing.Size(96, 35);
             this.label17.TabIndex = 4;
-            this.label17.Text = "推广位ID";
+            this.label17.Text = "推广位";
             // 
             // txtPassword
             // 

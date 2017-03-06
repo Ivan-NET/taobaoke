@@ -75,6 +75,7 @@ namespace TaobaoKe.Forms
             _tbToken = null;
             _cookie = null;
             _memberId = null;
+            _adZones = null;
         }
 
         private static Dictionary<string, AdZone> GetAdZones()
@@ -110,13 +111,13 @@ namespace TaobaoKe.Forms
 
         public static string GetPId(string adZoneId)
         {
-            if (string.IsNullOrEmpty(MemberId))
-                throw new Exception("阿里妈妈会员Id为空");
             string siteId = AdZones[adZoneId].SiteId;
             if (string.IsNullOrEmpty(siteId))
                 throw new Exception("阿里妈妈导购位为空");
             if (string.IsNullOrEmpty(adZoneId))
                 throw new Exception("阿里妈妈推广位为空");
+            if (string.IsNullOrEmpty(MemberId))
+                throw new Exception("阿里妈妈会员Id为空");
             return string.Format("{0}_{1}_{2}", MemberId, siteId, adZoneId);
         }
 
